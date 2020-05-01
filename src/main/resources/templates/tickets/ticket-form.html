@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head th:replace="layouts :: header"></head>
+
+<body>
+
+<div id="wrapper">
+    <th:block th:replace="layouts :: layoutSidebar"></th:block>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <th:block th:replace="layouts :: layoutNavbar"></th:block>
+
+
+            <!-- Page Content -->
+            <div class="container-fluid">
+
+                <p class="h4 mb-4">Save Ticket</p>
+
+                <form action="#" th:action="@{/tickets/save}" th:object="${ticket}" method="POST">
+
+                    <input type="hidden" th:field="*{id}"/>
+
+                    <select class="custom-select mr-sm-2 col-4" th:field="*{project}">
+                        <option th:each="tempProject : ${projects}"
+                                th:value="${tempProject.id}"
+                                th:utext="${tempProject.name}"></option>
+                    </select>
+
+                    <br><br>
+
+                    <textarea th:field="*{description}"
+                              style="resize: none" class="form-control col-4" id="exampleFormControlTextarea1"
+                              rows="4" placeholder="Description"></textarea>
+
+                    <input type="hidden" th:field="*{submitter}"/>
+
+                    <input type="hidden" th:field="*{creationDate}"/>
+
+                    <br>
+
+                    <div class="form-group">
+                        Priority: &emsp;
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="low" name="low" class="custom-control-input" value="Low"
+                                   th:field="*{priority}">
+                            <label class="custom-control-label" for="low">Low</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="medium" name="medium" class="custom-control-input" value="Medium"
+                                   th:field="*{priority}">
+                            <label class="custom-control-label" for="medium">Medium</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="high" name="high" class="custom-control-input" value="High"
+                                   th:field="*{priority}">
+                            <label class="custom-control-label" for="high">High</label>
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <button type="submit" class="btn btn-info col-2">Save</button>
+
+                </form>
+
+            </div>
+            <!-- End of Page Content -->
+
+
+        </div>
+        <th:block th:replace="layouts :: layoutFooter"></th:block>
+    </div>
+
+</div>
+
+</body>
+
+</html>

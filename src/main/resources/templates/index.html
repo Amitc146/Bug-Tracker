@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head th:replace="layouts :: header"></head>
+
+<body>
+
+<div id="wrapper">
+    <th:block th:replace="layouts :: layoutSidebar"></th:block>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <th:block th:replace="layouts :: layoutNavbar"></th:block>
+
+
+            <!-- Page Content -->
+            <div class="container-fluid">
+
+                <div class="row mx-4">
+                    <div class="m-5">
+                        <canvas id="ticketPriorityChart" height="300" width="300"></canvas>
+
+                        <script>
+                            const ticketPriorityCount = "[[${ticketPriorityCount}]]";
+                        </script>
+                    </div>
+
+                    <div class="m-5">
+                        <canvas id="ticketsProjectsChart" height="300" width="300"></canvas>
+
+                        <script>
+                            const ticketProjectCount = "[[${ticketProjectCount}]]";
+                        </script>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Page Content -->
+
+
+        </div>
+        <th:block th:replace="layouts :: layoutFooter"></th:block>
+    </div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.js"></script>
+<script type="text/javascript" th:src="@{/js/charts.js}"></script>
+</body>
+
+</html>

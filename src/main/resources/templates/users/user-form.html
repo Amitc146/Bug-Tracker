@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head th:replace="layouts :: header"></head>
+
+<body>
+
+<div id="wrapper">
+    <th:block th:replace="layouts :: layoutSidebar"></th:block>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <th:block th:replace="layouts :: layoutNavbar"></th:block>
+
+
+            <!-- Page Content -->
+            <div class="container-fluid">
+                
+                <form th:action="@{/users/save}"
+                      th:object="${user}" method="POST"
+                      class="form-horizontal">
+
+                    <!-- Place for messages: error, alert etc ... -->
+                    <div class="form-group">
+                        <div class="col-xs-15">
+                            <div>
+
+                                <!-- Check for registration error -->
+                                <div th:if="${registrationError}" class="alert alert-danger col-xs-offset-1 col-xs-10">
+                                    <span th:text="${registrationError}"></span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" th:field="*{id}"/>
+
+                    <input type="hidden" th:field="*{projects}"/>
+
+                    <!-- User name -->
+                    <div class="input-group">
+                        <input type="text" th:field="*{userName}" class="form-control mb-4 col-4"
+                               placeholder="Username">
+                    </div>
+
+                    <div th:if="${#fields.hasErrors('userName')}"
+                         style="margin-bottom: 25px" class="text-danger">
+                        <ul>
+                            <li th:each="err : ${#fields.errors('userName')}" th:text="'User name ' + ${err}"></li>
+                        </ul>
+                    </div>
+
+
+                    <!-- Password -->
+                    <div class="input-group">
+                        <input type="password" th:field="*{password}" class="form-control mb-4 col-4"
+                               placeholder="Password"
+                               th:errorclass="fieldError"/>
+                    </div>
+                    <div th:if="${#fields.hasErrors('password')}"
+                         style="margin-bottom: 25px" class="text-danger">
+                        <ul>
+                            <li th:each="err : ${#fields.errors('password')}" th:text="'Password ' + ${err}"></li>
+                        </ul>
+                    </div>
+
+
+                    <!-- First name -->
+                    <div class="input-group">
+                        <input type="text" th:field="*{firstName}" class="form-control mb-4 col-4"
+                               placeholder="First name"
+                               th:errorclass="fieldError"/>
+                    </div>
+                    <div th:if="${#fields.hasErrors('firstName')}"
+                         style="margin-bottom: 25px" class="text-danger">
+                        <ul>
+                            <li th:each="err : ${#fields.errors('firstName')}" th:text="'First name ' + ${err}"></li>
+                        </ul>
+                    </div>
+
+                    <!-- Last name -->
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input type="text" th:field="*{lastName}" class="form-control mb-4 col-4"
+                               placeholder="Last name"
+                               th:errorclass="fieldError"/>
+                    </div>
+                    <div th:if="${#fields.hasErrors('lastName')}"
+                         style="margin-bottom: 25px" class="text-danger">
+                        <ul>
+                            <li th:each="err : ${#fields.errors('lastName')}" th:text="'Last name ' + ${err}"></li>
+                        </ul>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input type="text" th:field="*{email}" class="form-control mb-4 col-4" placeholder="Email"
+                               th:errorclass="fieldError"/>
+                    </div>
+                    <div th:if="${#fields.hasErrors('email')}"
+                         style="margin-bottom: 25px" class="text-danger">
+                        <ul>
+                            <li th:each="err : ${#fields.errors('email')}" th:text="'Email ' + ${err}"></li>
+                        </ul>
+                    </div>
+
+
+                    <!-- Roles -->
+                    <label for="roles">Select Roles</label>
+                    <div class="custom-control custom-checkbox" id="roles" th:each="tempRole : ${roles}">
+                        <input type="checkbox" class="custom-control-input" th:id="${tempRole}"
+                               th:value="${tempRole.id}"
+                               th:field="*{roles}" th:errorclass="fieldError"/>
+                        <label class="custom-control-label" th:for="${tempRole}" th:text="${tempRole}"></label>
+                    </div>
+                    <div th:if="${#fields.hasErrors('roles')}"
+                         style="margin-bottom: 25px" class="text-danger">
+                        <ul>
+                            <li th:each="err : ${#fields.errors('roles')}" th:text="'Roles ' + ${err}"></li>
+                        </ul>
+                    </div>
+
+
+                    <br>
+
+                    <button type="submit" class="btn btn-info col-2">Save</button>
+
+                </form>
+
+            </div>
+            <!-- End of Page Content -->
+
+
+        </div>
+        <th:block th:replace="layouts :: layoutFooter"></th:block>
+    </div>
+
+</div>
+
+</body>
+
+</html>

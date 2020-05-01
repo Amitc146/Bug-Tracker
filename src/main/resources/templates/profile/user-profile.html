@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head th:replace="layouts :: header"></head>
+
+<body>
+
+<div id="wrapper">
+    <th:block th:replace="layouts :: layoutSidebar"></th:block>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <th:block th:replace="layouts :: layoutNavbar"></th:block>
+
+
+            <!-- Page Content -->
+            <div class="container-fluid">
+
+                <div class="user-info">
+
+                    <table class="table table-bordered" style="width: 400px">
+                        <tbody>
+
+                        <tr>
+                            <th>Username</th>
+                            <td th:text="${user.userName}"></td>
+                        </tr>
+
+                        <tr>
+                            <th>Full Name</th>
+                            <td th:text="${user.firstName} + ' ' + ${user.lastName}"></td>
+                        </tr>
+
+                        <tr>
+                            <th>Email</th>
+                            <td th:text="${user.email}"></td>
+                        </tr>
+
+                        <tr>
+                            <th>Roles</th>
+                            <td th:text="${user.roles}"></td>
+                        </tr>
+
+                        <tr>
+                            <th>Projects</th>
+                            <td th:text="${user.projects.size()}"></td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+            <!-- End of Page Content -->
+
+
+        </div>
+        <th:block th:replace="layouts :: layoutFooter"></th:block>
+    </div>
+
+</div>
+
+</body>
+
+</html>

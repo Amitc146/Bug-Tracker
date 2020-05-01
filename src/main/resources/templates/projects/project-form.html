@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head th:replace="layouts :: header"></head>
+
+<body>
+
+<div id="wrapper">
+    <th:block th:replace="layouts :: layoutSidebar"></th:block>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <th:block th:replace="layouts :: layoutNavbar"></th:block>
+
+
+            <!-- Page Content -->
+            <div class="container-fluid">
+
+                <div class="mb-3">
+                    <h4>Save Project</h4>
+                </div>
+
+                <form th:action="@{/projects/save}" th:object="${project}" method="POST">
+
+                    <input type="hidden" th:field="*{id}"/>
+
+                    <input type="text" th:field="*{name}" class="form-control mb-4 col-4" placeholder="Name">
+
+                    <textarea th:field="*{description}"
+                              style="resize: none" class="form-control col-4" id="exampleFormControlTextarea1"
+                              rows="4" placeholder="Description"></textarea>
+
+                    <br>
+
+                    <label for="users">Select Users</label>
+                    <select multiple class="form-control mr-sm-2 col-4" id="users" th:field="*{users}">
+                        <option th:each="tempUser : ${users}"
+                                th:value="${tempUser.id}"
+                                th:utext="${tempUser.userName}"></option>
+                    </select>
+
+
+                    <br>
+
+                    <button type="submit" class="btn btn-info col-2">Save</button>
+
+                </form>
+
+            </div>
+            <!-- End of Page Content -->
+
+
+        </div>
+        <th:block th:replace="layouts :: layoutFooter"></th:block>
+    </div>
+
+</div>
+
+</body>
+
+</html>
