@@ -1,6 +1,5 @@
 package com.amit.bugtracker.service;
 
-import com.amit.bugtracker.dao.RoleRepository;
 import com.amit.bugtracker.dao.UserRepository;
 import com.amit.bugtracker.entity.Role;
 import com.amit.bugtracker.entity.User;
@@ -13,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -24,9 +24,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -59,6 +56,7 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
     }
+
 
     @Override
     @Transactional

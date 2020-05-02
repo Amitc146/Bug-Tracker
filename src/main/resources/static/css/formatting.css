@@ -53,7 +53,7 @@
     text-align: center;
     padding: 0 1rem;
     font-weight: 800;
-    font-size: .65rem
+    font-size: .7rem
 }
 
 @media (min-width: 768px) {
@@ -154,7 +154,7 @@
 }
 
 .sidebar-dark .sidebar-heading {
-    color: rgba(255, 255, 255, .4)
+    color: #aed9d8
 }
 
 .sidebar-dark .nav-item .nav-link {

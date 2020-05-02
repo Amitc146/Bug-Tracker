@@ -1,9 +1,6 @@
 package com.amit.bugtracker.controller;
 
 import com.amit.bugtracker.chart.ChartData;
-import com.amit.bugtracker.entity.Project;
-import com.amit.bugtracker.entity.Ticket;
-import com.amit.bugtracker.service.ProjectService;
 import com.amit.bugtracker.service.TicketService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,11 +13,9 @@ import java.util.List;
 @Controller
 public class HomeController {
 
-    private ProjectService projectService;
-    private TicketService ticketService;
+    private final TicketService ticketService;
 
-    public HomeController(ProjectService projectService, TicketService ticketService) {
-        this.projectService = projectService;
+    public HomeController(TicketService ticketService) {
         this.ticketService = ticketService;
     }
 

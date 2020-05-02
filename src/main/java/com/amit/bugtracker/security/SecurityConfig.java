@@ -31,11 +31,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        //TODO: Create antMatchers ...
-
-
         http.authorizeRequests()
-                .antMatchers("/**").authenticated()
+                .antMatchers("/").authenticated()
+                .antMatchers("/users/**").hasRole("ADMIN")
+                .antMatchers("/projects", "/projects/*/update", "/projects/new",
+                        "/projects/save", "/projects/delete").hasAnyRole("MANAGER", "ADMIN")
+                .antMatchers("/tickets", "/tickets/delete").hasAnyRole("MANAGER", "ADMIN")
                 .and()
                 .formLogin()
                 .loginPage("/login")

@@ -20,9 +20,9 @@ import java.util.List;
 @RequestMapping("/tickets")
 public class TicketController {
 
-    private TicketService ticketService;
-    private ProjectService projectService;
-    private UserService userService;
+    private final TicketService ticketService;
+    private final ProjectService projectService;
+    private final UserService userService;
 
     public TicketController(TicketService ticketService, ProjectService projectService, UserService userService) {
         this.ticketService = ticketService;

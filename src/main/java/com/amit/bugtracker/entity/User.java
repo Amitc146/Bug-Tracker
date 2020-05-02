@@ -4,8 +4,10 @@ package com.amit.bugtracker.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "user")
@@ -140,6 +142,20 @@ public class User {
 
     public void setProjects(List<Project> projects) {
         this.projects = projects;
+    }
+
+    public String getMainRoleName() {
+        List<String> roleNames = new ArrayList<>();
+        for (Role role : roles) {
+            roleNames.add(role.getName());
+        }
+        if (roleNames.contains("ROLE_ADMIN")) {
+            return "Admin";
+        } else if (roleNames.contains("ROLE_MANAGER")) {
+            return "Manager";
+        }
+
+        return "Employee";
     }
 
     @Override

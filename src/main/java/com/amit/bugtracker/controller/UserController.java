@@ -17,8 +17,8 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-    private UserService userService;
-    private RoleService roleService;
+    private final UserService userService;
+    private final RoleService roleService;
 
     public UserController(UserService userService, RoleService roleService) {
         this.userService = userService;

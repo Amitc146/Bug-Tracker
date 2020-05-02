@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/profile")
 public class ProfileController {
 
-    private UserService userService;
+    private final UserService userService;
 
     public ProfileController(UserService userService) {
         this.userService = userService;

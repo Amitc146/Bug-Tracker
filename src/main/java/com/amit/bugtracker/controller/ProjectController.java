@@ -1,7 +1,6 @@
 package com.amit.bugtracker.controller;
 
 import com.amit.bugtracker.entity.Project;
-import com.amit.bugtracker.entity.Ticket;
 import com.amit.bugtracker.entity.User;
 import com.amit.bugtracker.service.ProjectService;
 import com.amit.bugtracker.service.UserService;
@@ -16,8 +15,8 @@ import java.util.List;
 @RequestMapping("/projects")
 public class ProjectController {
 
-    private ProjectService projectService;
-    private UserService userService;
+    private final ProjectService projectService;
+    private final UserService userService;
 
     public ProjectController(ProjectService projectService, UserService userService) {
         this.projectService = projectService;

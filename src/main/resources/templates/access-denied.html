@@ -1,29 +1,38 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
-<head th:replace="oldLayouts :: head"></head>
+<head th:replace="layouts :: header"></head>
 
 <body>
 
-<nav th:replace="oldLayouts :: navbar"></nav>
+<div id="wrapper">
+    <th:block th:replace="layouts :: layoutSidebar"></th:block>
 
-<div class="container">
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <th:block th:replace="layouts :: layoutNavbar"></th:block>
 
-    <br>
 
-    <h3>Access Denied</h3>
+            <!-- Page Content -->
+            <div class="container-fluid">
+                <h3>Access Denied</h3>
+                <p>
 
-    <hr>
 
-    <h5>You don't have permission to access this page.</h5>
+                <h5>You don't have permission to access this page.</h5>
 
-    <br>
 
-    <a th:href="@{/}">Back to Home Page</a>
+                <a th:href="@{/}">Back to Home Page</a>
+            </div>
+            <!-- End of Page Content -->
 
+
+        </div>
+        <th:block th:replace="layouts :: layoutFooter"></th:block>
+    </div>
 
 </div>
 
-
 </body>
+
 </html>

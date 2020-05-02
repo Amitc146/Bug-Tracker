@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      lang="en">
 
 <head th:fragment="header">
 
@@ -51,17 +53,9 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/users}">
-                    <i class="fas fa-fw fa-users"></i>
-                    <span>Users</span>
-                </a>
-            </li>
-
             <!-- Nav Item -->
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/projects}">
+                <a class="nav-link" th:href="@{/projects/myProjects}">
                     <i class="fas fa-fw fa-folder-open"></i>
                     <span>My Projects</span>
                 </a>
@@ -69,7 +63,7 @@
 
             <!-- Nav Item -->
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/tickets}">
+                <a class="nav-link" th:href="@{/tickets/myTickets}">
                     <i class="fas fa-fw fa-list-ul"></i>
                     <span>My Tickets</span>
                 </a>
@@ -82,6 +76,52 @@
                     <span>User Profile</span>
                 </a>
             </li>
+
+            <!-- Manager Section -->
+            <div sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')">
+
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Manager
+                </div>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/projects}">
+                        <i class="fas fa-folder-plus"></i>
+                        <span>Projects</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/tickets}">
+                        <i class="far fa-list-alt"></i>
+                        <span>Tickets</span>
+                    </a>
+                </li>
+            </div>
+
+            <!-- Admin Section -->
+            <div sec:authorize="hasRole('ROLE_ADMIN')">
+
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Admin
+                </div>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/users}">
+                        <i class="fas fa-users-cog"></i>
+                        <span>Users</span>
+                    </a>
+                </li>
+            </div>
+
         </ul>
         <!-- End of Sidebar -->
     </th:block>
@@ -134,7 +174,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2019</span>
+                        <span>Amit Cohen &copy; 2020</span>
                     </div>
                 </div>
             </footer>
