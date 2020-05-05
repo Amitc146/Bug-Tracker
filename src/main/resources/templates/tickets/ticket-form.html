@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 
-<head th:replace="layouts :: header"></head>
+<head>
+
+    <th:block th:replace="layouts :: layoutHeader"></th:block>
+
+    <title th:replace="layouts :: layoutTitle"></title>
+
+    <link rel="stylesheet" th:href="@{/css/forms.css}">
+
+</head>
 
 <body>
 
@@ -15,55 +23,85 @@
 
             <!-- Page Content -->
             <div class="container-fluid">
+                <div class="row">
 
-                <p class="h4 mb-4">Save Ticket</p>
+                    <!-- Form -->
+                    <div class="col-lg-8 col-xl-5 m-2">
+                        <div class="card card-outline-secondary">
+                            <div class="card-header bg-dark text-light">
+                                <h3 class="mb-0">Ticket Information</h3>
+                            </div>
+                            <div class="card-body">
+                                <form th:action="@{/tickets/save}" th:object="${ticket}" method="post"
+                                      class="form" role="form" autocomplete="off">
 
-                <form action="#" th:action="@{/tickets/save}" th:object="${ticket}" method="POST">
+                                    <input type="hidden" th:field="*{id}"/>
 
-                    <input type="hidden" th:field="*{id}"/>
+                                    <input type="hidden" th:field="*{submitter}"/>
 
-                    <select class="custom-select mr-sm-2 col-4" th:field="*{project}">
-                        <option th:each="tempProject : ${projects}"
-                                th:value="${tempProject.id}"
-                                th:utext="${tempProject.name}"></option>
-                    </select>
+                                    <input type="hidden" th:field="*{creationDate}"/>
 
-                    <br><br>
+                                    <!-- Project -->
+                                    <div class="form-group row">
+                                        <label class="col-xl-12 col-form-label form-control-label">Project</label>
+                                        <div class="col-xl-12">
+                                            <select class="form-control custom-select"
+                                                    th:field="*{project}">
+                                                <option th:each="project : ${projects}"
+                                                        th:value="${project.id}"
+                                                        th:utext="${project.name}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
 
-                    <textarea th:field="*{description}"
-                              style="resize: none" class="form-control col-4" id="exampleFormControlTextarea1"
-                              rows="4" placeholder="Description"></textarea>
+                                    <!-- Description -->
+                                    <div class="form-group row">
+                                        <div class="col-xl-12">
+                                        <textarea rows="6" class="form-control" placeholder="Description" required
+                                                  th:field="*{description}"></textarea>
+                                        </div>
+                                    </div>
 
-                    <input type="hidden" th:field="*{submitter}"/>
+                                    <!-- Priority -->
+                                    <div class="form-group row">
+                                        <label class="col-xl-12 col-form-label form-control-label">Priority</label>
+                                        <div class="col-xl-12">
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input type="radio" id="low" name="low" class="custom-control-input"
+                                                       value="Low"
+                                                       th:field="*{priority}">
+                                                <label class="custom-control-label" for="low">Low</label>
+                                            </div>
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input type="radio" id="medium" name="medium"
+                                                       class="custom-control-input"
+                                                       value="Medium"
+                                                       th:field="*{priority}">
+                                                <label class="custom-control-label" for="medium">Medium</label>
+                                            </div>
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input type="radio" id="high" name="high" class="custom-control-input"
+                                                       value="High"
+                                                       th:field="*{priority}">
+                                                <label class="custom-control-label" for="high">High</label>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                    <input type="hidden" th:field="*{creationDate}"/>
-
-                    <br>
-
-                    <div class="form-group">
-                        Priority: &emsp;
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="low" name="low" class="custom-control-input" value="Low"
-                                   th:field="*{priority}">
-                            <label class="custom-control-label" for="low">Low</label>
-                        </div>
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="medium" name="medium" class="custom-control-input" value="Medium"
-                                   th:field="*{priority}">
-                            <label class="custom-control-label" for="medium">Medium</label>
-                        </div>
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="high" name="high" class="custom-control-input" value="High"
-                                   th:field="*{priority}">
-                            <label class="custom-control-label" for="high">High</label>
+                                    <!-- Buttons -->
+                                    <div class="form-group row pt-3">
+                                        <label class="col-form-label form-control-label"></label>
+                                        <div class="col-lg-10">
+                                            <input type="submit" class="btn btn-primary px-5" value="Save">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
+                </div>
+                <!-- Form -->
 
-                    <br>
-
-                    <button type="submit" class="btn btn-info col-2">Save</button>
-
-                </form>
 
             </div>
             <!-- End of Page Content -->
@@ -75,6 +113,7 @@
 
 </div>
 
+<th:block th:replace="layouts :: layoutScripts"></th:block>
 </body>
 
 </html>

@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 
-<head th:replace="layouts :: header"></head>
+<head>
+
+    <th:block th:replace="layouts :: layoutHeader"></th:block>
+
+    <title th:replace="layouts :: layoutTitle"></title>
+
+    <link rel="stylesheet" th:href="@{/css/forms.css}">
+
+</head>
 
 <body>
 
@@ -15,119 +23,137 @@
 
             <!-- Page Content -->
             <div class="container-fluid">
-                
-                <form th:action="@{/users/save}"
-                      th:object="${user}" method="POST"
-                      class="form-horizontal">
 
-                    <!-- Place for messages: error, alert etc ... -->
-                    <div class="form-group">
-                        <div class="col-xs-15">
-                            <div>
+                <!-- Form -->
+                <div class="col-lg-8 col-xl-5 m-2">
+                    <div class="card card-outline-secondary">
+                        <div class="card-header bg-dark text-light">
+                            <h3 class="mb-0">User Information</h3>
+                        </div>
+                        <div class="card-body">
+                            <form th:action="@{/users/save}" th:object="${user}" method="post"
+                                  class="form" role="form" autocomplete="off">
 
-                                <!-- Check for registration error -->
-                                <div th:if="${registrationError}" class="alert alert-danger col-xs-offset-1 col-xs-10">
-                                    <span th:text="${registrationError}"></span>
+                                <!-- Place for messages: error, alert etc ... -->
+                                <div class="form-group row">
+                                    <div class="col-sm-15">
+                                        <div>
+                                            <!-- Check for registration error -->
+                                            <div th:if="${registrationError}"
+                                                 class="alert alert-danger col-sm-offset-1 col-xs-10">
+                                                <span th:text="${registrationError}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
-                            </div>
+                                <input type="hidden" th:field="*{id}"/>
+
+                                <input type="hidden" th:field="*{projects}"/>
+
+                                <!-- Username -->
+                                <div class="form-group row">
+                                    <div class="col-xl-12">
+                                        <input class="form-control" type="text" placeholder="Username" required
+                                               th:field="*{userName}">
+                                    </div>
+                                    <div th:if="${#fields.hasErrors('userName')}" class="mb-2 text-danger">
+                                        <ul>
+                                            <li th:each="err : ${#fields.errors('userName')}"
+                                                th:text="'User name ' + ${err}"></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- Password -->
+                                <div class="form-group row">
+                                    <div class="col-xl-12">
+                                        <input class="form-control" type="password" placeholder="Password" required
+                                               th:field="*{password}" th:errorclass="fieldError"/>
+                                    </div>
+                                    <div th:if="${#fields.hasErrors('password')}" class="mb-2 text-danger">
+                                        <ul>
+                                            <li th:each="err : ${#fields.errors('password')}"
+                                                th:text="'Password ' + ${err}"></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- First name -->
+                                <div class="form-group row">
+                                    <div class="col-xl-12">
+                                        <input class="form-control" type="text" placeholder="First name" required
+                                               th:field="*{firstName}">
+                                    </div>
+                                    <div th:if="${#fields.hasErrors('firstName')}" class="mb-2 text-danger">
+                                        <ul>
+                                            <li th:each="err : ${#fields.errors('firstName')}"
+                                                th:text="'First name ' + ${err}"></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- Last name -->
+                                <div class="form-group row">
+                                    <div class="col-xl-12">
+                                        <input class="form-control" type="text" placeholder="Last name" required
+                                               th:field="*{lastName}">
+                                    </div>
+                                    <div th:if="${#fields.hasErrors('lastName')}" class="mb-2 text-danger">
+                                        <ul>
+                                            <li th:each="err : ${#fields.errors('lastName')}"
+                                                th:text="'Last name ' + ${err}"></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- Email -->
+                                <div class="form-group row">
+                                    <div class="col-xl-12">
+                                        <input class="form-control" type="email" placeholder="Email" required
+                                               th:field="*{email}">
+                                    </div>
+                                    <div th:if="${#fields.hasErrors('email')}" class="mb-2 text-danger">
+                                        <ul>
+                                            <li th:each="err : ${#fields.errors('email')}"
+                                                th:text="'Email ' + ${err}"></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- Role -->
+                                <div class="form-group row">
+                                    <label class="col-xl-12 col-form-label form-control-label">Role</label>
+                                    <div class="col-xl-12">
+                                        <div class="custom-control custom-radio" id="roleRadio"
+                                             th:each="role : ${roles}">
+                                            <input type="radio" class="custom-control-input" required
+                                                   th:id="${role}" th:value="${role.id}" th:field="*{roles}"
+                                                   th:errorclass="fieldError"/>
+                                            <label class="custom-control-label" for="roleRadio"
+                                                   th:for="${role}" th:text="${role}"></label>
+                                        </div>
+                                    </div>
+                                    <div th:if="${#fields.hasErrors('email')}" class="mb-2 text-danger">
+                                        <ul>
+                                            <li th:each="err : ${#fields.errors('roles')}"
+                                                th:text="'Roles ' + ${err}"></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- Buttons -->
+                                <div class="form-group row pt-3">
+                                    <label class="col-form-label form-control-label"></label>
+                                    <div class="col-lg-10">
+                                        <input type="submit" class="btn btn-primary px-5" value="Save">
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
-
-                    <input type="hidden" th:field="*{id}"/>
-
-                    <input type="hidden" th:field="*{projects}"/>
-
-                    <!-- User name -->
-                    <div class="input-group">
-                        <input type="text" th:field="*{userName}" class="form-control mb-4 col-4"
-                               placeholder="Username">
-                    </div>
-
-                    <div th:if="${#fields.hasErrors('userName')}"
-                         style="margin-bottom: 25px" class="text-danger">
-                        <ul>
-                            <li th:each="err : ${#fields.errors('userName')}" th:text="'User name ' + ${err}"></li>
-                        </ul>
-                    </div>
-
-
-                    <!-- Password -->
-                    <div class="input-group">
-                        <input type="password" th:field="*{password}" class="form-control mb-4 col-4"
-                               placeholder="Password"
-                               th:errorclass="fieldError"/>
-                    </div>
-                    <div th:if="${#fields.hasErrors('password')}"
-                         style="margin-bottom: 25px" class="text-danger">
-                        <ul>
-                            <li th:each="err : ${#fields.errors('password')}" th:text="'Password ' + ${err}"></li>
-                        </ul>
-                    </div>
-
-
-                    <!-- First name -->
-                    <div class="input-group">
-                        <input type="text" th:field="*{firstName}" class="form-control mb-4 col-4"
-                               placeholder="First name"
-                               th:errorclass="fieldError"/>
-                    </div>
-                    <div th:if="${#fields.hasErrors('firstName')}"
-                         style="margin-bottom: 25px" class="text-danger">
-                        <ul>
-                            <li th:each="err : ${#fields.errors('firstName')}" th:text="'First name ' + ${err}"></li>
-                        </ul>
-                    </div>
-
-                    <!-- Last name -->
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input type="text" th:field="*{lastName}" class="form-control mb-4 col-4"
-                               placeholder="Last name"
-                               th:errorclass="fieldError"/>
-                    </div>
-                    <div th:if="${#fields.hasErrors('lastName')}"
-                         style="margin-bottom: 25px" class="text-danger">
-                        <ul>
-                            <li th:each="err : ${#fields.errors('lastName')}" th:text="'Last name ' + ${err}"></li>
-                        </ul>
-                    </div>
-
-                    <!-- Email -->
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input type="text" th:field="*{email}" class="form-control mb-4 col-4" placeholder="Email"
-                               th:errorclass="fieldError"/>
-                    </div>
-                    <div th:if="${#fields.hasErrors('email')}"
-                         style="margin-bottom: 25px" class="text-danger">
-                        <ul>
-                            <li th:each="err : ${#fields.errors('email')}" th:text="'Email ' + ${err}"></li>
-                        </ul>
-                    </div>
-
-
-                    <!-- Roles -->
-                    <label for="roles">Select Roles</label>
-                    <div class="custom-control custom-checkbox" id="roles" th:each="tempRole : ${roles}">
-                        <input type="checkbox" class="custom-control-input" th:id="${tempRole}"
-                               th:value="${tempRole.id}"
-                               th:field="*{roles}" th:errorclass="fieldError"/>
-                        <label class="custom-control-label" th:for="${tempRole}" th:text="${tempRole}"></label>
-                    </div>
-                    <div th:if="${#fields.hasErrors('roles')}"
-                         style="margin-bottom: 25px" class="text-danger">
-                        <ul>
-                            <li th:each="err : ${#fields.errors('roles')}" th:text="'Roles ' + ${err}"></li>
-                        </ul>
-                    </div>
-
-
-                    <br>
-
-                    <button type="submit" class="btn btn-info col-2">Save</button>
-
-                </form>
+                </div>
+                <!-- Form -->
 
             </div>
             <!-- End of Page Content -->
@@ -139,6 +165,7 @@
 
 </div>
 
+<th:block th:replace="layouts :: layoutScripts"></th:block>
 </body>
 
 </html>

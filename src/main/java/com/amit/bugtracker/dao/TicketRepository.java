@@ -1,6 +1,7 @@
 package com.amit.bugtracker.dao;
 
 import com.amit.bugtracker.chart.ChartData;
+import com.amit.bugtracker.entity.Project;
 import com.amit.bugtracker.entity.Ticket;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,5 +19,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
             "FROM ticket " +
             "GROUP BY project_id")
     List<ChartData> getAllProjects();
+
+    List<Ticket> findAllByProject(Project project);
 
 }

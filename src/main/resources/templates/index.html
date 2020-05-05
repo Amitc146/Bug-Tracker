@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 
-<head th:replace="layouts :: header"></head>
+<head>
+
+    <th:block th:replace="layouts :: layoutHeader"></th:block>
+
+    <title th:replace="layouts :: layoutTitle"></title>
+
+</head>
 
 <body>
 
@@ -42,8 +48,11 @@
     </div>
 
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.js"></script>
 <script type="text/javascript" th:src="@{/js/charts.js}"></script>
+<th:block th:replace="layouts :: layoutScripts"></th:block>
+
 </body>
 
 </html>

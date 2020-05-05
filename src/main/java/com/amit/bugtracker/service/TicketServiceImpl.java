@@ -47,7 +47,7 @@ public class TicketServiceImpl implements TicketService {
     public List<Ticket> findAllByProjects(List<Project> projects) {
         List<Ticket> tickets = new ArrayList<>();
         for (Project p : projects) {
-            tickets.addAll(p.getTickets());
+            tickets.addAll(ticketRepository.findAllByProject(p));
         }
 
         return tickets;

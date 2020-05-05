@@ -2,59 +2,48 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+
+    <th:block th:replace="layouts :: layoutHeader"></th:block>
+
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+
     <title>Login</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous">
-    <style>
-        body {
-            background-color: #3e3e3e;
-            color: white;
-        }
-    </style>
+
 </head>
-<body class="vsc-initialized">
+
+
+<body>
+
 <div class="container">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin my-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Sign In</h5>
+                    <form class="form-signin" method="post" th:action="@{/authenticateUser}">
+                        <div class="form-label-group">
+                            <input type="text" name="username" id="inputUsername" class="form-control"
+                                   placeholder="Username" required autofocus>
+                            <label for="inputUsername">Username</label>
+                        </div>
 
-    <form class="form-signin" method="post" th:action="@{/authenticateUser}">
-        <h2 class="form-signin-heading">Please sign in</h2>
+                        <div class="form-label-group">
+                            <input type="password" name="password" id="inputPassword" class="form-control"
+                                   placeholder="Password" required>
+                            <label for="inputPassword">Password</label>
+                        </div>
 
-        <!-- Place for messages: error, alert etc ... -->
-        <div class="form-group">
-            <div class="col-xs-15">
-                <div>
-
-                    <!-- Check for login error -->
-                    <div th:if="${param.error}" class="alert alert-danger col-xs-offset-1 col-xs-10">
-                        Invalid username and password.
-                    </div>
-
-                    <!-- Check for logout -->
-                    <div th:if="${param.logout}" class="alert alert-success col-xs-offset-1 col-xs-10">
-                        You have been logged out.
-                    </div>
-
+                        <button class="btn btn-lg btn-dark btn-block text-uppercase" id="loginButton" type="submit">
+                            Sign in
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
-
-        <p>
-            <label for="username" class="sr-only">Username</label>
-            <input type="text" id="username" name="username" class="form-control" placeholder="Username" required=""
-                   autofocus="">
-        </p>
-        <p>
-            <label for="password" class="sr-only">Password</label>
-            <input type="password" id="password" name="password" class="form-control" placeholder="Password"
-                   required="">
-        </p>
-        <input name="_csrf" type="hidden" value="6277ac43-50ac-48f0-92b6-899aaf668f96">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    </form>
+    </div>
 </div>
+
+<th:block th:replace="layouts :: layoutScripts"></th:block>
 </body>
+
 </html>

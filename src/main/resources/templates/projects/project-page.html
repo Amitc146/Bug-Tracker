@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 
-<head th:replace="layouts :: header"></head>
+<head>
+
+    <th:block th:replace="layouts :: layoutHeader"></th:block>
+
+    <title th:replace="layouts :: layoutTitle"></title>
+
+</head>
 
 <body>
 
@@ -16,94 +22,100 @@
             <!-- Page Content -->
             <div class="container-fluid">
 
-                    <!-- Project Name -->
-                    <h2 th:text="*{project.name}"></h2>
+                <div class="row justify-content-center">
+                    <div class="col-xl-11">
 
-                    <hr>
-                    <br>
+                        <!-- Project Name -->
+                        <h2 th:text="*{project.name}"></h2>
 
-                    <!-- Project Description -->
-                    <div class="projectDescription">
-                        <h5>Description:</h5>
-                        <p th:text="*{project.description}"></p>
-
+                        <hr>
                         <br>
+
+                        <!-- Project Description -->
+                        <div class="projectDescription">
+                            <h5>Description:</h5>
+                            <p th:text="*{project.description}"></p>
+
+                            <br>
+                        </div>
+
+                        <hr>
+
+                        <!-- Project Tickets -->
+                        <div class="projectTickets">
+                            <h5>Tickets</h5>
+
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                <tr class="table-warning">
+                                    <th>Description</th>
+                                    <th>Priority</th>
+                                    <th>Submitter</th>
+                                    <th>Creation Date</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr th:each="tempTicket : ${project.tickets}">
+                                    <td th:text="${tempTicket.description}"></td>
+                                    <td th:text="${tempTicket.priority}"></td>
+                                    <td th:text="${tempTicket.submitter}"></td>
+                                    <td th:text="${tempTicket.creationDate}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <br>
+                        </div>
+
+                        <hr>
+
+                        <!-- Project Users -->
+                        <div class="projectUsers">
+                            <h5>Users</h5>
+
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                <tr class="table-info">
+                                    <th>Username</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email</th>
+                                    <th>Roles</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr th:each="tempUser : ${project.users}">
+                                    <td th:text="${tempUser.userName}"></td>
+                                    <td th:text="${tempUser.firstName}"></td>
+                                    <td th:text="${tempUser.lastName}"></td>
+                                    <td th:text="${tempUser.email}"></td>
+                                    <td>
+                                        <ul style="margin: 0; list-style: circle;"
+                                            th:each="tempRole : ${tempUser.roles}">
+                                            <li th:text="${tempRole}"></li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <br>
+                        </div>
                     </div>
-
-                    <hr>
-
-                    <!-- Project Tickets -->
-                    <div class="projectTickets">
-                        <h5>Tickets</h5>
-
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                            <tr class="table-warning">
-                                <th>Description</th>
-                                <th>Priority</th>
-                                <th>Submitter</th>
-                                <th>Creation Date</th>
-                            </tr>
-                            </thead>
-
-                            <tbody>
-                            <tr th:each="tempTicket : ${project.tickets}">
-                                <td th:text="${tempTicket.description}"></td>
-                                <td th:text="${tempTicket.priority}"></td>
-                                <td th:text="${tempTicket.submitter}"></td>
-                                <td th:text="${tempTicket.creationDate}"></td>
-                            </tr>
-                            </tbody>
-                        </table>
-
-                        <br>
-                    </div>
-
-                    <hr>
-
-                    <!-- Project Users -->
-                    <div class="projectUsers">
-                        <h5>Users</h5>
-
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                            <tr class="table-info">
-                                <th>Username</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Email</th>
-                                <th>Roles</th>
-                            </tr>
-                            </thead>
-
-                            <tbody>
-                            <tr th:each="tempUser : ${project.users}">
-                                <td th:text="${tempUser.userName}"></td>
-                                <td th:text="${tempUser.firstName}"></td>
-                                <td th:text="${tempUser.lastName}"></td>
-                                <td th:text="${tempUser.email}"></td>
-                                <td>
-                                    <ul style="margin: 0; list-style: circle;" th:each="tempRole : ${tempUser.roles}">
-                                        <li th:text="${tempRole}"></li>
-                                    </ul>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-
-                        <br>
-                    </div>
-
                 </div>
+            </div>
             <!-- End of Page Content -->
 
 
-            </div>
-            <th:block th:replace="layouts :: layoutFooter"></th:block>
         </div>
+        <th:block th:replace="layouts :: layoutFooter"></th:block>
+    </div>
 
 </div>
 
+<th:block th:replace="layouts :: layoutScripts"></th:block>
 </body>
 
 </html>

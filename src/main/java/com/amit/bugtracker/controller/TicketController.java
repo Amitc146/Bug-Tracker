@@ -80,12 +80,14 @@ public class TicketController {
     }
 
     @GetMapping("/{ticketId}/update")
-    public String updateTicket(@PathVariable("ticketId") int ticketId, Model model) {
+    public String updateTicket(@PathVariable("ticketId") int ticketId, Authentication auth, Model model) {
 
-        // Getting the ticket and project info
+        // Getting the user's projects
+        User user = userService.findByUserName(auth.getName());
+        List<Project> projects = projectService.findAllByUser(user);
+
+        // Getting the ticket info
         Ticket ticket = ticketService.findById(ticketId);
-        List<Project> projects = new ArrayList<>();
-        projects.add(ticket.getProject());
 
         model.addAttribute("ticket", ticket);
         model.addAttribute("projects", projects);
@@ -97,7 +99,7 @@ public class TicketController {
     public String saveTicket(@ModelAttribute("ticket") Ticket ticket) {
         ticketService.save(ticket);
 
-        return "redirect:/tickets";
+        return "redirect:/tickets/myTickets";
     }
 
     @GetMapping("/delete")

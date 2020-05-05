@@ -1,6 +1,5 @@
 package com.amit.bugtracker.security;
 
-
 import com.amit.bugtracker.entity.User;
 import com.amit.bugtracker.service.UserService;
 import org.springframework.security.core.Authentication;
@@ -29,11 +28,11 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         User user = userService.findByUserName(userName);
 
-        // now place in the session
+        // Place user in the session
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
 
-        // forward to home page
+        // Forward to home page
 
         response.sendRedirect(request.getContextPath() + "/");
     }

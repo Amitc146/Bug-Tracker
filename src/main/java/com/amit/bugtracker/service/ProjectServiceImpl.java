@@ -5,7 +5,6 @@ import com.amit.bugtracker.entity.Project;
 import com.amit.bugtracker.entity.User;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +38,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<Project> findAllByUser(User user) {
-        return user.getProjects();
+        return projectRepository.findAllByUsersContains(user);
     }
 
     @Override

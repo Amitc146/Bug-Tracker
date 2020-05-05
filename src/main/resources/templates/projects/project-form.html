@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 
-<head th:replace="layouts :: header"></head>
+<head>
+
+    <th:block th:replace="layouts :: layoutHeader"></th:block>
+
+    <title th:replace="layouts :: layoutTitle"></title>
+
+    <link rel="stylesheet" th:href="@{/css/forms.css}">
+
+</head>
 
 <body>
 
@@ -15,36 +23,62 @@
 
             <!-- Page Content -->
             <div class="container-fluid">
+                <div class="row">
 
-                <div class="mb-3">
-                    <h4>Save Project</h4>
+                    <!-- Form -->
+                    <div class="col-lg-8 col-xl-5 m-2">
+                        <div class="card card-outline-secondary">
+                            <div class="card-header bg-dark text-light">
+                                <h3 class="mb-0">Project Information</h3>
+                            </div>
+                            <div class="card-body">
+                                <form th:action="@{/projects/save}" th:object="${project}" method="post"
+                                      class="form" role="form" autocomplete="off">
+
+                                    <input type="hidden" th:field="*{id}"/>
+
+                                    <!-- Project name -->
+                                    <div class="form-group row justify-content-center">
+                                        <div class="col-xl-12">
+                                            <input class="form-control" type="text" placeholder="Name" required
+                                                   th:field="*{name}">
+                                        </div>
+                                    </div>
+
+                                    <!-- Description -->
+                                    <div class="form-group row justify-content-center">
+                                        <div class="col-xl-12">
+                                        <textarea rows="6" class="form-control" placeholder="Description" required
+                                                  th:field="*{description}"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <!-- Users -->
+                                    <div class="form-group row justify-content-start">
+                                        <label class="col-xl-12 col-form-label form-control-label">Users</label>
+                                        <div class="col-xl-5">
+                                            <select multiple class="form-control"
+                                                    th:field="*{users}">
+                                                <option th:each="tempUser : ${users}"
+                                                        th:value="${tempUser.id}"
+                                                        th:utext="${tempUser.userName}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Buttons -->
+                                    <div class="form-group row pt-3 justify-content-center">
+                                        <label class="col-form-label form-control-label"></label>
+                                        <div class="col-xl-12">
+                                            <input type="submit" class="btn btn-primary px-5" value="Save">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-                <form th:action="@{/projects/save}" th:object="${project}" method="POST">
-
-                    <input type="hidden" th:field="*{id}"/>
-
-                    <input type="text" th:field="*{name}" class="form-control mb-4 col-4" placeholder="Name">
-
-                    <textarea th:field="*{description}"
-                              style="resize: none" class="form-control col-4" id="exampleFormControlTextarea1"
-                              rows="4" placeholder="Description"></textarea>
-
-                    <br>
-
-                    <label for="users">Select Users</label>
-                    <select multiple class="form-control mr-sm-2 col-4" id="users" th:field="*{users}">
-                        <option th:each="tempUser : ${users}"
-                                th:value="${tempUser.id}"
-                                th:utext="${tempUser.userName}"></option>
-                    </select>
-
-
-                    <br>
-
-                    <button type="submit" class="btn btn-info col-2">Save</button>
-
-                </form>
+                <!-- Form -->
 
             </div>
             <!-- End of Page Content -->
@@ -56,6 +90,7 @@
 
 </div>
 
+<th:block th:replace="layouts :: layoutScripts"></th:block>
 </body>
 
 </html>

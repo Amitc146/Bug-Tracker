@@ -144,20 +144,6 @@ public class User {
         this.projects = projects;
     }
 
-    public String getMainRoleName() {
-        List<String> roleNames = new ArrayList<>();
-        for (Role role : roles) {
-            roleNames.add(role.getName());
-        }
-        if (roleNames.contains("ROLE_ADMIN")) {
-            return "Admin";
-        } else if (roleNames.contains("ROLE_MANAGER")) {
-            return "Manager";
-        }
-
-        return "Employee";
-    }
-
     @Override
     public String toString() {
         return "User{" + "id=" + id + ", userName='" + userName + '\'' + ", password='" + "*********" + '\''

@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/").authenticated()
+                .antMatchers("/", "/projects/myProjects", "/tickets/myTickets", "/tickets/new", "/profile").authenticated()
                 .antMatchers("/users/**").hasRole("ADMIN")
                 .antMatchers("/projects", "/projects/*/update", "/projects/new",
                         "/projects/save", "/projects/delete").hasAnyRole("MANAGER", "ADMIN")
