@@ -1,21 +1,21 @@
-.project-container {
+.custom-card-container {
     padding-bottom: 1.5rem;
     margin: .5rem;
     border: thin solid #acaeb6;
 }
 
-.project-header {
+.card-container-header {
     background: #5a6b76;
     background: linear-gradient(to right, #303232, #778792);
 }
 
-.project-header h4 {
+.card-container-header h4 {
     color: #00FF99;
     padding: .5rem 1rem .8rem;
     margin: 0;
 }
 
-.project-header a {
+.card-container-header a {
     color: white;
     text-decoration: underline;
     padding-right: 1rem;
@@ -24,7 +24,7 @@
     margin: 0;
 }
 
-.project-header a:hover {
+.card-container-header a:hover {
     color: #00FF99;
 }
 

@@ -6,7 +6,7 @@
 
     <th:block th:replace="layouts :: layoutHeader"></th:block>
 
-    <link rel="stylesheet" th:href="@{/css/project-page.css}">
+    <link rel="stylesheet" th:href="@{/css/page-container.css}">
 
     <title th:replace="layouts :: layoutTitle"></title>
 
@@ -25,10 +25,10 @@
             <div class="container-fluid">
 
                 <!-- Project Container -->
-                <div class="project-container">
+                <div class="custom-card-container">
 
                     <!-- Header -->
-                    <div class="project-header">
+                    <div class="card-container-header">
                         <h4 class="row">Project Details</h4>
                         <a sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')" class="row"
                            th:href="@{/projects/{id}/update(id=${project.id})}">Edit</a>
