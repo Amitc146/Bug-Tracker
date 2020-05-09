@@ -11,12 +11,12 @@ import java.util.List;
 public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 
     @Query(nativeQuery = true, value = "SELECT priority as label, COUNT(*) as value " +
-            "FROM ticket " +
+            "FROM Ticket " +
             "GROUP BY priority")
     List<ChartData> getAllPriorities();
 
     @Query(nativeQuery = true, value = "SELECT project_id as label, COUNT(*) as value " +
-            "FROM ticket " +
+            "FROM Ticket " +
             "GROUP BY project_id")
     List<ChartData> getAllProjects();
 

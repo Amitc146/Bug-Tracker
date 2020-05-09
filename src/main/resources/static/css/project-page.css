@@ -1,0 +1,30 @@
+.project-container {
+    padding-bottom: 1.5rem;
+    margin: .5rem;
+    border: thin solid #acaeb6;
+}
+
+.project-header {
+    background: #5a6b76;
+    background: linear-gradient(to right, #303232, #778792);
+}
+
+.project-header h4 {
+    color: #00FF99;
+    padding: .5rem 1rem 0;
+    margin: 0;
+}
+
+.project-header a {
+    color: white;
+    text-decoration: underline;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    padding-bottom: .2rem;
+    margin: 0;
+}
+
+.project-header a:hover {
+    color: #00FF99;
+}
+

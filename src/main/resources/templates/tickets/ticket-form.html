@@ -54,6 +54,14 @@
                                         </div>
                                     </div>
 
+                                    <!-- Title -->
+                                    <div class="form-group row justify-content-center">
+                                        <div class="col-xl-12">
+                                            <input class="form-control" type="text" placeholder="Title" required
+                                                   th:field="*{title}">
+                                        </div>
+                                    </div>
+
                                     <!-- Description -->
                                     <div class="form-group row">
                                         <div class="col-xl-12">
@@ -66,24 +74,26 @@
                                     <div class="form-group row">
                                         <label class="col-xl-12 col-form-label form-control-label">Priority</label>
                                         <div class="col-xl-12">
-                                            <div class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" id="low" name="low" class="custom-control-input"
-                                                       value="Low"
-                                                       th:field="*{priority}">
-                                                <label class="custom-control-label" for="low">Low</label>
+                                            <div class="custom-control custom-radio custom-control-inline"
+                                                 th:each="p : ${ticket.priority.values()}">
+                                                <input type="radio" th:field="*{priority}" th:id="${p}" th:value="${p}"
+                                                       class="custom-control-input" required>
+                                                <label class="custom-control-label" th:for="${p}"
+                                                       th:text="${p.displayValue}"></label>
                                             </div>
-                                            <div class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" id="medium" name="medium"
-                                                       class="custom-control-input"
-                                                       value="Medium"
-                                                       th:field="*{priority}">
-                                                <label class="custom-control-label" for="medium">Medium</label>
-                                            </div>
-                                            <div class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" id="high" name="high" class="custom-control-input"
-                                                       value="High"
-                                                       th:field="*{priority}">
-                                                <label class="custom-control-label" for="high">High</label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Status -->
+                                    <div class="form-group row">
+                                        <label class="col-xl-12 col-form-label form-control-label">Status</label>
+                                        <div class="col-xl-12">
+                                            <div class="custom-control custom-radio custom-control-inline"
+                                                 th:each="s : ${ticket.status.values()}">
+                                                <input type="radio" th:field="*{status}" th:id="${s}" th:value="${s}"
+                                                       class="custom-control-input" required>
+                                                <label class="custom-control-label" th:for="${s}"
+                                                       th:text="${s.displayValue}"></label>
                                             </div>
                                         </div>
                                     </div>

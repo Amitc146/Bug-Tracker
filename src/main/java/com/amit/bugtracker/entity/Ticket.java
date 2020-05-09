@@ -3,41 +3,43 @@ package com.amit.bugtracker.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ticket")
 public class Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private int id;
 
-    @Column(name = "description")
+    private String title;
+
     private String description;
 
-    @Column(name = "priority")
-    private String priority;
+    private String submitter;
+
+    @Column(name = "creation_date")
+    private String creationDate;
+
+    @Enumerated(EnumType.STRING)
+    private TicketPriority priority;
+
+    @Enumerated(EnumType.STRING)
+    private TicketStatus status;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "project_id")
     private Project project;
 
-    @JoinColumn(name = "submitter")
-    private String submitter;
-
-    @Column(name = "creation_date")
-    private String creationDate;
 
     public Ticket() {
     }
 
-
-    public Ticket(int id, String description, String priority, Project project, String submitter, String creationDate) {
-        this.id = id;
+    public Ticket(String title, String description, String submitter, TicketPriority priority, TicketStatus status, Project project, String creationDate) {
+        this.title = title;
         this.description = description;
-        this.priority = priority;
-        this.project = project;
         this.submitter = submitter;
+        this.priority = priority;
+        this.status = status;
+        this.project = project;
         this.creationDate = creationDate;
     }
 
@@ -49,6 +51,14 @@ public class Ticket {
         this.id = id;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -57,12 +67,28 @@ public class Ticket {
         this.description = description;
     }
 
-    public String getPriority() {
+    public String getSubmitter() {
+        return submitter;
+    }
+
+    public void setSubmitter(String submitter) {
+        this.submitter = submitter;
+    }
+
+    public TicketPriority getPriority() {
         return priority;
     }
 
-    public void setPriority(String priority) {
+    public void setPriority(TicketPriority priority) {
         this.priority = priority;
+    }
+
+    public TicketStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TicketStatus status) {
+        this.status = status;
     }
 
     public Project getProject() {
@@ -71,14 +97,6 @@ public class Ticket {
 
     public void setProject(Project project) {
         this.project = project;
-    }
-
-    public String getSubmitter() {
-        return submitter;
-    }
-
-    public void setSubmitter(String submitter) {
-        this.submitter = submitter;
     }
 
     public String getCreationDate() {
@@ -93,14 +111,45 @@ public class Ticket {
     public String toString() {
         return "Ticket{" +
                 "id=" + id +
+                ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", priority='" + priority + '\'' +
-                ", project=" + project +
                 ", submitter='" + submitter + '\'' +
+                ", priority=" + priority +
+                ", status=" + status +
+                ", project=" + project +
                 ", creationDate='" + creationDate + '\'' +
                 '}';
     }
 
+    public enum TicketStatus {
+        OPEN("Open"),
+        CLOSED("Closed");
 
+        private final String displayValue;
+
+        TicketStatus(String displayValue) {
+            this.displayValue = displayValue;
+        }
+
+        public String getDisplayValue() {
+            return displayValue;
+        }
+    }
+
+    public enum TicketPriority {
+        LOW("Low"),
+        MEDIUM("Medium"),
+        HIGH("High");
+
+        private final String displayValue;
+
+        TicketPriority(String displayValue) {
+            this.displayValue = displayValue;
+        }
+
+        public String getDisplayValue() {
+            return displayValue;
+        }
+    }
 }
 

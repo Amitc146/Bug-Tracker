@@ -71,6 +71,8 @@ public class TicketController {
         }
 
         ticket.setSubmitter(user.getUserName());
+        ticket.setStatus(Ticket.TicketStatus.OPEN);
+        ticket.setPriority(Ticket.TicketPriority.LOW);
         ticket.setCreationDate(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 
         model.addAttribute("ticket", ticket);

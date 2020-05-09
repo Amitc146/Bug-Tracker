@@ -1,13 +1,10 @@
 package com.amit.bugtracker.entity;
 
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "user")
@@ -15,7 +12,6 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
     @NotNull(message = "is required")
@@ -25,7 +21,6 @@ public class User {
 
     @NotNull(message = "is required")
     @Size(min = 1, message = "is required")
-    @Column(name = "password")
     private String password;
 
     @NotNull(message = "is required")
@@ -40,7 +35,6 @@ public class User {
 
     @NotNull(message = "is required")
     @Size(min = 1, message = "is required")
-    @Column(name = "email")
     private String email;
 
     @ManyToMany(fetch = FetchType.LAZY,

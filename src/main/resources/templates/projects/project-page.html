@@ -5,6 +5,8 @@
 
     <th:block th:replace="layouts :: layoutHeader"></th:block>
 
+    <link rel="stylesheet" th:href="@{/css/project-page.css}">
+
     <title th:replace="layouts :: layoutTitle"></title>
 
 </head>
@@ -18,97 +20,99 @@
         <div id="content">
             <th:block th:replace="layouts :: layoutNavbar"></th:block>
 
-
             <!-- Page Content -->
             <div class="container-fluid">
 
-                <div class="row justify-content-center">
-                    <div class="col-xl-11">
+                <!-- Project Container -->
+                <div class="project-container">
 
-                        <!-- Project Name -->
-                        <h2 th:text="*{project.name}"></h2>
+                    <!-- Header -->
+                    <div class="project-header">
+                        <h4 class="row">Project Details</h4>
+                        <a class="row" th:href="@{/projects/{id}/update(id=${project.id})}">Edit</a>
+                    </div>
 
-                        <hr>
-                        <br>
-
-                        <!-- Project Description -->
-                        <div class="projectDescription">
-                            <h5>Description:</h5>
-                            <p th:text="*{project.description}"></p>
-
-                            <br>
+                    <!-- First row -->
+                    <div class="border-bottom row m-2 py-4 justify-content-around">
+                        <div class="col-5 m-2 p-0">
+                            <h5 class="pb-2 font-weight-bold">Project Name</h5>
+                            <h6 th:text="*{project.name}">Name</h6>
                         </div>
 
-                        <hr>
+                        <div class="col-5 m-2 p-0">
+                            <h5 class="pb-2 font-weight-bold">Description</h5>
+                            <h6 th:text="*{project.description}">Desc</h6>
+                        </div>
+                    </div>
 
-                        <!-- Project Tickets -->
-                        <div class="projectTickets">
-                            <h5>Tickets</h5>
+                    <!-- Second row -->
+                    <div class="row justify-content-center align-items-start py-2 m-0">
 
-                            <table class="table table-bordered table-striped">
-                                <thead>
-                                <tr class="table-warning">
-                                    <th>Description</th>
-                                    <th>Priority</th>
-                                    <th>Submitter</th>
-                                    <th>Creation Date</th>
-                                </tr>
-                                </thead>
-
-                                <tbody>
-                                <tr th:each="tempTicket : ${project.tickets}">
-                                    <td th:text="${tempTicket.description}"></td>
-                                    <td th:text="${tempTicket.priority}"></td>
-                                    <td th:text="${tempTicket.submitter}"></td>
-                                    <td th:text="${tempTicket.creationDate}"></td>
-                                </tr>
-                                </tbody>
-                            </table>
-
-                            <br>
+                        <!-- Users card -->
+                        <div class="card col-xl-4 shadow m-2 p-0">
+                            <div class="card-header py-3">
+                                <h5 class="m-0 font-weight-bold">Users</h5>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-borderless" id="users">
+                                    <thead>
+                                    <tr class="border-bottom border-dark">
+                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="border-top"
+                                        th:each="tempUser : ${project.users}">
+                                        <td th:text="${tempUser.userName}"></td>
+                                        <td th:text="${tempUser.email}"></td>
+                                        <td th:each="role : ${tempUser.roles}" th:text="${role}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
-                        <hr>
-
-                        <!-- Project Users -->
-                        <div class="projectUsers">
-                            <h5>Users</h5>
-
-                            <table class="table table-bordered table-striped">
-                                <thead>
-                                <tr class="table-info">
-                                    <th>Username</th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Email</th>
-                                    <th>Roles</th>
-                                </tr>
-                                </thead>
-
-                                <tbody>
-                                <tr th:each="tempUser : ${project.users}">
-                                    <td th:text="${tempUser.userName}"></td>
-                                    <td th:text="${tempUser.firstName}"></td>
-                                    <td th:text="${tempUser.lastName}"></td>
-                                    <td th:text="${tempUser.email}"></td>
-                                    <td>
-                                        <ul style="margin: 0; list-style: circle;"
-                                            th:each="tempRole : ${tempUser.roles}">
-                                            <li th:text="${tempRole}"></li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-
-                            <br>
+                        <!-- Tickets card -->
+                        <div class="card col-xl-7 shadow m-2 p-0">
+                            <div class="card-header py-3">
+                                <div class="row">
+                                    <h5 class="col m-0 font-weight-bold">Tickets</h5>
+                                    <a class="col mr-4 text-right"
+                                       th:href="@{/tickets/new(project=${project.id})}">Add</a>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-borderless" id="tickets">
+                                    <thead>
+                                    <tr class="border-bottom border-dark">
+                                        <th>Title</th>
+                                        <th>Submitter</th>
+                                        <th>Priority</th>
+                                        <th>Status</th>
+                                        <th>Created</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="border-top"
+                                        th:each="tempTicket : ${project.tickets}">
+                                        <td th:text="${tempTicket.title}"></td>
+                                        <td th:text="${tempTicket.submitter}"></td>
+                                        <td th:text="${tempTicket.priority.displayValue}"></td>
+                                        <td th:text="${tempTicket.status.displayValue}"></td>
+                                        <td th:text="${tempTicket.creationDate}"></td>
+                                        <td>LINK</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- End of Page Content -->
-
-
         </div>
         <th:block th:replace="layouts :: layoutFooter"></th:block>
     </div>
@@ -116,6 +120,7 @@
 </div>
 
 <th:block th:replace="layouts :: layoutScripts"></th:block>
+<script src="/js/project-page.js"></script>
 </body>
 
 </html>
