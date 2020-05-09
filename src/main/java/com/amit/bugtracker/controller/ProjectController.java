@@ -23,7 +23,7 @@ public class ProjectController {
         this.userService = userService;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public String listProjects(Model model) {
         List<Project> projects = projectService.findAll();
         model.addAttribute("projects", projects);
@@ -31,7 +31,7 @@ public class ProjectController {
         return "projects/list-projects";
     }
 
-    @GetMapping("/myProjects")
+    @GetMapping
     public String listUserProjects(Authentication auth, Model model) {
 
         // Getting a list of the user's projects
@@ -44,15 +44,23 @@ public class ProjectController {
     }
 
     @GetMapping("/{projectId}")
-    public String showProject(@PathVariable int projectId, Model model) {
+    public String showProject(@PathVariable int projectId, Authentication auth, Model model) {
+        User user = userService.findByUserName(auth.getName());
+
         Project project = projectService.findById(projectId);
+
+        // Checking if the user is assigned to this project
+        if (!project.getUsers().contains(user)) {
+            return "access-denied";
+        }
+
         model.addAttribute("project", project);
 
         return "projects/project-page";
     }
 
     @GetMapping("/new")
-    public String addProject(Model model) {
+    public String createNewProject(Model model) {
         model.addAttribute("project", new Project());
         model.addAttribute("users", userService.findAll());
 

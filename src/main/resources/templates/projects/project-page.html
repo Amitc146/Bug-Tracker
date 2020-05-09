@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      lang="en">
 
 <head>
 
@@ -29,7 +30,8 @@
                     <!-- Header -->
                     <div class="project-header">
                         <h4 class="row">Project Details</h4>
-                        <a class="row" th:href="@{/projects/{id}/update(id=${project.id})}">Edit</a>
+                        <a sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')" class="row"
+                           th:href="@{/projects/{id}/update(id=${project.id})}">Edit</a>
                     </div>
 
                     <!-- First row -->
@@ -80,7 +82,7 @@
                                 <div class="row">
                                     <h5 class="col m-0 font-weight-bold">Tickets</h5>
                                     <a class="col mr-4 text-right"
-                                       th:href="@{/tickets/new(project=${project.id})}">Add</a>
+                                       th:href="@{/tickets/new(project=${project.id})}">Create Ticket</a>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -103,7 +105,7 @@
                                         <td th:text="${tempTicket.priority.displayValue}"></td>
                                         <td th:text="${tempTicket.status.displayValue}"></td>
                                         <td th:text="${tempTicket.creationDate}"></td>
-                                        <td>LINK</td>
+                                        <td><a th:href="@{/tickets/{id}(id=${tempTicket.id})}">More Details</a> </td>
                                     </tr>
                                     </tbody>
                                 </table>

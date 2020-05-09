@@ -30,7 +30,7 @@ public class TicketController {
         this.userService = userService;
     }
 
-    @GetMapping()
+    @GetMapping("/all")
     public String listTickets(Model model) {
         List<Ticket> tickets = ticketService.findAll();
         model.addAttribute("tickets", tickets);
@@ -38,7 +38,7 @@ public class TicketController {
         return "tickets/list-tickets";
     }
 
-    @GetMapping("/myTickets")
+    @GetMapping
     public String listUserTickets(Authentication auth, Model model) {
 
         // Getting a list of the user's tickets
@@ -49,6 +49,23 @@ public class TicketController {
         model.addAttribute("tickets", userTickets);
 
         return "tickets/list-tickets";
+    }
+
+
+    @GetMapping("/{ticketId}")
+    public String showTicket(@PathVariable int ticketId, Authentication auth, Model model) {
+        User user = userService.findByUserName(auth.getName());
+
+        Ticket ticket = ticketService.findById(ticketId);
+
+        // Checking if the user is assigned to the ticket's project
+        if (!ticket.getProject().getUsers().contains(user)) {
+            return "access-denied";
+        }
+
+        model.addAttribute("ticket", ticket);
+
+        return "/tickets/ticket-page";
     }
 
 
@@ -101,7 +118,7 @@ public class TicketController {
     public String saveTicket(@ModelAttribute("ticket") Ticket ticket) {
         ticketService.save(ticket);
 
-        return "redirect:/tickets/myTickets";
+        return "redirect:/tickets";
     }
 
     @GetMapping("/delete")
