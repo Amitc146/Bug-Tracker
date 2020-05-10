@@ -7,6 +7,7 @@ import com.amit.bugtracker.entity.Ticket;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +22,10 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public List<Ticket> findAll() {
-        return ticketRepository.findAll();
+        List<Ticket> tickets = ticketRepository.findAll();
+        sortByStatusAndPriority(tickets);
+
+        return tickets;
     }
 
     @Override
@@ -40,7 +44,10 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public List<Ticket> findAllByProject(Project project) {
-        return project.getTickets();
+        List<Ticket> tickets = ticketRepository.findAllByProject(project);
+        sortByStatusAndPriority(tickets);
+
+        return tickets;
     }
 
     @Override
@@ -49,6 +56,8 @@ public class TicketServiceImpl implements TicketService {
         for (Project p : projects) {
             tickets.addAll(ticketRepository.findAllByProject(p));
         }
+
+        sortByStatusAndPriority(tickets);
 
         return tickets;
     }
@@ -71,5 +80,10 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public List<ChartData> getAllProjects() {
         return ticketRepository.getAllProjects();
+    }
+
+    private void sortByStatusAndPriority(List<Ticket> tickets) {
+        tickets.sort(Comparator.comparing(Ticket::getPriority).reversed());
+        tickets.sort(Comparator.comparing(Ticket::getStatus));
     }
 }

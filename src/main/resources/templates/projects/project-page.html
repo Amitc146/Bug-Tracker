@@ -6,8 +6,6 @@
 
     <th:block th:replace="layouts :: layoutHeader"></th:block>
 
-    <link rel="stylesheet" th:href="@{/css/page-container.css}">
-
     <title th:replace="layouts :: layoutTitle"></title>
 
 </head>
@@ -24,39 +22,40 @@
             <!-- Page Content -->
             <div class="container-fluid">
 
-                <!-- Project Container -->
                 <div class="custom-card-container">
 
                     <!-- Header -->
                     <div class="card-container-header">
                         <h4 class="row">Project Details</h4>
-                        <a sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')" class="row"
-                           th:href="@{/projects/{id}/update(id=${project.id})}">Edit</a>
+                        <div class="row">
+                            <a sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')"
+                               th:href="@{/projects/{id}/update(id=${project.id})}">Edit</a>
+                        </div>
                     </div>
 
                     <!-- First row -->
-                    <div class="border-bottom row m-2 py-4 justify-content-around">
+                    <div class="row border-bottom m-2 py-4 justify-content-around">
                         <div class="col-5 m-2 p-0">
                             <h5 class="pb-2 font-weight-bold">Project Name</h5>
-                            <h6 th:text="*{project.name}">Name</h6>
+                            <h6 th:text="*{project.name}"></h6>
                         </div>
 
                         <div class="col-5 m-2 p-0">
                             <h5 class="pb-2 font-weight-bold">Description</h5>
-                            <h6 th:text="*{project.description}">Desc</h6>
+                            <h6 th:text="*{project.description}"></h6>
                         </div>
                     </div>
 
                     <!-- Second row -->
                     <div class="row justify-content-center align-items-start py-2 m-0">
 
-                        <!-- Users card -->
+                        <!-- Users list -->
                         <div class="card col-xl-4 shadow m-2 p-0">
                             <div class="card-header py-3">
                                 <h5 class="m-0 font-weight-bold">Users</h5>
                             </div>
                             <div class="card-body">
-                                <table class="table table-borderless" id="users">
+                                <table class="table table-borderless">
                                     <thead>
                                     <tr class="border-bottom border-dark">
                                         <th>Username</th>
@@ -66,17 +65,17 @@
                                     </thead>
                                     <tbody>
                                     <tr class="border-top"
-                                        th:each="tempUser : ${project.users}">
-                                        <td th:text="${tempUser.userName}"></td>
-                                        <td th:text="${tempUser.email}"></td>
-                                        <td th:each="role : ${tempUser.roles}" th:text="${role}"></td>
+                                        th:each="user : ${project.users}">
+                                        <td th:text="${user.userName}"></td>
+                                        <td th:text="${user.email}"></td>
+                                        <td th:each="role : ${user.roles}" th:text="${role}"></td>
                                     </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
 
-                        <!-- Tickets card -->
+                        <!-- Tickets list -->
                         <div class="card col-xl-7 shadow m-2 p-0">
                             <div class="card-header py-3">
                                 <div class="row">
@@ -86,7 +85,7 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <table class="table table-borderless" id="tickets">
+                                <table class="table table-borderless">
                                     <thead>
                                     <tr class="border-bottom border-dark">
                                         <th>Title</th>
@@ -98,14 +97,14 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr class="border-top"
-                                        th:each="tempTicket : ${project.tickets}">
-                                        <td th:text="${tempTicket.title}"></td>
-                                        <td th:text="${tempTicket.submitter}"></td>
-                                        <td th:text="${tempTicket.priority.displayValue}"></td>
-                                        <td th:text="${tempTicket.status.displayValue}"></td>
-                                        <td th:text="${tempTicket.creationDate}"></td>
-                                        <td><a th:href="@{/tickets/{id}(id=${tempTicket.id})}">More Details</a> </td>
+                                    <tr class="border-top" id="tickets"
+                                        th:each="ticket : ${tickets}">
+                                        <td th:text="${ticket.title}"></td>
+                                        <td th:text="${ticket.submitter}"></td>
+                                        <td th:text="${ticket.priority.displayValue}" id="ticketPriority"></td>
+                                        <td th:text="${ticket.status.displayValue}" id="ticketStatus"></td>
+                                        <td th:text="${ticket.creationDate}"></td>
+                                        <td><a th:href="@{/tickets/{id}(id=${ticket.id})}">More Details</a></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -113,6 +112,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
             <!-- End of Page Content -->
         </div>
@@ -122,7 +122,7 @@
 </div>
 
 <th:block th:replace="layouts :: layoutScripts"></th:block>
-<script src="/js/project-page.js"></script>
+<script th:src="@{/js/ticket-lists.js}"></script>
 </body>
 
 </html>

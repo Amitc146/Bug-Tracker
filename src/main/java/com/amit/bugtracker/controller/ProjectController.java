@@ -1,8 +1,10 @@
 package com.amit.bugtracker.controller;
 
 import com.amit.bugtracker.entity.Project;
+import com.amit.bugtracker.entity.Ticket;
 import com.amit.bugtracker.entity.User;
 import com.amit.bugtracker.service.ProjectService;
+import com.amit.bugtracker.service.TicketService;
 import com.amit.bugtracker.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -16,10 +18,12 @@ import java.util.List;
 public class ProjectController {
 
     private final ProjectService projectService;
+    private final TicketService ticketService;
     private final UserService userService;
 
-    public ProjectController(ProjectService projectService, UserService userService) {
+    public ProjectController(ProjectService projectService, TicketService ticketService, UserService userService) {
         this.projectService = projectService;
+        this.ticketService = ticketService;
         this.userService = userService;
     }
 
@@ -54,6 +58,8 @@ public class ProjectController {
             return "access-denied";
         }
 
+        List<Ticket> tickets = ticketService.findAllByProject(project);
+        model.addAttribute("tickets", tickets);
         model.addAttribute("project", project);
 
         return "projects/project-page";

@@ -1,5 +1,9 @@
+textarea {
+    resize: none;
+}
+
 .custom-card-container {
-    padding-bottom: 1.5rem;
+    padding-bottom: .5rem;
     margin: .5rem;
     border: thin solid #acaeb6;
 }
@@ -15,16 +19,27 @@
     margin: 0;
 }
 
-.card-container-header a {
-    color: white;
-    text-decoration: underline;
+.card-container-header div {
     padding-right: 1rem;
     padding-left: 1rem;
     padding-bottom: .2rem;
     margin: 0;
 }
 
+.card-container-header a {
+    color: white;
+    text-decoration: underline;
+}
+
 .card-container-header a:hover {
     color: #00FF99;
 }
 
+.closed-ticket {
+    opacity: .3;
+}
+
+.mild-red {
+    color: #ff0048;
+    font-weight: 500;
+}

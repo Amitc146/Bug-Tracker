@@ -22,7 +22,50 @@
             <!-- Page Content -->
             <div class="container-fluid">
 
+                <div class="custom-card-container">
 
+                    <!-- Header -->
+                    <div class="card-container-header">
+                        <h4 class="row">Ticket Details</h4>
+                        <div class="row">
+                            <a th:href="@{/tickets/{id}/update(id=${ticket.id})}">Edit</a>
+                        </div>
+                    </div>
+
+                    <!-- First row -->
+                    <div class="row border-bottom m-2 py-4 justify-content-around">
+                        <div class="col-5 m-2 p-0">
+                            <h5 class="pb-2 font-weight-bold">Title</h5>
+                            <h6 th:text="*{ticket.title}"></h6>
+                        </div>
+
+                        <div class="col-5 m-2 p-0">
+                            <h5 class="pb-2 font-weight-bold">Description</h5>
+                            <h6 th:text="*{ticket.description}"></h6>
+                        </div>
+                    </div>
+
+                    <!-- Second row -->
+                    <div class="row justify-content-center align-items-start py-2 m-0">
+
+                        <div class="card col-xl-4 shadow m-2 p-0">
+                            <div class="card-header py-3">
+                                <h5 class="m-0 font-weight-bold">History</h5>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-borderless" id="users">
+                                    <thead>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
 
             </div>
             <!-- End of Page Content -->
@@ -33,7 +76,6 @@
 </div>
 
 <th:block th:replace="layouts :: layoutScripts"></th:block>
-<script src="/js/project-page.js"></script>
 </body>
 
 </html>
