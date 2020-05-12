@@ -27,9 +27,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-
     @Override
-    @Transactional
     public User findByUserName(String userName) {
         return userRepository.findByUserName(userName);
     }
@@ -49,7 +47,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public void save(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 

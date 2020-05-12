@@ -19,7 +19,7 @@ public class ProfileController {
         this.userService = userService;
     }
 
-    @GetMapping()
+    @GetMapping
     public String showProfile(Authentication authentication, Model model) {
         User user = userService.findByUserName(authentication.getName());
         model.addAttribute("user", user);

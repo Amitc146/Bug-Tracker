@@ -22,39 +22,46 @@
             <!-- Page Content -->
             <div class="container-fluid">
 
-                <div class="user-info">
+                <div class="custom-card-container">
 
-                    <table class="table table-bordered" style="width: 400px">
-                        <tbody>
+                    <!-- Header -->
+                    <div class="card-container-header">
+                        <h4 class="row">User Details</h4>
+                    </div>
 
-                        <tr>
-                            <th>Username</th>
-                            <td th:text="${user.userName}"></td>
-                        </tr>
-
-                        <tr>
-                            <th>Full Name</th>
-                            <td th:text="${user.firstName} + ' ' + ${user.lastName}"></td>
-                        </tr>
-
-                        <tr>
-                            <th>Email</th>
-                            <td th:text="${user.email}"></td>
-                        </tr>
-
-                        <tr>
-                            <th>Roles</th>
-                            <td th:text="${user.roles}"></td>
-                        </tr>
-
-                        <tr>
-                            <th>Projects</th>
-                            <td th:text="${user.projects.size()}"></td>
-                        </tr>
-
-                        </tbody>
-                    </table>
-
+                    <!-- First row -->
+                    <div class="row m-2 py-4 justify-content-around">
+                        <div class="col-11 m-2 p-0">
+                            <div class="card col-xl-4 shadow m-2 p-0 bg-light">
+                                <div class="card-body">
+                                    <table class="table table-borderless">
+                                        <tbody>
+                                        <tr>
+                                            <th>Username</th>
+                                            <td th:text="${user.userName}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Name</th>
+                                            <td th:text="${user.firstName} + ' ' + ${user.lastName}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Email</th>
+                                            <td th:text="${user.email}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Role</th>
+                                            <td th:each="role : ${user.roles}" th:text="${role}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Projects</th>
+                                            <td th:text="${user.projects.size()}"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>

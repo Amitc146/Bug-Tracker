@@ -34,37 +34,55 @@
 
                     <!-- First row -->
                     <div class="row border-bottom m-2 py-4 justify-content-around">
-                        <div class="col-5 m-2 p-0">
-                            <h5 class="pb-2 font-weight-bold">Title</h5>
-                            <h6 th:text="*{ticket.title}"></h6>
-                        </div>
-
-                        <div class="col-5 m-2 p-0">
+                        <div class="col-11 m-2 p-0">
                             <h5 class="pb-2 font-weight-bold">Description</h5>
                             <h6 th:text="*{ticket.description}"></h6>
                         </div>
                     </div>
 
                     <!-- Second row -->
-                    <div class="row justify-content-center align-items-start py-2 m-0">
-
-                        <div class="card col-xl-4 shadow m-2 p-0">
-                            <div class="card-header py-3">
-                                <h5 class="m-0 font-weight-bold">History</h5>
-                            </div>
+                    <div class="row border-bottom m-2 py-4 justify-content-center">
+                        <div class="card col-xl-4 shadow m-2 p-0 bg-light">
                             <div class="card-body">
-                                <table class="table table-borderless" id="users">
-                                    <thead>
-                                    </thead>
+                                <table class="table table-borderless">
                                     <tbody>
-
+                                    <tr>
+                                        <th>Title</th>
+                                        <td th:text="*{ticket.title}"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Priority</th>
+                                        <td th:text="*{ticket.priority.displayValue}"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Project</th>
+                                        <td th:text="*{ticket.project.name}"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Submitter</th>
+                                        <td th:text="*{ticket.submitter}"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Status</th>
+                                        <td th:text="*{ticket.status.displayValue}"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Created</th>
+                                        <td th:text="*{ticket.creationDate}"></td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
+                        <div class="card col-xl-7 shadow m-2 p-0">
+                            <div class="card-header py-3">
+                                <h5 class="m-0 font-weight-bold">History</h5>
+                            </div>
+                            <div class="card-body">
 
+                            </div>
+                        </div>
                     </div>
-
                 </div>
 
             </div>

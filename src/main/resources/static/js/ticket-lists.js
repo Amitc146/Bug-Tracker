@@ -22,5 +22,4 @@ function togglePriorityColors(tickets) {
             priority.classList.add("mild-red");
         }
     }
-
 }

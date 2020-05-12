@@ -16,10 +16,10 @@
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
 
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
         <link rel="stylesheet" th:href="@{/css/layouts.css}">
         <link rel="stylesheet" th:href="@{/css/content.css}">
 
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     </th:block>
 
     <title th:fragment="layoutTitle">Bug Tracker Application</title>
@@ -140,22 +140,43 @@
             <th:block th:fragment="layoutNavbar">
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-
-                    <span th:text="'Hello, ' + ${session.user.firstName}"></span>
-
+                    <div>Hello, <span sec:authentication="name"></span>
+                    </div>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
                         <!-- Topbar divider -->
                         <div class="topbar-divider d-none d-sm-block"></div>
-
-
+                        
                         <li class="nav-item">
-                            <form th:action="@{/logout}" method="POST">
-                                <input type="submit" class="btn btn-danger" value="Logout"
-                                       onclick="if (!(confirm('Are you sure you want to logout?'))) return false">
-                            </form>
+                            <button type="button" class="btn btn-danger" data-toggle="modal"
+                                    data-target="#logoutModal">Logout
+                            </button>
+                            <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+                                 aria-labelledby="logoutModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="logoutModalLabel">Logout</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure you want to logout?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary px-4" data-dismiss="modal">No
+                                            </button>
+                                            <form th:action="@{/logout}" method="POST">
+                                                <input type="submit" class="btn btn-primary px-4" value="Yes"
+                                                       th:action="@{/logout}" method="POST">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </li>
                     </ul>
 
@@ -165,7 +186,6 @@
 
         </div>
         <!-- End of Main Content -->
-
 
 
         <!-- Footer -->
