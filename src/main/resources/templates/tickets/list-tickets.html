@@ -35,7 +35,7 @@
                     <div class="row justify-content-center align-items-start py-2 m-0">
                         <div class="card col-xl-11 shadow m-2 p-0">
                             <div class="card-body">
-                                <table class="table table-borderless">
+                                <table class="table table-borderless table-hover">
                                     <thead>
                                     <tr class="border-bottom border-dark">
                                         <th>Title</th>
@@ -58,7 +58,7 @@
                                         <td th:text="${ticket.creationDate}"></td>
                                         <td><a th:href="@{/tickets/{id}(id=${ticket.id})}">More Details</a></td>
                                         <td>
-                                            <a th:href="@{/tickets/{id}/update(id=${ticket.id})}">
+                                            <a th:href="@{/tickets/{id}/update(id=${ticket.id})}" id="update-button">
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                             <a th:href="@{/tickets/delete(ticketId=${ticket.id})}"
@@ -84,6 +84,7 @@
     </div>
 
 </div>
+
 
 <th:block th:replace="layouts :: layoutScripts"></th:block>
 <script th:src="@{/js/ticket-lists.js}"></script>

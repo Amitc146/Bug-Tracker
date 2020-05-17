@@ -26,63 +26,143 @@
 
                     <!-- Header -->
                     <div class="card-container-header">
-                        <h4 class="row">Ticket Details</h4>
+                        <h4 class="row">Ticket Information</h4>
                         <div class="row">
-                            <a th:href="@{/tickets/{id}/update(id=${ticket.id})}">Edit</a>
+                            <a th:href="@{/tickets/{id}/update(id=${ticket.id})}">Edit Ticket</a>
                         </div>
                     </div>
 
-                    <!-- First row -->
-                    <div class="row border-bottom m-2 py-4 justify-content-around">
-                        <div class="col-11 m-2 p-0">
-                            <h5 class="pb-2 font-weight-bold">Description</h5>
-                            <h6 th:text="*{ticket.description}"></h6>
-                        </div>
-                    </div>
-
-                    <!-- Second row -->
-                    <div class="row border-bottom m-2 py-4 justify-content-center">
-                        <div class="card col-xl-4 shadow m-2 p-0 bg-light">
-                            <div class="card-body">
-                                <table class="table table-borderless">
-                                    <tbody>
-                                    <tr>
-                                        <th>Title</th>
-                                        <td th:text="*{ticket.title}"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Priority</th>
-                                        <td th:text="*{ticket.priority.displayValue}"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Project</th>
-                                        <td th:text="*{ticket.project.name}"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Submitter</th>
-                                        <td th:text="*{ticket.submitter}"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Status</th>
-                                        <td th:text="*{ticket.status.displayValue}"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Created</th>
-                                        <td th:text="*{ticket.creationDate}"></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="card col-xl-7 shadow m-2 p-0">
+                    <div class="row border-bottom justify-content-between px-4 pb-5 m-4">
+                        <!-- Ticket Details -->
+                        <div class="card col-xl-5 shadow m-2 p-0">
                             <div class="card-header py-3">
-                                <h5 class="m-0 font-weight-bold">History</h5>
+                                <h5 class="m-0 font-weight-bold">Ticket Details</h5>
                             </div>
-                            <div class="card-body">
 
+                            <div class="card-body bg-white">
+                                <div class="row border-bottom m-2 pb-2 justify-content-around">
+                                    <div class="col m-2 p-0">
+                                        <h6 class="font-weight-bold">Ticket Title</h6>
+                                        <span th:text="*{ticket.title}"></span>
+                                    </div>
+                                    <div class="col m-2 p-0">
+                                        <h6 class="font-weight-bold">Ticket Description</h6>
+                                        <span th:text="*{ticket.description}"></span>
+                                    </div>
+                                </div>
+                                <div class="row border-bottom m-2 py-2 justify-content-around">
+                                    <div class="col m-2 p-0">
+                                        <h6 class="font-weight-bold">Status</h6>
+                                        <span th:text="*{ticket.status.displayValue}"></span>
+                                    </div>
+                                    <div class="col m-2 p-0">
+                                        <h6 class="font-weight-bold">Priority</h6>
+                                        <span th:text="*{ticket.priority.displayValue}"></span>
+                                    </div>
+                                </div>
+                                <div class="row m-2 pt-2 justify-content-around">
+                                    <div class="col m-2 p-0">
+                                        <h6 class="font-weight-bold">Submitter</h6>
+                                        <span th:text="*{ticket.submitter}"></span>
+                                    </div>
+                                    <div class="col m-2 p-0">
+                                        <h6 class="font-weight-bold">Created</h6>
+                                        <span th:text="*{ticket.creationDate}"></span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
+                        <!-- Comments -->
+                        <div class="card col-xl-5 m-2 p-0 shadow">
+                            <div class="card-header py-3">
+                                <h5 class="m-0 font-weight-bold">Ticket Comments</h5>
+                            </div>
+                            <div class="card-body bg-white">
+
+                                <div class="row border-bottom m-2 pb-2">
+                                    <table class="table table-hover table-borderless">
+                                        <thead>
+                                        <tr class="border-bottom border-dark">
+                                            <th></th>
+                                            <th>Commenter</th>
+                                            <th>Comment</th>
+                                            <th>Created</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr class="border-top" th:each="comment : ${ticket.comments}">
+                                            <td style="width: 3%;">
+                                                <a th:href="@{/tickets/deleteComment(commentId=${comment.id})}"
+                                                   class="mild-red"
+                                                   onclick="if (!(confirm('Delete this comment?'))) return false">
+                                                    <i class="fas fa-times"></i>
+                                                </a>
+
+                                            </td>
+                                            <td style="width: 12.5%"
+                                                th:text="${comment.user.firstName} + ' ' + ${comment.user.lastName}"></td>
+                                            <td style="width: 72%" th:text="${comment.text}"></td>
+                                            <td style="width: 12.5%" th:text="${comment.creationDate}"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <form th:action="@{/tickets/{id}/saveComment(id=${ticket.id})}" th:object="${comment}"
+                                      method="post"
+                                      class="form row m-1 py-4" role="form" autocomplete="off">
+
+                                    <input type="hidden" th:field="${comment.id}"/>
+
+                                    <input type="hidden" th:field="${comment.ticket.id}"/>
+
+                                    <input type="hidden" th:field="${comment.user.id}"/>
+
+                                    <input class="form-control col-10 mx-3" type="text" placeholder="Add Comment"
+                                           required maxlength="72"
+                                           th:field="${comment.text}">
+                                    <button type="submit" class="btn btn-primary px-4">Submit</button>
+
+                                </form>
+
+
+                            </div>
+
+                        </div>
+
                     </div>
+
+                    <div class="row justify-content-between px-4 py-2 m-4">
+                        <!-- History -->
+                        <div class="card col-xl-5 shadow m-2 p-0">
+                            <div class="card-header py-3">
+                                <h5 class="m-0 font-weight-bold">Ticket History</h5>
+                            </div>
+
+                            <div class="card-body bg-white">
+                                <div class="row m-2 pb-2">
+                                    <table class="table table-borderless">
+                                        <thead>
+                                        <tr class="border-bottom border-dark">
+                                            <th>User</th>
+                                            <th>Operation</th>
+                                            <th>Date</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr class="border-top">
+                                            <td>Username</td>
+                                            <td>Text</td>
+                                            <td>01/01/2020</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
                 </div>
 
             </div>

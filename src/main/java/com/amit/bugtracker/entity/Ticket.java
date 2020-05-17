@@ -1,6 +1,8 @@
 package com.amit.bugtracker.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Ticket {
@@ -29,6 +31,8 @@ public class Ticket {
     @JoinColumn(name = "project_id")
     private Project project;
 
+    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
+    private List<Comment> comments;
 
     public Ticket() {
     }
@@ -107,6 +111,27 @@ public class Ticket {
         this.creationDate = creationDate;
     }
 
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public void addComment(Comment comment) {
+        if (comments == null) {
+            comments = new ArrayList<>();
+        }
+        comments.add(comment);
+    }
+
+    public void removeComment(Comment comment) {
+        if (comments != null) {
+            comments.remove(comment);
+        }
+    }
+
     @Override
     public String toString() {
         return "Ticket{" +
@@ -114,10 +139,11 @@ public class Ticket {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", submitter='" + submitter + '\'' +
+                ", creationDate='" + creationDate + '\'' +
                 ", priority=" + priority +
                 ", status=" + status +
                 ", project=" + project +
-                ", creationDate='" + creationDate + '\'' +
+                ", comments=" + comments +
                 '}';
     }
 

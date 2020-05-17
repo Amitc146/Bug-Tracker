@@ -38,7 +38,7 @@
                     <div class="row justify-content-center align-items-start py-2 m-0">
                         <div class="card col-xl-11 shadow m-2 p-0">
                             <div class="card-body">
-                                <table class="table table-borderless">
+                                <table class="table table-borderless table-hover">
                                     <thead>
                                     <tr class="border-bottom border-dark">
                                         <th>Name</th>
@@ -58,7 +58,7 @@
                                         <td th:text="${project.users.size()}" class="text-center"></td>
                                         <td><a th:href="@{/projects/{id}(id=${project.id})}">More Details</a></td>
                                         <td>
-                                            <a th:href="@{/projects/{id}/update(id=${project.id})}"
+                                            <a th:href="@{/projects/{id}/update(id=${project.id})}" id="update-button"
                                                sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')">
                                                 <i class="fas fa-edit"></i>
                                             </a>

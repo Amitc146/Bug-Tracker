@@ -1,5 +1,6 @@
 package com.amit.bugtracker.controller;
 
+import com.amit.bugtracker.entity.Comment;
 import com.amit.bugtracker.entity.Project;
 import com.amit.bugtracker.entity.Ticket;
 import com.amit.bugtracker.entity.User;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -62,6 +64,9 @@ public class TicketController {
         if (!ticket.getProject().getUsers().contains(user)) {
             return "access-denied";
         }
+
+        // Adding a comment in case the user will try to add one
+        model.addAttribute("comment", new Comment(ticket, user));
 
         model.addAttribute("ticket", ticket);
 
@@ -126,6 +131,25 @@ public class TicketController {
         ticketService.deleteById(id);
 
         return "redirect:/tickets";
+    }
+
+    @PostMapping("/{ticketId}/saveComment")
+    public String saveComment(@ModelAttribute("comment") Comment comment, @PathVariable("ticketId") int ticketId) {
+        comment.setCreationDate(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        ticketService.saveComment(comment);
+
+        return "redirect:/tickets/" + ticketId;
+    }
+
+    @GetMapping("/deleteComment")
+    public String deleteComment(@RequestParam("commentId") Integer commentId) {
+
+        // Getting the ticket id for the redirection
+        int ticketId = ticketService.findCommentById(commentId).getTicket().getId();
+
+        ticketService.deleteCommentById(commentId);
+
+        return "redirect:/tickets/" + ticketId;
     }
 
 

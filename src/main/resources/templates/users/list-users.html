@@ -38,7 +38,7 @@
                     <div class="row justify-content-center align-items-start py-2 m-0">
                         <div class="card col-xl-11 shadow m-2 p-0">
                             <div class="card-body">
-                                <table class="table table-borderless">
+                                <table class="table table-borderless table-hover">
                                     <thead>
                                     <tr class="border-bottom border-dark">
                                         <th>Username</th>
@@ -60,7 +60,7 @@
                                         <td th:each="role : ${user.roles}" th:text="${role}"></td>
                                         <td th:text="${user.projects.size()}" class="text-center"></td>
                                         <td>
-                                            <a th:href="@{/users/{id}/update(id=${user.id})}"
+                                            <a th:href="@{/users/{id}/update(id=${user.id})}" id="update-button"
                                                sec:authorize="hasRole('ROLE_ADMIN')">
                                                 <i class="fas fa-edit"></i>
                                             </a>

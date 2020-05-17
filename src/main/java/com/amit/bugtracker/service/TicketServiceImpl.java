@@ -1,7 +1,9 @@
 package com.amit.bugtracker.service;
 
 import com.amit.bugtracker.chart.ChartData;
+import com.amit.bugtracker.dao.CommentRepository;
 import com.amit.bugtracker.dao.TicketRepository;
+import com.amit.bugtracker.entity.Comment;
 import com.amit.bugtracker.entity.Project;
 import com.amit.bugtracker.entity.Ticket;
 import org.springframework.stereotype.Service;
@@ -14,10 +16,12 @@ import java.util.Optional;
 @Service
 public class TicketServiceImpl implements TicketService {
 
-    private TicketRepository ticketRepository;
+    private final TicketRepository ticketRepository;
+    private final CommentRepository commentRepository;
 
-    public TicketServiceImpl(TicketRepository ticketRepository) {
+    public TicketServiceImpl(TicketRepository ticketRepository, CommentRepository commentRepository) {
         this.ticketRepository = ticketRepository;
+        this.commentRepository = commentRepository;
     }
 
     @Override
@@ -85,5 +89,29 @@ public class TicketServiceImpl implements TicketService {
     private void sortByStatusAndPriority(List<Ticket> tickets) {
         tickets.sort(Comparator.comparing(Ticket::getPriority).reversed());
         tickets.sort(Comparator.comparing(Ticket::getStatus));
+    }
+
+    @Override
+    public void saveComment(Comment comment) {
+        commentRepository.save(comment);
+    }
+
+    @Override
+    public void deleteCommentById(Integer id) {
+        commentRepository.deleteById(id);
+    }
+
+    @Override
+    public Comment findCommentById(Integer id) {
+        Optional<Comment> result = commentRepository.findById(id);
+
+        Comment comment;
+        if (result.isPresent()) {
+            comment = result.get();
+        } else {
+            throw new RuntimeException("Did not find comment id - " + id);
+        }
+
+        return comment;
     }
 }
