@@ -11,7 +11,7 @@ public interface TicketService {
 
     List<Ticket> findAll();
 
-    Ticket findById(int id);
+    Ticket findById(Integer id);
 
     List<Ticket> findAllByProject(Project project);
 
@@ -19,7 +19,7 @@ public interface TicketService {
 
     void save(Ticket ticket);
 
-    void deleteById(int id);
+    void deleteById(Integer id);
 
     List<ChartData> getAllPriorities();
 

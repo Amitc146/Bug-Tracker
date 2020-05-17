@@ -84,26 +84,25 @@
                                     <table class="table table-hover table-borderless">
                                         <thead>
                                         <tr class="border-bottom border-dark">
-                                            <th></th>
                                             <th>Commenter</th>
                                             <th>Comment</th>
                                             <th>Created</th>
+                                            <th></th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr class="border-top" th:each="comment : ${ticket.comments}">
+                                            <td style="width: 12.5%"
+                                                th:text="${comment.user.fullName}"></td>
+                                            <td style="width: 72%" th:text="${comment.text}"></td>
+                                            <td style="width: 12.5%" th:text="${comment.creationDate}"></td>
                                             <td style="width: 3%;">
                                                 <a th:href="@{/tickets/deleteComment(commentId=${comment.id})}"
                                                    class="mild-red"
                                                    onclick="if (!(confirm('Delete this comment?'))) return false">
                                                     <i class="fas fa-times"></i>
                                                 </a>
-
                                             </td>
-                                            <td style="width: 12.5%"
-                                                th:text="${comment.user.firstName} + ' ' + ${comment.user.lastName}"></td>
-                                            <td style="width: 72%" th:text="${comment.text}"></td>
-                                            <td style="width: 12.5%" th:text="${comment.creationDate}"></td>
                                         </tr>
                                         </tbody>
                                     </table>

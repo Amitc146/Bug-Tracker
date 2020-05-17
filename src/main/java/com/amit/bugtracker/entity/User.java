@@ -12,7 +12,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @NotNull(message = "is required")
     @Size(min = 1, message = "is required")
@@ -74,11 +74,11 @@ public class User {
         this.roles = roles;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -136,6 +136,10 @@ public class User {
 
     public void setProjects(List<Project> projects) {
         this.projects = projects;
+    }
+
+    public String getFullName() {
+        return this.firstName + " " + this.lastName;
     }
 
     @Override

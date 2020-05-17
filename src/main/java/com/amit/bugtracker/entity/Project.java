@@ -8,7 +8,7 @@ public class Project {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     private String name;
 
@@ -27,17 +27,17 @@ public class Project {
     public Project() {
     }
 
-    public Project(int id, String name, String description) {
+    public Project(Integer id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

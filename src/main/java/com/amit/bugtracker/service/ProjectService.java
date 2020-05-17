@@ -11,10 +11,10 @@ public interface ProjectService {
 
     List<Project> findAllByUser(User user);
 
-    Project findById(int id);
+    Project findById(Integer id);
 
     void save(Project project);
 
-    void deleteById(int id);
+    void deleteById(Integer id);
 
 }

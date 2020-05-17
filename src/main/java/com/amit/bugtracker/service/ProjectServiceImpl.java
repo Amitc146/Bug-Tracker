@@ -23,7 +23,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project findById(int id) {
+    public Project findById(Integer id) {
         Optional<Project> result = projectRepository.findById(id);
 
         Project project;
@@ -47,7 +47,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(Integer id) {
         projectRepository.deleteById(id);
     }
 

@@ -33,7 +33,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public Ticket findById(int id) {
+    public Ticket findById(Integer id) {
         Optional<Ticket> result = ticketRepository.findById(id);
 
         Ticket ticket;
@@ -72,7 +72,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(Integer id) {
         ticketRepository.deleteById(id);
     }
 
