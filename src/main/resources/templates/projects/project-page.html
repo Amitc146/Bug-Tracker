@@ -100,7 +100,7 @@
                                     <tr class="border-top" id="tickets"
                                         th:each="ticket : ${tickets}">
                                         <td th:text="${ticket.title}"></td>
-                                        <td th:text="${ticket.submitter}"></td>
+                                        <td th:text="${ticket.submitter.fullName}"></td>
                                         <td th:text="${ticket.priority.displayValue}" id="ticketPriority"></td>
                                         <td th:text="${ticket.status.displayValue}" id="ticketStatus"></td>
                                         <td th:text="${ticket.creationDate}"></td>

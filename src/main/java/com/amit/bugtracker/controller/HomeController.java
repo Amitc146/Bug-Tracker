@@ -1,17 +1,12 @@
 package com.amit.bugtracker.controller;
 
 import com.amit.bugtracker.chart.ChartData;
-import com.amit.bugtracker.entity.User;
 import com.amit.bugtracker.service.TicketService;
-import com.amit.bugtracker.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.util.List;
 

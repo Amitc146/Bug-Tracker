@@ -52,7 +52,7 @@
                                     <tr class="border-top" th:each="ticket : ${tickets}" id="tickets">
                                         <td th:text="${ticket.title}"></td>
                                         <td th:text="${ticket.project.name}"></td>
-                                        <td th:text="${ticket.submitter}"></td>
+                                        <td th:text="${ticket.submitter.fullName}"></td>
                                         <td th:text="${ticket.priority.displayValue}" id="ticketPriority"></td>
                                         <td th:text="${ticket.status.displayValue}" id="ticketStatus"></td>
                                         <td th:text="${ticket.creationDate}"></td>

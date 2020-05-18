@@ -15,8 +15,6 @@ public class Ticket {
 
     private String description;
 
-    private String submitter;
-
     @Column(name = "creation_date")
     private String creationDate;
 
@@ -28,6 +26,11 @@ public class Ticket {
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "user_id")
+    private User submitter;
+
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "project_id")
     private Project project;
 
@@ -35,16 +38,6 @@ public class Ticket {
     private List<Comment> comments;
 
     public Ticket() {
-    }
-
-    public Ticket(String title, String description, String submitter, TicketPriority priority, TicketStatus status, Project project, String creationDate) {
-        this.title = title;
-        this.description = description;
-        this.submitter = submitter;
-        this.priority = priority;
-        this.status = status;
-        this.project = project;
-        this.creationDate = creationDate;
     }
 
     public Integer getId() {
@@ -71,11 +64,11 @@ public class Ticket {
         this.description = description;
     }
 
-    public String getSubmitter() {
+    public User getSubmitter() {
         return submitter;
     }
 
-    public void setSubmitter(String submitter) {
+    public void setSubmitter(User submitter) {
         this.submitter = submitter;
     }
 

@@ -92,7 +92,7 @@ public class TicketController {
             projects = projectService.findAllByUser(user);
         }
 
-        ticket.setSubmitter(user.getUserName());
+        ticket.setSubmitter(user);
         ticket.setStatus(Ticket.TicketStatus.OPEN);
         ticket.setPriority(Ticket.TicketPriority.LOW);
         ticket.setCreationDate(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
