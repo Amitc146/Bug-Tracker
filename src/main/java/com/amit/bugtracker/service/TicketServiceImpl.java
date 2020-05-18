@@ -102,6 +102,11 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    public void deleteComment(Comment comment) {
+        commentRepository.delete(comment);
+    }
+
+    @Override
     public Comment findCommentById(Integer id) {
         Optional<Comment> result = commentRepository.findById(id);
 

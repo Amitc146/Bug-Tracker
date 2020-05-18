@@ -29,6 +29,8 @@ public interface TicketService {
 
     void deleteCommentById(Integer id);
 
+    void deleteComment(Comment comment);
+
     Comment findCommentById(Integer id);
 
 }

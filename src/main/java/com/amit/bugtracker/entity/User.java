@@ -142,6 +142,24 @@ public class User {
         return this.firstName + " " + this.lastName;
     }
 
+    public boolean isAdmin() {
+        for (Role r : roles) {
+            if (r.getName().equals("ROLE_ADMIN"))
+                return true;
+        }
+
+        return false;
+    }
+
+    public boolean isManager() {
+        for (Role r : roles) {
+            if (r.getName().equals("ROLE_MANAGER"))
+                return true;
+        }
+
+        return false;
+    }
+
     @Override
     public String toString() {
         return "User{" + "id=" + id + ", userName='" + userName + '\'' + ", password='" + "*********" + '\''

@@ -42,12 +42,12 @@
                             <div class="card-body bg-white">
                                 <div class="row border-bottom m-2 pb-2 justify-content-around">
                                     <div class="col m-2 p-0">
-                                        <h6 class="font-weight-bold">Ticket Title</h6>
+                                        <h6 class="font-weight-bold">Title</h6>
                                         <span th:text="*{ticket.title}"></span>
                                     </div>
                                     <div class="col m-2 p-0">
-                                        <h6 class="font-weight-bold">Ticket Description</h6>
-                                        <span th:text="*{ticket.description}"></span>
+                                        <h6 class="font-weight-bold">Project</h6>
+                                        <span th:text="*{ticket.project.name}"></span>
                                     </div>
                                 </div>
                                 <div class="row border-bottom m-2 py-2 justify-content-around">
@@ -60,7 +60,7 @@
                                         <span th:text="*{ticket.priority.displayValue}"></span>
                                     </div>
                                 </div>
-                                <div class="row m-2 pt-2 justify-content-around">
+                                <div class="row border-bottom m-2 py-2 justify-content-around">
                                     <div class="col m-2 p-0">
                                         <h6 class="font-weight-bold">Submitter</h6>
                                         <span th:text="*{ticket.submitter.fullName}"></span>
@@ -68,6 +68,12 @@
                                     <div class="col m-2 p-0">
                                         <h6 class="font-weight-bold">Created</h6>
                                         <span th:text="*{ticket.creationDate}"></span>
+                                    </div>
+                                </div>
+                                <div class="row m-2 pt-2 justify-content-around">
+                                    <div class="col m-2 p-0">
+                                        <h6 class="font-weight-bold">Description</h6>
+                                        <span th:text="*{ticket.description}"></span>
                                     </div>
                                 </div>
                             </div>
@@ -92,10 +98,10 @@
                                         </thead>
                                         <tbody>
                                         <tr class="border-top" th:each="comment : ${ticket.comments}">
-                                            <td style="width: 12.5%"
+                                            <td style="width: 15%"
                                                 th:text="${comment.user.fullName}"></td>
-                                            <td style="width: 72%" th:text="${comment.text}"></td>
-                                            <td style="width: 12.5%" th:text="${comment.creationDate}"></td>
+                                            <td style="width: 71%" th:text="${comment.text}"></td>
+                                            <td style="width: 11%" th:text="${comment.creationDate}"></td>
                                             <td style="width: 3%;">
                                                 <a th:href="@{/tickets/deleteComment(commentId=${comment.id})}"
                                                    class="mild-red"

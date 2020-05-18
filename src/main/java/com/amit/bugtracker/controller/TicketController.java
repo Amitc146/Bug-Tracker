@@ -142,12 +142,19 @@ public class TicketController {
     }
 
     @GetMapping("/deleteComment")
-    public String deleteComment(@RequestParam("commentId") Integer commentId) {
+    public String deleteComment(@RequestParam("commentId") int commentId, Authentication auth) {
+        User user = userService.findByUserName(auth.getName());
+        Comment comment = ticketService.findCommentById(commentId);
+
+        // Check if the user is allowed to delete this comment
+        if (user.getId() != comment.getUser().getId() && !user.isAdmin()) {
+            return "access-denied";
+        }
 
         // Getting the ticket id for the redirection
-        int ticketId = ticketService.findCommentById(commentId).getTicket().getId();
+        int ticketId = comment.getTicket().getId();
 
-        ticketService.deleteCommentById(commentId);
+        ticketService.deleteComment(comment);
 
         return "redirect:/tickets/" + ticketId;
     }
