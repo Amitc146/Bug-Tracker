@@ -58,8 +58,11 @@ public class ProjectController {
             return "access-denied";
         }
 
-        List<Ticket> tickets = ticketService.findAllByProject(project);
-        model.addAttribute("tickets", tickets);
+        List<Ticket> openTickets = ticketService.findAllByProjectAndStatus(project, "open");
+        List<Ticket> closedTickets = ticketService.findAllByProjectAndStatus(project, "closed");
+
+        model.addAttribute("openTickets", openTickets);
+        model.addAttribute("closedTickets", closedTickets);
         model.addAttribute("project", project);
 
         return "projects/project-page";
@@ -86,7 +89,7 @@ public class ProjectController {
     public String saveProject(@ModelAttribute("project") Project project) {
         projectService.save(project);
 
-        return "redirect:/projects";
+        return "redirect:/projects/" + project.getId();
     }
 
     @GetMapping("/delete")

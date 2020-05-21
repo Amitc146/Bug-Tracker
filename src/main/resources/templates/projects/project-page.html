@@ -27,9 +27,12 @@
                     <!-- Header -->
                     <div class="card-container-header">
                         <h4 class="row">Project Details</h4>
-                        <div class="row">
-                            <a sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')"
-                               th:href="@{/projects/{id}/update(id=${project.id})}">Edit</a>
+                        <div class="row" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')">
+                            <a th:href="@{/projects/{id}/update(id=${project.id})}">Edit Project</a>
+                            &nbsp;&nbsp;
+                            <a th:href="@{/projects/delete(project=${project.id})}"
+                               onclick="if (!(confirm('Are you sure you want to delete this project?'))) return false">
+                                Delete Project</a>
                         </div>
                     </div>
 
@@ -77,12 +80,22 @@
 
                         <!-- Tickets list -->
                         <div class="card col-xl-7 shadow m-2 p-0">
-                            <div class="card-header py-3">
-                                <div class="row">
+                            <div class="card-header pt-3">
+                                <div class="row mb-3">
                                     <h5 class="col m-0 font-weight-bold">Tickets</h5>
                                     <a class="col mr-4 text-right"
                                        th:href="@{/tickets/new(project=${project.id})}">Create Ticket</a>
                                 </div>
+
+                                <ul class="nav nav-tabs card-header-tabs">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="#">Open</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Closed</a>
+                                    </li>
+                                </ul>
+
                             </div>
                             <div class="card-body">
                                 <table class="table table-borderless">
@@ -98,7 +111,7 @@
                                     </thead>
                                     <tbody>
                                     <tr class="border-top" id="tickets"
-                                        th:each="ticket : ${tickets}">
+                                        th:each="ticket : ${openTickets}">
                                         <td th:text="${ticket.title}"></td>
                                         <td th:text="${ticket.submitter.fullName}"></td>
                                         <td th:text="${ticket.priority.displayValue}" id="ticketPriority"></td>

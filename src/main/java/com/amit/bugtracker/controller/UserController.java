@@ -62,14 +62,14 @@ public class UserController {
     public String saveUser(@Valid @ModelAttribute("user") User user,
                            BindingResult bindingResult, Model model) {
 
-        // form validation
+        // Form validation
         if (bindingResult.hasErrors()) {
             model.addAttribute("roles", roleService.findAll());
 
             return "users/user-form";
         }
 
-        // check the database if user already exists
+        // Check the database if user already exists
         User existing = userService.findByUserName(user.getUserName());
         if (existing != null && !existing.getId().equals(user.getId())) {
             model.addAttribute("user", new User());
@@ -86,6 +86,7 @@ public class UserController {
 
     @InitBinder
     public void initBinder(WebDataBinder dataBinder) {
+        // Removing white spaces from strings
         StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
         dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
     }

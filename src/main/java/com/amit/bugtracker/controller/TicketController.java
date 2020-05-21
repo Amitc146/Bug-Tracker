@@ -1,9 +1,6 @@
 package com.amit.bugtracker.controller;
 
-import com.amit.bugtracker.entity.Comment;
-import com.amit.bugtracker.entity.Project;
-import com.amit.bugtracker.entity.Ticket;
-import com.amit.bugtracker.entity.User;
+import com.amit.bugtracker.entity.*;
 import com.amit.bugtracker.service.ProjectService;
 import com.amit.bugtracker.service.TicketService;
 import com.amit.bugtracker.service.UserService;
@@ -12,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -34,8 +30,11 @@ public class TicketController {
 
     @GetMapping("/all")
     public String listTickets(Model model) {
-        List<Ticket> tickets = ticketService.findAll();
-        model.addAttribute("tickets", tickets);
+        List<Ticket> openTickets = ticketService.findAllByStatus("open");
+        List<Ticket> closedTickets = ticketService.findAllByStatus("closed");
+
+        model.addAttribute("openTickets", openTickets);
+        model.addAttribute("closedTickets", closedTickets);
 
         return "tickets/list-tickets";
     }
@@ -45,10 +44,11 @@ public class TicketController {
 
         // Getting a list of the user's tickets
         User user = userService.findByUserName(auth.getName());
-        List<Project> userProjects = projectService.findAllByUser(user);
-        List<Ticket> userTickets = ticketService.findAllByProjects(userProjects);
+        List<Ticket> openTickets = ticketService.findAllByUserAndStatus(user, "open");
+        List<Ticket> closedTickets = ticketService.findAllByUserAndStatus(user, "closed");
 
-        model.addAttribute("tickets", userTickets);
+        model.addAttribute("openTickets", openTickets);
+        model.addAttribute("closedTickets", closedTickets);
 
         return "tickets/list-tickets";
     }
@@ -113,6 +113,11 @@ public class TicketController {
         // Getting the ticket info
         Ticket ticket = ticketService.findById(ticketId);
 
+        // Check if the user has permission to edit this ticket
+        if (!ticket.getSubmitter().equals(user)) {
+            return "access-denied";
+        }
+
         model.addAttribute("ticket", ticket);
         model.addAttribute("projects", projects);
 
@@ -123,7 +128,7 @@ public class TicketController {
     public String saveTicket(@ModelAttribute("ticket") Ticket ticket) {
         ticketService.save(ticket);
 
-        return "redirect:/tickets";
+        return "redirect:/tickets/" + ticket.getId();
     }
 
     @GetMapping("/delete")
@@ -147,7 +152,7 @@ public class TicketController {
         Comment comment = ticketService.findCommentById(commentId);
 
         // Check if the user is allowed to delete this comment
-        if (user.getId() != comment.getUser().getId() && !user.isAdmin()) {
+        if (!user.equals(comment.getUser()) && !user.isAdmin()) {
             return "access-denied";
         }
 
@@ -158,6 +163,5 @@ public class TicketController {
 
         return "redirect:/tickets/" + ticketId;
     }
-
 
 }

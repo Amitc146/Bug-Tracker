@@ -9,6 +9,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "text")
     private String text;
 
     @Column(name = "creation_date")

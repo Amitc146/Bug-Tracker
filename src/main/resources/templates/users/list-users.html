@@ -64,6 +64,7 @@
                                                sec:authorize="hasRole('ROLE_ADMIN')">
                                                 <i class="fas fa-edit"></i>
                                             </a>
+                                            |
                                             <a th:href="@{/users/delete(user=${user.id})}"
                                                class="text-danger"
                                                sec:authorize="hasRole('ROLE_ADMIN')"

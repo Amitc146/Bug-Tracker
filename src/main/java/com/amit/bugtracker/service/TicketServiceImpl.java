@@ -6,9 +6,10 @@ import com.amit.bugtracker.dao.TicketRepository;
 import com.amit.bugtracker.entity.Comment;
 import com.amit.bugtracker.entity.Project;
 import com.amit.bugtracker.entity.Ticket;
+import com.amit.bugtracker.entity.Ticket.TicketStatus;
+import com.amit.bugtracker.entity.User;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +28,6 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public List<Ticket> findAll() {
         List<Ticket> tickets = ticketRepository.findAll();
-        sortByStatusAndPriority(tickets);
 
         return tickets;
     }
@@ -47,22 +47,50 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public List<Ticket> findAllByProject(Project project) {
-        List<Ticket> tickets = ticketRepository.findAllByProject(project);
-        sortByStatusAndPriority(tickets);
+    public List<Ticket> findAllByProjectAndStatus(Project project, String status) {
+        List<Ticket> tickets;
 
+        if (status.toLowerCase().equals("open")) {
+            tickets = ticketRepository.findAllByProjectAndStatus(project, TicketStatus.OPEN);
+        } else if (status.toLowerCase().equals("closed")) {
+            tickets = ticketRepository.findAllByProjectAndStatus(project, TicketStatus.CLOSED);
+        } else {
+            return null;
+        }
+
+        sortByPriority(tickets);
         return tickets;
     }
 
     @Override
-    public List<Ticket> findAllByProjects(List<Project> projects) {
-        List<Ticket> tickets = new ArrayList<>();
-        for (Project p : projects) {
-            tickets.addAll(ticketRepository.findAllByProject(p));
+    public List<Ticket> findAllByStatus(String status) {
+        List<Ticket> tickets;
+
+        if (status.toLowerCase().equals("open")) {
+            tickets = ticketRepository.findAllByStatus(TicketStatus.OPEN);
+        } else if (status.toLowerCase().equals("closed")) {
+            tickets = ticketRepository.findAllByStatus(TicketStatus.CLOSED);
+        } else {
+            return null;
         }
 
-        sortByStatusAndPriority(tickets);
+        sortByPriority(tickets);
+        return tickets;
+    }
 
+    @Override
+    public List<Ticket> findAllByUserAndStatus(User user, String status) {
+        List<Ticket> tickets;
+
+        if (status.toLowerCase().equals("open")) {
+            tickets = ticketRepository.findAllByProjectUsersContainingAndStatus(user, TicketStatus.OPEN);
+        } else if (status.toLowerCase().equals("closed")) {
+            tickets = ticketRepository.findAllByProjectUsersContainingAndStatus(user, TicketStatus.CLOSED);
+        } else {
+            return null;
+        }
+
+        sortByPriority(tickets);
         return tickets;
     }
 
@@ -84,11 +112,6 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public List<ChartData> getAllProjects() {
         return ticketRepository.getAllProjects();
-    }
-
-    private void sortByStatusAndPriority(List<Ticket> tickets) {
-        tickets.sort(Comparator.comparing(Ticket::getPriority).reversed());
-        tickets.sort(Comparator.comparing(Ticket::getStatus));
     }
 
     @Override
@@ -119,4 +142,9 @@ public class TicketServiceImpl implements TicketService {
 
         return comment;
     }
+
+    private void sortByPriority(List<Ticket> tickets) {
+        tickets.sort(Comparator.comparing(Ticket::getPriority).reversed());
+    }
+
 }

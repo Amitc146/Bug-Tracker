@@ -14,7 +14,7 @@ import java.io.IOException;
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    private UserService userService;
+    private final UserService userService;
 
     public CustomAuthenticationSuccessHandler(UserService userService) {
         this.userService = userService;

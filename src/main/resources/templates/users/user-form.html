@@ -32,19 +32,6 @@
                             <form th:action="@{/users/save}" th:object="${user}" method="post"
                                   class="form" role="form" autocomplete="off">
 
-                                <!-- Place for messages: error, alert etc ... -->
-                                <div class="form-group row">
-                                    <div class="col-sm-15">
-                                        <div>
-                                            <!-- Check for registration error -->
-                                            <div th:if="${registrationError}"
-                                                 class="alert alert-danger col-sm-offset-1 col-xs-10">
-                                                <span th:text="${registrationError}"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <input type="hidden" th:field="*{id}"/>
 
                                 <input type="hidden" th:field="*{projects}"/>
@@ -58,7 +45,7 @@
                                     <div th:if="${#fields.hasErrors('userName')}" class="mb-2 text-danger">
                                         <ul>
                                             <li th:each="err : ${#fields.errors('userName')}"
-                                                th:text="'User name ' + ${err}"></li>
+                                                th:text="${err}"></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -72,7 +59,7 @@
                                     <div th:if="${#fields.hasErrors('password')}" class="mb-2 text-danger">
                                         <ul>
                                             <li th:each="err : ${#fields.errors('password')}"
-                                                th:text="'Password ' + ${err}"></li>
+                                                th:text="${err}"></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -86,7 +73,7 @@
                                     <div th:if="${#fields.hasErrors('firstName')}" class="mb-2 text-danger">
                                         <ul>
                                             <li th:each="err : ${#fields.errors('firstName')}"
-                                                th:text="'First name ' + ${err}"></li>
+                                                th:text="${err}"></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -100,7 +87,7 @@
                                     <div th:if="${#fields.hasErrors('lastName')}" class="mb-2 text-danger">
                                         <ul>
                                             <li th:each="err : ${#fields.errors('lastName')}"
-                                                th:text="'Last name ' + ${err}"></li>
+                                                th:text="${err}"></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -114,7 +101,7 @@
                                     <div th:if="${#fields.hasErrors('email')}" class="mb-2 text-danger">
                                         <ul>
                                             <li th:each="err : ${#fields.errors('email')}"
-                                                th:text="'Email ' + ${err}"></li>
+                                                th:text="${err}"></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -132,10 +119,10 @@
                                                    th:for="${role}" th:text="${role}"></label>
                                         </div>
                                     </div>
-                                    <div th:if="${#fields.hasErrors('email')}" class="mb-2 text-danger">
+                                    <div th:if="${#fields.hasErrors('roles')}" class="mb-2 text-danger">
                                         <ul>
                                             <li th:each="err : ${#fields.errors('roles')}"
-                                                th:text="'Roles ' + ${err}"></li>
+                                                th:text="${err}"></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -148,6 +135,20 @@
                                     </div>
                                 </div>
                             </form>
+
+                            <!-- Errors -->
+                            <div class="form-group row">
+                                <div class="col-4 px-2">
+                                    <div>
+                                        <!-- Check for registration error -->
+                                        <div th:if="${registrationError}"
+                                             class="alert alert-danger col-sm-offset-1 col-xs-10">
+                                            <span th:text="${registrationError}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>

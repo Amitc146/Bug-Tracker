@@ -3,10 +3,13 @@ package com.amit.bugtracker.dao;
 import com.amit.bugtracker.chart.ChartData;
 import com.amit.bugtracker.entity.Project;
 import com.amit.bugtracker.entity.Ticket;
+import com.amit.bugtracker.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+
+import static com.amit.bugtracker.entity.Ticket.*;
 
 public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 
@@ -20,6 +23,10 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
             "GROUP BY project_id")
     List<ChartData> getAllProjects();
 
-    List<Ticket> findAllByProject(Project project);
+    List<Ticket> findAllByStatus(TicketStatus status);
+
+    List<Ticket> findAllByProjectAndStatus(Project project, TicketStatus status);
+
+    List<Ticket> findAllByProjectUsersContainingAndStatus(User user, TicketStatus status);
 
 }

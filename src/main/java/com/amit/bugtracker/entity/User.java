@@ -1,8 +1,10 @@
 package com.amit.bugtracker.entity;
 
+import com.amit.bugtracker.validation.ValidEmail;
+import com.amit.bugtracker.validation.ValidUsername;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.List;
 
@@ -14,27 +16,24 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull(message = "is required")
-    @Size(min = 1, message = "is required")
+    @ValidUsername
     @Column(name = "username")
     private String userName;
 
-    @NotNull(message = "is required")
-    @Size(min = 1, message = "is required")
+    @NotNull(message = "Password is required")
+    @Column(name = "password")
     private String password;
 
-    @NotNull(message = "is required")
-    @Size(min = 1, message = "is required")
+    @NotNull(message = "First name is required")
     @Column(name = "first_name")
     private String firstName;
 
-    @NotNull(message = "is required")
-    @Size(min = 1, message = "is required")
+    @NotNull(message = "Last name is required")
     @Column(name = "last_name")
     private String lastName;
 
-    @NotNull(message = "is required")
-    @Size(min = 1, message = "is required")
+    @ValidEmail
+    @Column(name = "email")
     private String email;
 
     @ManyToMany(fetch = FetchType.LAZY,
@@ -44,8 +43,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "project_id"))
     private List<Project> projects;
 
-    @NotNull(message = "required")
-    @Size(min = 1, message = "required")
+    @NotNull(message = "Role is required")
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "users_roles",
@@ -158,6 +156,15 @@ public class User {
         }
 
         return false;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    public boolean equals(User user) {
+        return this.id.equals(user.getId());
     }
 
     @Override

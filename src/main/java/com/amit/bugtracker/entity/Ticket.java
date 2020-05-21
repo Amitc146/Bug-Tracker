@@ -11,17 +11,21 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "title")
     private String title;
 
+    @Column(name = "description")
     private String description;
 
     @Column(name = "creation_date")
     private String creationDate;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "priority")
     private TicketPriority priority;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "status")
     private TicketStatus status;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
@@ -131,12 +135,11 @@ public class Ticket {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", submitter='" + submitter + '\'' +
                 ", creationDate='" + creationDate + '\'' +
                 ", priority=" + priority +
                 ", status=" + status +
+                ", submitter=" + submitter +
                 ", project=" + project +
-                ", comments=" + comments +
                 '}';
     }
 
@@ -170,5 +173,6 @@ public class Ticket {
             return displayValue;
         }
     }
+
 }
 
