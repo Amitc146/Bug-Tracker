@@ -86,19 +86,17 @@
                                     <a class="col mr-4 text-right"
                                        th:href="@{/tickets/new(project=${project.id})}">Create Ticket</a>
                                 </div>
-
                                 <ul class="nav nav-tabs card-header-tabs">
                                     <li class="nav-item">
-                                        <a class="nav-link active" href="#">Open</a>
+                                        <a class="nav-link active" href="#" id="openTicketsLink">Open</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#">Closed</a>
+                                        <a class="nav-link" href="#" id="closedTicketsLink">Closed</a>
                                     </li>
                                 </ul>
-
                             </div>
                             <div class="card-body">
-                                <table class="table table-borderless">
+                                <table class="table table-borderless" id="openTickets">
                                     <thead>
                                     <tr class="border-bottom border-dark">
                                         <th>Title</th>
@@ -110,12 +108,36 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr class="border-top" id="tickets"
+                                    <tr class="border-top"
                                         th:each="ticket : ${openTickets}">
                                         <td th:text="${ticket.title}"></td>
                                         <td th:text="${ticket.submitter.fullName}"></td>
-                                        <td th:text="${ticket.priority.displayValue}" id="ticketPriority"></td>
-                                        <td th:text="${ticket.status.displayValue}" id="ticketStatus"></td>
+                                        <td th:text="${ticket.priority.displayValue}" class="ticket-priority"></td>
+                                        <td th:text="${ticket.status.displayValue}" class="ticket-status"></td>
+                                        <td th:text="${ticket.creationDate}"></td>
+                                        <td><a th:href="@{/tickets/{id}(id=${ticket.id})}">More Details</a></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <table class="table table-borderless" id="closedTickets" hidden>
+                                    <thead>
+                                    <tr class="border-bottom border-dark">
+                                        <th>Title</th>
+                                        <th>Submitter</th>
+                                        <th>Priority</th>
+                                        <th>Status</th>
+                                        <th>Created</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="border-top"
+                                        th:each="ticket : ${closedTickets}">
+                                        <td th:text="${ticket.title}"></td>
+                                        <td th:text="${ticket.submitter.fullName}"></td>
+                                        <td th:text="${ticket.priority.displayValue}" class="ticket-priority"></td>
+                                        <td th:text="${ticket.status.displayValue}" class="ticket-status"></td>
                                         <td th:text="${ticket.creationDate}"></td>
                                         <td><a th:href="@{/tickets/{id}(id=${ticket.id})}">More Details</a></td>
                                     </tr>

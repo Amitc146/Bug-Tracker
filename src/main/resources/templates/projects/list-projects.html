@@ -43,7 +43,7 @@
                                     <tr class="border-bottom border-dark">
                                         <th>Name</th>
                                         <th>Description</th>
-                                        <th class="text-center">Tickets</th>
+                                        <th class="text-center">Open Tickets</th>
                                         <th class="text-center">Users</th>
                                         <th></th>
                                         <th></th>
@@ -54,7 +54,7 @@
                                         th:each="project : ${projects}">
                                         <td th:text="${project.name}"></td>
                                         <td th:text="${project.description}"></td>
-                                        <td th:text="${project.tickets.size()}" class="text-center"></td>
+                                        <td th:text="${project.openTickets.size()}" class="text-center"></td>
                                         <td th:text="${project.users.size()}" class="text-center"></td>
                                         <td><a th:href="@{/projects/{id}(id=${project.id})}">More Details</a></td>
                                         <td sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')">

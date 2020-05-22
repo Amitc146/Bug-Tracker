@@ -22,30 +22,49 @@
             <!-- Page Content -->
             <div class="container-fluid">
 
-                <div class="row mx-4">
-                    <div class="m-5">
-                        <canvas id="ticketPriorityChart" height="300" width="300"></canvas>
+                <div class="custom-card-container">
 
-                        <script>
-                            const ticketPriorityCount = "[[${ticketPriorityCount}]]";
-                        </script>
+                    <!-- Header -->
+                    <div class="card-container-header">
+                        <h4 class="row">Dashboard </h4>
                     </div>
 
-                    <div class="m-5">
-                        <canvas id="ticketsProjectsChart" height="300" width="300"></canvas>
+                    <div class="row m-2 py-4 justify-content-around">
+                        <div class="col-11 m-2 p-0">
 
-                        <script>
-                            const ticketProjectCount = "[[${ticketProjectCount}]]";
-                        </script>
+                            <div class="row">
+                                <div class="card col-2 shadow m-2 p-0 bg-light">
+                                    <div class="card-body">
+                                        <canvas id="ticketPriorityChart" height="300" width="300"></canvas>
+                                        <script>
+                                            const ticketPriorityCount = "[[${ticketPriorityCount}]]";
+                                        </script>
+                                    </div>
+                                </div>
+
+                                <div class="card col-2 shadow m-2 p-0 bg-light">
+                                    <div class="card-body">
+                                        <canvas id="ticketsProjectsChart" height="300" width="300"></canvas>
+                                        <script>
+                                            const ticketProjectCount = "[[${ticketProjectCount}]]";
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- End of Page Content -->
-
-
         </div>
-        <th:block th:replace="layouts :: layoutFooter"></th:block>
+
     </div>
+    <!-- End of Page Content -->
+
+
+</div>
+<th:block th:replace="layouts :: layoutFooter"></th:block>
+</div>
 
 </div>
 

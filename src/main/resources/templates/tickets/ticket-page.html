@@ -39,7 +39,7 @@
 
                     <div class="row border-bottom justify-content-between px-4 pb-5 m-4">
                         <!-- Ticket Details -->
-                        <div class="card col-xl-4 shadow m-2 p-0">
+                        <div class="card col-lg-4 col-xl-5 shadow m-2 p-0">
                             <div class="card-header py-3">
                                 <h5 class="m-0 font-weight-bold">Ticket Details</h5>
                             </div>
@@ -52,7 +52,10 @@
                                     </div>
                                     <div class="col m-2 p-0">
                                         <h6 class="font-weight-bold">Project</h6>
-                                        <span th:text="*{ticket.project.name}"></span>
+                                        <span>
+                                            <a th:href="@{/projects/{id}(id=${ticket.project.id})}"
+                                               th:text="*{ticket.project.name}"></a>
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="row border-bottom m-2 py-2 justify-content-around">
@@ -85,7 +88,7 @@
                         </div>
 
                         <!-- Comments -->
-                        <div class="card col-xl-7 m-2 p-0 shadow">
+                        <div class="card col-lg-7 col-xl-6 m-2 p-0 shadow">
                             <div class="card-header py-3">
                                 <h5 class="m-0 font-weight-bold">Ticket Comments</h5>
                             </div>
@@ -128,10 +131,10 @@
 
                                     <input type="hidden" th:field="${comment.user.id}"/>
 
-                                    <input class="form-control col-9 mx-3" type="text" placeholder="Add Comment"
+                                    <input class="form-control col-lg-9 mx-3" type="text" placeholder="Add Comment"
                                            required maxlength="60"
                                            th:field="${comment.text}">
-                                    <button type="submit" class="btn btn-primary col-2">Submit</button>
+                                    <button type="submit" class="btn btn-primary col-lg-2">Submit</button>
 
                                 </form>
 

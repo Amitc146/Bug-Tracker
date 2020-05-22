@@ -129,6 +129,10 @@ public class Ticket {
         }
     }
 
+    public boolean isOpen() {
+        return this.status == TicketStatus.OPEN;
+    }
+
     @Override
     public String toString() {
         return "Ticket{" +

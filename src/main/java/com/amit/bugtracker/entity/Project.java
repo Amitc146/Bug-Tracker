@@ -1,6 +1,7 @@
 package com.amit.bugtracker.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -61,6 +62,17 @@ public class Project {
 
     public List<Ticket> getTickets() {
         return tickets;
+    }
+
+    public List<Ticket> getOpenTickets() {
+        List<Ticket> tempTickets = new ArrayList<>();
+        if (tickets != null) {
+            for (Ticket t : tickets) {
+                if (t.isOpen())
+                    tempTickets.add(t);
+            }
+        }
+        return tempTickets;
     }
 
     public void setTickets(List<Ticket> tickets) {
