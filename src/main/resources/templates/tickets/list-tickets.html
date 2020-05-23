@@ -61,7 +61,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr class="border-top" th:each="ticket : ${openTickets}">
+                                    <tr class="border-top tickets-list" th:each="ticket : ${openTickets}">
                                         <td th:text="${ticket.title}"></td>
                                         <td th:text="${ticket.project.name}"></td>
                                         <td th:text="${ticket.submitter.fullName}"></td>
@@ -101,7 +101,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr class="border-top" th:each="ticket : ${closedTickets}">
+                                    <tr class="border-top tickets-list" th:each="ticket : ${closedTickets}">
                                         <td th:text="${ticket.title}"></td>
                                         <td th:text="${ticket.project.name}"></td>
                                         <td th:text="${ticket.submitter.fullName}"></td>

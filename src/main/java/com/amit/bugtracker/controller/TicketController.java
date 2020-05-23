@@ -1,6 +1,7 @@
 package com.amit.bugtracker.controller;
 
 import com.amit.bugtracker.entity.*;
+import com.amit.bugtracker.service.CommentService;
 import com.amit.bugtracker.service.ProjectService;
 import com.amit.bugtracker.service.TicketService;
 import com.amit.bugtracker.service.UserService;
@@ -21,11 +22,13 @@ public class TicketController {
     private final TicketService ticketService;
     private final ProjectService projectService;
     private final UserService userService;
+    private final CommentService commentService;
 
-    public TicketController(TicketService ticketService, ProjectService projectService, UserService userService) {
+    public TicketController(TicketService ticketService, ProjectService projectService, UserService userService, CommentService commentService) {
         this.ticketService = ticketService;
         this.projectService = projectService;
         this.userService = userService;
+        this.commentService = commentService;
     }
 
     @GetMapping("/all")
@@ -141,7 +144,7 @@ public class TicketController {
     @PostMapping("/{ticketId}/saveComment")
     public String saveComment(@ModelAttribute("comment") Comment comment, @PathVariable("ticketId") int ticketId) {
         comment.setCreationDate(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        ticketService.saveComment(comment);
+        commentService.save(comment);
 
         return "redirect:/tickets/" + ticketId;
     }
@@ -149,7 +152,7 @@ public class TicketController {
     @GetMapping("/deleteComment")
     public String deleteComment(@RequestParam("commentId") int commentId, Authentication auth) {
         User user = userService.findByUserName(auth.getName());
-        Comment comment = ticketService.findCommentById(commentId);
+        Comment comment = commentService.findById(commentId);
 
         // Check if the user is allowed to delete this comment
         if (!user.equals(comment.getUser()) && !user.isAdmin()) {
@@ -159,7 +162,7 @@ public class TicketController {
         // Getting the ticket id for the redirection
         int ticketId = comment.getTicket().getId();
 
-        ticketService.deleteComment(comment);
+        commentService.delete(comment);
 
         return "redirect:/tickets/" + ticketId;
     }

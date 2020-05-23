@@ -1,13 +1,11 @@
-const openTickets = Array.from(document.querySelectorAll("#openTickets"));
-const closedTickets = Array.from(document.querySelectorAll("#closedTickets"));
-
-toggleClosedTickets(closedTickets);
-togglePriorityColors(openTickets);
+toggleClosedTickets();
+togglePriorityColors();
 setTabs();
 
 // Low opacity for closed tickets
-function toggleClosedTickets(tickets) {
-    for (let ticket of tickets) {
+function toggleClosedTickets() {
+    const closedTickets = Array.from(document.querySelectorAll("#closedTickets .tickets-list"));
+    for (let ticket of closedTickets) {
         let status = ticket.querySelector(".ticket-status").textContent;
         if (status === "Closed") {
             ticket.classList.add("closed-ticket");
@@ -16,10 +14,10 @@ function toggleClosedTickets(tickets) {
 }
 
 // Red color for high priority tickets
-function togglePriorityColors(tickets) {
-    for (let ticket of tickets) {
+function togglePriorityColors() {
+    const openTickets = Array.from(document.querySelectorAll("#openTickets .tickets-list"));
+    for (let ticket of openTickets) {
         let priority = ticket.querySelector(".ticket-priority");
-
         if (priority.textContent === "High") {
             priority.classList.add("mild-red");
         }

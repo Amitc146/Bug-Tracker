@@ -3,7 +3,6 @@ package com.amit.bugtracker.service;
 import com.amit.bugtracker.chart.ChartData;
 import com.amit.bugtracker.dao.CommentRepository;
 import com.amit.bugtracker.dao.TicketRepository;
-import com.amit.bugtracker.entity.Comment;
 import com.amit.bugtracker.entity.Project;
 import com.amit.bugtracker.entity.Ticket;
 import com.amit.bugtracker.entity.Ticket.TicketStatus;
@@ -27,9 +26,7 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public List<Ticket> findAll() {
-        List<Ticket> tickets = ticketRepository.findAll();
-
-        return tickets;
+        return ticketRepository.findAll();
     }
 
     @Override
@@ -114,34 +111,6 @@ public class TicketServiceImpl implements TicketService {
         return ticketRepository.getAllProjects();
     }
 
-    @Override
-    public void saveComment(Comment comment) {
-        commentRepository.save(comment);
-    }
-
-    @Override
-    public void deleteCommentById(Integer id) {
-        commentRepository.deleteById(id);
-    }
-
-    @Override
-    public void deleteComment(Comment comment) {
-        commentRepository.delete(comment);
-    }
-
-    @Override
-    public Comment findCommentById(Integer id) {
-        Optional<Comment> result = commentRepository.findById(id);
-
-        Comment comment;
-        if (result.isPresent()) {
-            comment = result.get();
-        } else {
-            throw new RuntimeException("Did not find comment id - " + id);
-        }
-
-        return comment;
-    }
 
     private void sortByPriority(List<Ticket> tickets) {
         tickets.sort(Comparator.comparing(Ticket::getPriority).reversed());

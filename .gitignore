@@ -1,12 +1,7 @@
 *.sql
-mvnw
-mvnw.cmd
-/src/test
-/src/main/resources/templates/old
 *.properties
 
 HELP.md
-target/
 
 ### Maven ###
 target/

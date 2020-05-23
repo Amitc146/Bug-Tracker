@@ -32,17 +32,17 @@ public class HomeController {
         jsonString = objectMapper.writeValueAsString(ticketsProjectData);
         model.addAttribute("ticketProjectCount", jsonString);
 
-        return "index";
+        return "main/index";
     }
 
     @GetMapping("/login")
     public String showMyLoginPage() {
-        return "login";
+        return "security/login";
     }
 
     @GetMapping("/access-denied")
     public String accessDenied() {
-        return "access-denied";
+        return "error-pages/access-denied";
     }
 
 
