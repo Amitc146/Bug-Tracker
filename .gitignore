@@ -1,5 +1,6 @@
 *.sql
 *.properties
+*.log
 
 HELP.md
 

@@ -48,15 +48,8 @@ public class ProjectController {
     }
 
     @GetMapping("/{projectId}")
-    public String showProject(@PathVariable int projectId, Authentication auth, Model model) {
-        User user = userService.findByUserName(auth.getName());
-
+    public String showProject(@PathVariable int projectId, Model model) {
         Project project = projectService.findById(projectId);
-
-        // Checking if the user is assigned to this project
-        if (!project.getUsers().contains(user)) {
-            return "access-denied";
-        }
 
         List<Ticket> openTickets = ticketService.findAllByProjectAndStatus(project, "open");
         List<Ticket> closedTickets = ticketService.findAllByProjectAndStatus(project, "closed");
@@ -98,6 +91,5 @@ public class ProjectController {
 
         return "redirect:/projects";
     }
-
 
 }

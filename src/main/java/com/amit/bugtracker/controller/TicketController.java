@@ -44,8 +44,6 @@ public class TicketController {
 
     @GetMapping
     public String listUserTickets(Authentication auth, Model model) {
-
-        // Getting a list of the user's tickets
         User user = userService.findByUserName(auth.getName());
         List<Ticket> openTickets = ticketService.findAllByUserAndStatus(user, "open");
         List<Ticket> closedTickets = ticketService.findAllByUserAndStatus(user, "closed");
@@ -60,17 +58,10 @@ public class TicketController {
     @GetMapping("/{ticketId}")
     public String showTicket(@PathVariable int ticketId, Authentication auth, Model model) {
         User user = userService.findByUserName(auth.getName());
-
         Ticket ticket = ticketService.findById(ticketId);
-
-        // Checking if the user is assigned to the ticket's project
-        if (!ticket.getProject().getUsers().contains(user)) {
-            return "access-denied";
-        }
 
         // Adding a comment in case the user will try to add one
         model.addAttribute("comment", new Comment(ticket, user));
-
         model.addAttribute("ticket", ticket);
 
         return "/tickets/ticket-page";
@@ -108,18 +99,15 @@ public class TicketController {
 
     @GetMapping("/{ticketId}/update")
     public String updateTicket(@PathVariable("ticketId") int ticketId, Authentication auth, Model model) {
-
-        // Getting the user's projects
         User user = userService.findByUserName(auth.getName());
-        List<Project> projects = projectService.findAllByUser(user);
-
-        // Getting the ticket info
         Ticket ticket = ticketService.findById(ticketId);
 
-        // Check if the user has permission to edit this ticket
-        if (!ticket.getSubmitter().equals(user)) {
-            return "access-denied";
+        // Only the submitter, admin or manager are allowed to update the ticket
+        if (!ticket.getSubmitter().equals(user) && !user.isAdmin() && !user.isManager()) {
+            return "error-pages/access-denied";
         }
+
+        List<Project> projects = projectService.findAllByUser(user);
 
         model.addAttribute("ticket", ticket);
         model.addAttribute("projects", projects);
@@ -135,7 +123,10 @@ public class TicketController {
     }
 
     @GetMapping("/delete")
-    public String deleteTicket(@RequestParam("ticketId") int id) {
+    public String deleteTicket(@RequestParam("ticketId") int id, Authentication auth) {
+        User user = userService.findByUserName(auth.getName());
+        Ticket ticket = ticketService.findById(id);
+
         ticketService.deleteById(id);
 
         return "redirect:/tickets";
@@ -154,14 +145,12 @@ public class TicketController {
         User user = userService.findByUserName(auth.getName());
         Comment comment = commentService.findById(commentId);
 
-        // Check if the user is allowed to delete this comment
-        if (!user.equals(comment.getUser()) && !user.isAdmin()) {
-            return "access-denied";
+        // Only the commenter, admin or manager are allowed to delete the comment
+        if (!user.equals(comment.getUser()) && !user.isAdmin() && !user.isManager()) {
+            return "error-pages/access-denied";
         }
 
-        // Getting the ticket id for the redirection
         int ticketId = comment.getTicket().getId();
-
         commentService.delete(comment);
 
         return "redirect:/tickets/" + ticketId;
