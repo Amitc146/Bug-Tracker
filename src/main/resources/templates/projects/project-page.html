@@ -86,16 +86,17 @@
                                     <a class="col mr-4 text-right"
                                        th:href="@{/tickets/new(project=${project.id})}">Create Ticket</a>
                                 </div>
-                                <ul class="nav nav-tabs card-header-tabs">
+                                <ul class="nav nav-tabs card-header-tabs" id="tabLinks">
                                     <li class="nav-item">
-                                        <a class="nav-link active" href="#" id="openTicketsLink">Open</a>
+                                        <a class="nav-link active" href="#">Open</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#" id="closedTicketsLink">Closed</a>
+                                        <a class="nav-link" href="#">Closed</a>
                                     </li>
                                 </ul>
                             </div>
                             <div class="card-body">
+                                <!-- Open Tickets -->
                                 <table class="table table-borderless" id="openTickets">
                                     <thead>
                                     <tr class="border-bottom border-dark">
@@ -108,7 +109,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr class="border-top"
+                                    <tr class="border-top tickets-list"
                                         th:each="ticket : ${openTickets}">
                                         <td th:text="${ticket.title}"></td>
                                         <td th:text="${ticket.submitter.fullName}"></td>
@@ -120,6 +121,7 @@
                                     </tbody>
                                 </table>
 
+                                <!-- Closed Tickets -->
                                 <table class="table table-borderless" id="closedTickets" hidden>
                                     <thead>
                                     <tr class="border-bottom border-dark">
@@ -132,7 +134,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr class="border-top"
+                                    <tr class="border-top tickets-list"
                                         th:each="ticket : ${closedTickets}">
                                         <td th:text="${ticket.title}"></td>
                                         <td th:text="${ticket.submitter.fullName}"></td>
@@ -157,7 +159,8 @@
 </div>
 
 <th:block th:replace="layouts :: layoutScripts"></th:block>
-<script th:src="@{/js/ticket-lists.js}"></script>
+<script th:src="@{/js/project-page.js}"></script>
+<script th:src="@{/js/tickets-style.js}"></script>
 </body>
 
 </html>

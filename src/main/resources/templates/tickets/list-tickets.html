@@ -36,18 +36,63 @@
                         <div class="card col-xl-11 shadow m-2 p-0">
 
                             <div class="card-header">
-                                <ul class="nav nav-tabs card-header-tabs">
+                                <ul class="nav nav-tabs card-header-tabs" id="tabLinks">
                                     <li class="nav-item">
-                                        <a class="nav-link active" href="#" id="openTicketsLink">Open</a>
+                                        <a class="nav-link active" href="#">My Tickets</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#" id="closedTicketsLink">Closed</a>
+                                        <a class="nav-link" href="#">All Tickets</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Closed Tickets</a>
                                     </li>
                                 </ul>
                             </div>
 
                             <div class="card-body">
-                                <table class="table table-borderless table-hover" id="openTickets">
+                                <!-- My Tickets -->
+                                <table class="table table-borderless table-hover" id="myTickets">
+                                    <thead>
+                                    <tr class="border-bottom border-dark">
+                                        <th>Title</th>
+                                        <th>Project</th>
+                                        <th>Submitter</th>
+                                        <th>Priority</th>
+                                        <th>Status</th>
+                                        <th>Created</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="border-top tickets-list" th:each="ticket : ${openUserTickets}">
+                                        <td th:text="${ticket.title}"></td>
+                                        <td th:text="${ticket.project.name}"></td>
+                                        <td th:text="${ticket.submitter.fullName}"></td>
+                                        <td th:text="${ticket.priority.displayValue}" class="ticket-priority"></td>
+                                        <td th:text="${ticket.status.displayValue}" class="ticket-status"></td>
+                                        <td th:text="${ticket.creationDate}"></td>
+                                        <td><a th:href="@{/tickets/{id}(id=${ticket.id})}">More Details</a></td>
+                                        <td>
+                                            <a th:href="@{/tickets/{id}/update(id=${ticket.id})}"
+                                               class="custom-buttons">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <span sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')">
+                                                |
+                                                <a th:href="@{/tickets/delete(ticketId=${ticket.id})}"
+                                                   class="mild-red"
+                                                   onclick="if (!(confirm('Are you sure you want to delete this ticket?'))) return false">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <!-- All Tickets -->
+                                <table class="table table-borderless table-hover" id="allTickets" hidden>
                                     <thead>
                                     <tr class="border-bottom border-dark">
                                         <th>Title</th>
@@ -87,6 +132,7 @@
                                     </tbody>
                                 </table>
 
+                                <!-- Closed Tickets -->
                                 <table class="table table-borderless table-hover" id="closedTickets" hidden>
                                     <thead>
                                     <tr class="border-bottom border-dark">
@@ -143,7 +189,8 @@
 
 
 <th:block th:replace="layouts :: layoutScripts"></th:block>
-<script th:src="@{/js/ticket-lists.js}"></script>
+<script th:src="@{/js/list-tickets.js}"></script>
+<script th:src="@{/js/tickets-style.js}"></script>
 </body>
 
 </html>

@@ -31,25 +31,16 @@ public class TicketController {
         this.commentService = commentService;
     }
 
-    @GetMapping("/all")
-    public String listTickets(Model model) {
-        List<Ticket> openTickets = ticketService.findAllByStatus("open");
-        List<Ticket> closedTickets = ticketService.findAllByStatus("closed");
-
-        model.addAttribute("openTickets", openTickets);
-        model.addAttribute("closedTickets", closedTickets);
-
-        return "tickets/list-tickets";
-    }
-
     @GetMapping
     public String listUserTickets(Authentication auth, Model model) {
         User user = userService.findByUserName(auth.getName());
-        List<Ticket> openTickets = ticketService.findAllByUserAndStatus(user, "open");
-        List<Ticket> closedTickets = ticketService.findAllByUserAndStatus(user, "closed");
+        List<Ticket> openTickets = ticketService.findAllByStatus("open");
+        List<Ticket> closedTickets = ticketService.findAllByStatus("closed");
+        List<Ticket> openUserTickets = ticketService.findAllByUserAndStatus(user, "open");
 
         model.addAttribute("openTickets", openTickets);
         model.addAttribute("closedTickets", closedTickets);
+        model.addAttribute("openUserTickets", openUserTickets);
 
         return "tickets/list-tickets";
     }

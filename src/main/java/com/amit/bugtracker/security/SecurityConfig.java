@@ -32,11 +32,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/users/**").hasRole("ADMIN")
-                .antMatchers("/projects/all", "/projects/*/update", "/projects/new",
+                .antMatchers("/users/new", "/users/delete", "/users/", "/users/*/update").hasRole("ADMIN")
+                .antMatchers("/projects/*/update", "/projects/new",
                         "/projects/save", "/projects/delete").hasAnyRole("MANAGER", "ADMIN")
                 .antMatchers("/tickets/delete").hasAnyRole("MANAGER", "ADMIN")
-                .antMatchers("/", "/projects", "/projects/*", "/tickets", "/tickets/*", "/profile").authenticated()
+                .antMatchers("/", "/projects", "/projects/*", "/tickets", "/tickets/*", "/profile", "/users").authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")

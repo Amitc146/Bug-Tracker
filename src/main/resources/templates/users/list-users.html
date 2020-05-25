@@ -66,7 +66,7 @@
                                             </a>
                                             |
                                             <a th:href="@{/users/delete(user=${user.id})}"
-                                               class="text-danger"
+                                               class="mild-red"
                                                sec:authorize="hasRole('ROLE_ADMIN')"
                                                onclick="if (!(confirm('Are you sure you want to delete this project?'))) return false">
                                                 <i class="fas fa-trash"></i>

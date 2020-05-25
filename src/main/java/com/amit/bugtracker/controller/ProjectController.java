@@ -27,22 +27,14 @@ public class ProjectController {
         this.userService = userService;
     }
 
-    @GetMapping("/all")
-    public String listProjects(Model model) {
-        List<Project> projects = projectService.findAll();
-        model.addAttribute("projects", projects);
-
-        return "projects/list-projects";
-    }
-
     @GetMapping
     public String listUserProjects(Authentication auth, Model model) {
-
-        // Getting a list of the user's projects
         User user = userService.findByUserName(auth.getName());
         List<Project> userProjects = projectService.findAllByUser(user);
+        List<Project> allProjects = projectService.findAll();
 
-        model.addAttribute("projects", userProjects);
+        model.addAttribute("userProjects", userProjects);
+        model.addAttribute("allProjects", allProjects);
 
         return "projects/list-projects";
     }
