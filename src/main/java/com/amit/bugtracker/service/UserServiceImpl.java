@@ -1,5 +1,6 @@
 package com.amit.bugtracker.service;
 
+import com.amit.bugtracker.chart.ChartData;
 import com.amit.bugtracker.dao.UserRepository;
 import com.amit.bugtracker.entity.Role;
 import com.amit.bugtracker.entity.User;

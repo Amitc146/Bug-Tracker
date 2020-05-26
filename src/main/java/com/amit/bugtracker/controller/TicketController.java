@@ -31,16 +31,25 @@ public class TicketController {
         this.commentService = commentService;
     }
 
-    @GetMapping
+    @GetMapping("/myTickets")
     public String listUserTickets(Authentication auth, Model model) {
         User user = userService.findByUserName(auth.getName());
-        List<Ticket> openTickets = ticketService.findAllByStatus("open");
-        List<Ticket> closedTickets = ticketService.findAllByStatus("closed");
-        List<Ticket> openUserTickets = ticketService.findAllByUserAndStatus(user, "open");
+        List<Ticket> openTickets = ticketService.findAllByUserAndStatus(user, "open");
+        List<Ticket> closedTickets = ticketService.findAllByUserAndStatus(user, "closed");
 
         model.addAttribute("openTickets", openTickets);
         model.addAttribute("closedTickets", closedTickets);
-        model.addAttribute("openUserTickets", openUserTickets);
+
+        return "tickets/list-tickets";
+    }
+
+    @GetMapping("/allTickets")
+    public String listAllTickets(Model model) {
+        List<Ticket> openTickets = ticketService.findAllByStatus("open");
+        List<Ticket> closedTickets = ticketService.findAllByStatus("closed");
+
+        model.addAttribute("openTickets", openTickets);
+        model.addAttribute("closedTickets", closedTickets);
 
         return "tickets/list-tickets";
     }
@@ -51,11 +60,15 @@ public class TicketController {
         User user = userService.findByUserName(auth.getName());
         Ticket ticket = ticketService.findById(ticketId);
 
-        // Adding a comment in case the user will try to add one
-        model.addAttribute("comment", new Comment(ticket, user));
-        model.addAttribute("ticket", ticket);
+        if (isAllowedToView(user, ticket)) {
+            // Adding a comment in case the user will try to add one
+            model.addAttribute("comment", new Comment(ticket, user));
+            model.addAttribute("ticket", ticket);
 
-        return "/tickets/ticket-page";
+            return "/tickets/ticket-page";
+        }
+
+        return "error-pages/access-denied";
     }
 
 
@@ -69,9 +82,17 @@ public class TicketController {
 
         // If project selected
         if (projectId != null && projectId > 0) {
+            Project project = projectService.findById(projectId);
+
+            // Check if the user has permission to add a ticket to this project
+            if (!project.getUsers().contains(user) && !user.isManager() && !user.isAdmin()) {
+                return "error-pages/access-denied";
+            }
+
             projects = new ArrayList<>();
-            projects.add(projectService.findById(projectId));
+            projects.add(project);
         }
+
         // If no project selected
         else {
             projects = projectService.findAllByUser(user);
@@ -94,16 +115,16 @@ public class TicketController {
         Ticket ticket = ticketService.findById(ticketId);
 
         // Only the submitter, admin or manager are allowed to update the ticket
-        if (!ticket.getSubmitter().equals(user) && !user.isAdmin() && !user.isManager()) {
-            return "error-pages/access-denied";
+        if (isAllowedToEdit(user, ticket)) {
+            List<Project> projects = projectService.findAllByUser(user);
+
+            model.addAttribute("ticket", ticket);
+            model.addAttribute("projects", projects);
+
+            return "tickets/ticket-form";
         }
 
-        List<Project> projects = projectService.findAllByUser(user);
-
-        model.addAttribute("ticket", ticket);
-        model.addAttribute("projects", projects);
-
-        return "tickets/ticket-form";
+        return "error-pages/access-denied";
     }
 
     @PostMapping("/save")
@@ -118,9 +139,12 @@ public class TicketController {
         User user = userService.findByUserName(auth.getName());
         Ticket ticket = ticketService.findById(id);
 
-        ticketService.deleteById(id);
+        if (isAllowedToEdit(user, ticket)) {
+            ticketService.deleteById(id);
+            return "redirect:/tickets/myTickets";
+        }
 
-        return "redirect:/tickets";
+        return "error-pages/access-denied";
     }
 
     @PostMapping("/{ticketId}/saveComment")
@@ -147,4 +171,11 @@ public class TicketController {
         return "redirect:/tickets/" + ticketId;
     }
 
+    private boolean isAllowedToView(User user, Ticket ticket) {
+        return (ticket.getProject().getUsers().contains(user) || user.isManager() || user.isAdmin());
+    }
+
+    private boolean isAllowedToEdit(User user, Ticket ticket) {
+        return (ticket.getSubmitter().equals(user) || user.isManager() || user.isAdmin());
+    }
 }

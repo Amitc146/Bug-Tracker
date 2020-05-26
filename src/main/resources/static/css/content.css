@@ -15,8 +15,9 @@ textarea {
 
 .card-container-header h4 {
     color: #00FF99;
-    padding: .5rem 1rem .8rem;
+    padding: 1rem 1rem 1rem;
     margin: 0;
+    font-weight: 600;
 }
 
 .card-container-header div {
@@ -26,25 +27,34 @@ textarea {
     margin: 0;
 }
 
-.card-container-header a {
-    color: white;
-    text-decoration: underline;
-}
-
-.card-container-header a:hover {
-    color: #00FF99;
+.high-priority-ticket {
+    color: #ff0048;
+    font-weight: 500;
 }
 
 .closed-ticket {
     opacity: .6;
 }
 
-.mild-red {
+.delete-button {
     color: #ff0048;
-    font-weight: 500;
+    padding: 0.3rem 0.4rem;
 }
 
-body .custom-buttons {
+.delete-button:hover {
+    color: #ffffff;
+    background-color: #ff0048;
+    text-decoration: none;
+}
+
+.edit-button {
+    color: #0777ff;
+    padding: 0.3rem 0.4rem;
+}
+
+.edit-button:hover {
+    color: #ffffff;
+    background-color: #0777ff;
     text-decoration: none;
 }
 

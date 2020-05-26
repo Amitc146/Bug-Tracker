@@ -47,7 +47,7 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - Dashboard -->
+            <!-- Dashboard -->
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/}">
                     <i class="fas fa-fw fa-chart-pie"></i>
@@ -57,45 +57,62 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-            <!-- Nav Item -->
+            <!-- My Projects -->
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/projects}">
+                <a class="nav-link" th:href="@{/projects/myProjects}">
                     <i class="fas fa-fw fa-folder-open"></i>
                     <span>My Projects</span>
                 </a>
             </li>
 
-            <!-- Nav Item -->
+            <!-- My Tickets -->
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/tickets}">
+                <a class="nav-link" th:href="@{/tickets/myTickets}">
                     <i class="fas fa-fw fa-list-ul"></i>
                     <span>My Tickets</span>
                 </a>
             </li>
 
-            <!-- Nav Item -->
+            <!-- User Profile -->
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/profile}">
-                    <i class="far fa-fw fa-user"></i>
+                    <i class="fas fa-user-circle"></i>
                     <span>User Profile</span>
                 </a>
             </li>
 
-            <!-- Admin Section -->
-            <div sec:authorize="hasRole('ROLE_ADMIN')">
+            <!-- Users -->
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/users}">
+                    <i class="fas fa-users"></i>
+                    <span>Users</span>
+                </a>
+            </li>
+
+            <!-- Manage Section -->
+            <div sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')">
 
                 <!-- Divider -->
                 <hr class="sidebar-divider">
 
                 <!-- Heading -->
                 <div class="sidebar-heading">
-                    Admin
+                    Manage
                 </div>
 
+                <!-- Projects -->
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/users}">
-                        <i class="fas fa-users-cog"></i>
-                        <span>Users</span>
+                    <a class="nav-link" th:href="@{/projects/allProjects}">
+                        <i class="fas fa-folder-plus"></i>
+                        <span>Projects</span>
+                    </a>
+                </li>
+
+                <!-- Tickets -->
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/tickets/allTickets}">
+                        <i class="far fa-list-alt"></i>
+                        <span>Tickets</span>
                     </a>
                 </li>
             </div>

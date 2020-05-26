@@ -27,30 +27,41 @@ public class ProjectController {
         this.userService = userService;
     }
 
-    @GetMapping
+    @GetMapping("/myProjects")
     public String listUserProjects(Authentication auth, Model model) {
         User user = userService.findByUserName(auth.getName());
         List<Project> userProjects = projectService.findAllByUser(user);
-        List<Project> allProjects = projectService.findAll();
 
-        model.addAttribute("userProjects", userProjects);
-        model.addAttribute("allProjects", allProjects);
+        model.addAttribute("projects", userProjects);
+
+        return "projects/list-projects";
+    }
+
+    @GetMapping("/allProjects")
+    public String listAllProjects(Model model) {
+        List<Project> projects = projectService.findAll();
+        model.addAttribute("projects", projects);
 
         return "projects/list-projects";
     }
 
     @GetMapping("/{projectId}")
-    public String showProject(@PathVariable int projectId, Model model) {
+    public String showProject(@PathVariable int projectId, Authentication auth, Model model) {
+        User user = userService.findByUserName(auth.getName());
         Project project = projectService.findById(projectId);
 
-        List<Ticket> openTickets = ticketService.findAllByProjectAndStatus(project, "open");
-        List<Ticket> closedTickets = ticketService.findAllByProjectAndStatus(project, "closed");
+        if (isAllowedToView(user, project)) {
+            List<Ticket> openTickets = ticketService.findAllByProjectAndStatus(project, "open");
+            List<Ticket> closedTickets = ticketService.findAllByProjectAndStatus(project, "closed");
 
-        model.addAttribute("openTickets", openTickets);
-        model.addAttribute("closedTickets", closedTickets);
-        model.addAttribute("project", project);
+            model.addAttribute("openTickets", openTickets);
+            model.addAttribute("closedTickets", closedTickets);
+            model.addAttribute("project", project);
 
-        return "projects/project-page";
+            return "projects/project-page";
+        }
+
+        return "error-pages/access-denied";
     }
 
     @GetMapping("/new")
@@ -81,7 +92,10 @@ public class ProjectController {
     public String deleteProject(@RequestParam("project") int id) {
         projectService.deleteById(id);
 
-        return "redirect:/projects";
+        return "redirect:/projects/allProjects";
     }
 
+    private boolean isAllowedToView(User user, Project project) {
+        return (project.getUsers().contains(user) || user.isManager() || user.isAdmin());
+    }
 }

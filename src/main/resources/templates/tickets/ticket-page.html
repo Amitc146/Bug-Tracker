@@ -27,14 +27,16 @@
                     <!-- Header -->
                     <div class="card-container-header">
                         <h4 class="row">Ticket Information</h4>
-                        <div class="row">
-                            <a th:href="@{/tickets/{id}/update(id=${ticket.id})}">Edit Ticket</a>
-                            &nbsp;&nbsp;
-                            <a sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')"
-                               th:href="@{/tickets/delete(ticketId=${ticket.id})}"
-                               onclick="if (!(confirm('Are you sure you want to delete this ticket?'))) return false">
-                                Delete Ticket</a>
-                        </div>
+                    </div>
+
+                    <div class="row m-2 pb-2 justify-content-end"
+                         th:if="${ticket.submitter.userName} == ${session.user.userName}">
+                        <a class="btn btn-outline-info mx-1"
+                           th:href="@{/tickets/{id}/update(id=${ticket.id})}">Edit Ticket</a>
+                        <a class="btn btn-outline-danger mx-1"
+                           th:href="@{/tickets/delete(ticketId=${ticket.id})}"
+                           onclick="if (!(confirm('Are you sure you want to delete this ticket?'))) return false">
+                            Delete Ticket</a>
                     </div>
 
                     <div class="row justify-content-around px-2 pb-5 m-4">
@@ -106,13 +108,14 @@
                                         </thead>
                                         <tbody>
                                         <tr class="border-top" th:each="comment : ${ticket.comments}">
-                                            <td style="width: 15%"
+                                            <td style="width: 20%"
                                                 th:text="${comment.user.fullName}"></td>
-                                            <td style="width: 71%" th:text="${comment.text}"></td>
-                                            <td style="width: 11%" th:text="${comment.creationDate}"></td>
-                                            <td style="width: 3%;">
-                                                <a th:href="@{/tickets/deleteComment(commentId=${comment.id})}"
-                                                   class="mild-red"
+                                            <td style="width: 68%" th:text="${comment.text}"></td>
+                                            <td style="width: 10%" th:text="${comment.creationDate}"></td>
+                                            <td style="width: 2%;">
+                                                <a th:if="${comment.user.userName} == ${session.user.userName}"
+                                                   th:href="@{/tickets/deleteComment(commentId=${comment.id})}"
+                                                   class="delete-button"
                                                    onclick="if (!(confirm('Delete this comment?'))) return false">
                                                     <i class="fas fa-times"></i>
                                                 </a>

@@ -1,5 +1,6 @@
 package com.amit.bugtracker.service;
 
+import com.amit.bugtracker.chart.ChartData;
 import com.amit.bugtracker.entity.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 

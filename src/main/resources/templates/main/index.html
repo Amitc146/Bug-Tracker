@@ -30,23 +30,20 @@
                     </div>
 
                     <div class="row m-2 p-4">
-                        <div class="card col-lg-4 col-xl-5 shadow m-2 p-0">
+                        <div class="card col-lg-8 shadow m-2 p-0">
                             <div class="card-header py-3">
                                 <h5 class="m-0 font-weight-bold">Tickets Statistics</h5>
                             </div>
                             <div class="card-body bg-white">
                                 <div class="row justify-content-center">
-                                    <div class="col-5 border-right">
+                                    <div class="col-4 border-right">
                                         <canvas id="ticketPriorityChart" height="300" width="300"></canvas>
-                                        <script>
-                                            const ticketPriorityCount = "[[${ticketPriorityCount}]]";
-                                        </script>
                                     </div>
-                                    <div class="col-5">
+                                    <div class="col-4 border-right">
                                         <canvas id="ticketsProjectsChart" height="300" width="300"></canvas>
-                                        <script>
-                                            const ticketProjectCount = "[[${ticketProjectCount}]]";
-                                        </script>
+                                    </div>
+                                    <div class="col-4">
+                                        <canvas id="userRolesChart" height="300" width="300"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -65,6 +62,16 @@
 </div>
 
 </div>
+
+<script>
+    const ticketPriorityCount = "[[${ticketPriorityCount}]]";
+</script>
+<script>
+    const ticketProjectCount = "[[${ticketProjectCount}]]";
+</script>
+<script>
+    const userRolesCount = "[[${userRolesCount}]]";
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.js"></script>
 <script type="text/javascript" th:src="@{/js/charts.js}"></script>

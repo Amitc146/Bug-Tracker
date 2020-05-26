@@ -1,74 +1,118 @@
+ticketPriorityChart(ticketPriorityCount);
+ticketsProjectsChart(ticketProjectCount)
+userRolesChart(userRolesCount);
 
-// Ticket priority data for pie chart
-const ticketPriorityJsonArray = getChartJsonArray(ticketPriorityCount);
+function ticketPriorityChart(ticketPriorityCount) {
+    const jsonArray = getChartJsonArray(ticketPriorityCount);
 
-const ticketPriorityNumericData = [];
-const ticketPriorityLabelData = [];
+    const labelData = [];
+    const numericData = [];
 
-for (let i = 0; i < ticketPriorityJsonArray.length; i++) {
-    ticketPriorityNumericData[i] = ticketPriorityJsonArray[i].value;
-    ticketPriorityLabelData[i] = ticketPriorityJsonArray[i].label;
+    for (let i = 0; i < jsonArray.length; i++) {
+        labelData[i] = jsonArray[i].label;
+        numericData[i] = jsonArray[i].value;
+    }
+
+    const myChart = new Chart(document.getElementById("ticketPriorityChart"), {
+        type: 'pie',
+        data: {
+            labels: labelData,
+            datasets: [{
+                backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f"],
+                data: numericData
+            }]
+        },
+
+        options: {
+            legend: {
+                display: false
+            },
+            title: {
+                display: true,
+                text: 'Ticket Priorities'
+            },
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
 }
 
-// Pie chart for ticket priorities
-new Chart(document.getElementById("ticketPriorityChart"), {
-    type: 'pie',
-    data: {
-        labels: ticketPriorityLabelData,
-        datasets: [{
-            backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f"],
-            data: ticketPriorityNumericData
-        }]
-    },
+function userRolesChart(userRolesCount) {
+    const jsonArray = getChartJsonArray(userRolesCount);
 
-    options: {
-        legend: {
-            display: false
-        },
-        title: {
-            display: true,
-            text: 'Ticket Priorities'
-        },
-        responsive: true,
-        maintainAspectRatio: false
+    const labelData = [];
+    const numericData = [];
+
+    labelData[0] = "Employee";
+    labelData[1] = "Manager";
+    labelData[2] = "Admin";
+
+    for (let i = 0; i < jsonArray.length; i++) {
+        numericData[i] = jsonArray[i].value;
     }
-});
 
+    const myChart = new Chart(document.getElementById("userRolesChart"), {
+        type: 'doughnut',
+        data: {
+            labels: labelData,
+            datasets: [{
+                backgroundColor: ["#ff0059", "#00ffa6", "#6200ff"],
+                data: numericData
+            }]
+        },
 
-// Project tickets data for pie chart
-const ticketProjectJsonArray = getChartJsonArray(ticketProjectCount);
-
-const ticketProjectsNumericData = [];
-const ticketProjectsLabelData = [];
-
-for (let i = 0; i < ticketProjectJsonArray.length; i++) {
-    ticketProjectsNumericData[i] = ticketProjectJsonArray[i].value;
-    ticketProjectsLabelData[i] = 'Project ' + ticketProjectJsonArray[i].label;
+        options: {
+            legend: {
+                display: false
+            },
+            title: {
+                display: true,
+                text: 'Users by Role'
+            },
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
 }
 
-// Pie chart for project tickets
-new Chart(document.getElementById("ticketsProjectsChart"), {
-    type: 'pie',
-    data: {
-        labels: ticketProjectsLabelData,
-        datasets: [{
-            backgroundColor: ["#34c7e0", "#ff8da4", "#6524c4", "#ad591c", "#abcdef", "#af42af", "#11925e", "#f6ba6f"],
-            data: ticketProjectsNumericData
-        }]
-    },
 
-    options: {
-        legend: {
-            display: false
-        },
-        title: {
-            display: true,
-            text: 'Tickets per Project'
-        },
-        responsive: true,
-        maintainAspectRatio: false
+function ticketsProjectsChart(ticketProjectCount) {
+    const jsonArray = getChartJsonArray(ticketProjectCount);
+
+    const labelData = [];
+    const numericData = [];
+
+    for (let i = 0; i < jsonArray.length; i++) {
+        labelData[i] = 'Project ' + jsonArray[i].label;
+        numericData[i] = jsonArray[i].value;
     }
-});
+
+    const myChart = new Chart(document.getElementById("ticketsProjectsChart"), {
+        type: 'pie',
+        data: {
+            labels: labelData,
+            datasets: [{
+                backgroundColor: ["#34c7e0", "#ff8da4", "#6524c4", "#ad591c", "#abcdef", "#af42af", "#11925e", "#f6ba6f"],
+                data: numericData
+            }]
+        },
+
+        options: {
+            legend: {
+                display: false
+            },
+            title: {
+                display: true,
+                text: 'Tickets per Project'
+            },
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+}
+
+
+
 
 function getChartJsonArray(chartData) {
     const chartDataStr = decodeHtml(chartData);

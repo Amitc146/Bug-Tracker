@@ -8,7 +8,7 @@ function setTicketsStyles(tickets) {
         let status = ticket.querySelector(".ticket-status");
 
         if (priority.textContent === "High" && status.textContent !== "Closed") {
-            priority.classList.add("mild-red");
+            priority.classList.add("high-priority-ticket");
         }
 
         if (status.textContent === "Closed") {

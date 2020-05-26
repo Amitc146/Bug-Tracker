@@ -43,7 +43,7 @@
                                     <div class="form-group row">
                                         <label class="col-xl-12 col-form-label form-control-label">Project</label>
                                         <div class="col-xl-12">
-                                            <select class="form-control custom-select"
+                                            <select class="form-control"
                                                     th:field="*{project}">
                                                 <option th:each="project : ${projects}"
                                                         th:value="${project.id}"
@@ -68,6 +68,19 @@
                                         </div>
                                     </div>
 
+                                    <!-- Status -->
+                                    <div class="form-group row">
+                                        <label class="col-xl-12 col-form-label form-control-label">Status</label>
+                                        <div class="col-xl-12">
+                                            <select class="form-control"
+                                                    th:field="*{status}">
+                                                <option th:each="status : ${ticket.status.values()}"
+                                                        th:value="${status}"
+                                                        th:utext="${status.displayValue}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+
                                     <!-- Priority -->
                                     <div class="form-group row">
                                         <label class="col-xl-12 col-form-label form-control-label">Priority</label>
@@ -78,20 +91,6 @@
                                                        class="custom-control-input" required>
                                                 <label class="custom-control-label" th:for="${p}"
                                                        th:text="${p.displayValue}"></label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Status -->
-                                    <div class="form-group row">
-                                        <label class="col-xl-12 col-form-label form-control-label">Status</label>
-                                        <div class="col-xl-12">
-                                            <div class="custom-control custom-radio custom-control-inline"
-                                                 th:each="s : ${ticket.status.values()}">
-                                                <input type="radio" th:field="*{status}" th:id="${s}" th:value="${s}"
-                                                       class="custom-control-input" required>
-                                                <label class="custom-control-label" th:for="${s}"
-                                                       th:text="${s.displayValue}"></label>
                                             </div>
                                         </div>
                                     </div>
