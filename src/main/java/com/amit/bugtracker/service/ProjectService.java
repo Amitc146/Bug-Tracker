@@ -1,5 +1,6 @@
 package com.amit.bugtracker.service;
 
+import com.amit.bugtracker.chart.ChartData;
 import com.amit.bugtracker.entity.Project;
 import com.amit.bugtracker.entity.User;
 
@@ -16,5 +17,7 @@ public interface ProjectService {
     void save(Project project);
 
     void deleteById(Integer id);
+
+    List<ChartData> getUserCount();
 
 }

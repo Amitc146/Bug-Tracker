@@ -1,5 +1,6 @@
 package com.amit.bugtracker.service;
 
+import com.amit.bugtracker.chart.ChartData;
 import com.amit.bugtracker.dao.ProjectRepository;
 import com.amit.bugtracker.entity.Project;
 import com.amit.bugtracker.entity.User;
@@ -51,4 +52,8 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.deleteById(id);
     }
 
+    @Override
+    public List<ChartData> getUserCount() {
+        return projectRepository.getUserCount();
+    }
 }

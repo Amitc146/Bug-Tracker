@@ -1,6 +1,7 @@
 package com.amit.bugtracker.controller;
 
 import com.amit.bugtracker.chart.ChartData;
+import com.amit.bugtracker.service.ProjectService;
 import com.amit.bugtracker.service.RoleService;
 import com.amit.bugtracker.service.TicketService;
 import com.amit.bugtracker.service.UserService;
@@ -17,10 +18,12 @@ public class HomeController {
 
     private final TicketService ticketService;
     private final RoleService roleService;
+    private final ProjectService projectService;
 
-    public HomeController(TicketService ticketService, RoleService roleService) {
+    public HomeController(TicketService ticketService, RoleService roleService, ProjectService projectService) {
         this.ticketService = ticketService;
         this.roleService = roleService;
+        this.projectService = projectService;
     }
 
     @GetMapping("/")
@@ -28,10 +31,12 @@ public class HomeController {
         List<ChartData> ticketsPriorityData = ticketService.getAllPriorities();
         List<ChartData> ticketsProjectData = ticketService.getAllProjects();
         List<ChartData> userRolesData = roleService.getRolesCount();
+        List<ChartData> projectUsersData = projectService.getUserCount();
 
         ObjectMapper objectMapper = new ObjectMapper();
+        String jsonString;
 
-        String jsonString = objectMapper.writeValueAsString(ticketsPriorityData);
+        jsonString = objectMapper.writeValueAsString(ticketsPriorityData);
         model.addAttribute("ticketPriorityCount", jsonString);
 
         jsonString = objectMapper.writeValueAsString(ticketsProjectData);
@@ -39,6 +44,9 @@ public class HomeController {
 
         jsonString = objectMapper.writeValueAsString(userRolesData);
         model.addAttribute("userRolesCount", jsonString);
+
+        jsonString = objectMapper.writeValueAsString(projectUsersData);
+        model.addAttribute("projectUsersCount", jsonString);
 
         return "main/index";
     }

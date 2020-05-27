@@ -1,6 +1,8 @@
 ticketPriorityChart(ticketPriorityCount);
 ticketsProjectsChart(ticketProjectCount)
+ticketsProjectsChart2(ticketProjectCount)
 userRolesChart(userRolesCount);
+projectUsersChart(projectUsersCount);
 
 function ticketPriorityChart(ticketPriorityCount) {
     const jsonArray = getChartJsonArray(ticketPriorityCount);
@@ -9,7 +11,8 @@ function ticketPriorityChart(ticketPriorityCount) {
     const numericData = [];
 
     for (let i = 0; i < jsonArray.length; i++) {
-        labelData[i] = jsonArray[i].label;
+        let tempString = jsonArray[i].label.toLowerCase();
+        labelData[i] = tempString.charAt(0).toUpperCase() + tempString.slice(1);
         numericData[i] = jsonArray[i].value;
     }
 
@@ -18,7 +21,7 @@ function ticketPriorityChart(ticketPriorityCount) {
         data: {
             labels: labelData,
             datasets: [{
-                backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f"],
+                backgroundColor: ["#d1db46", "#48ceb2", "#d73d54"],
                 data: numericData
             }]
         },
@@ -29,10 +32,10 @@ function ticketPriorityChart(ticketPriorityCount) {
             },
             title: {
                 display: true,
-                text: 'Ticket Priorities'
+                text: 'Open tickets Priorities'
             },
             responsive: true,
-            maintainAspectRatio: false
+            maintainAspectRatio: false,
         }
     });
 }
@@ -83,7 +86,7 @@ function ticketsProjectsChart(ticketProjectCount) {
     const numericData = [];
 
     for (let i = 0; i < jsonArray.length; i++) {
-        labelData[i] = 'Project ' + jsonArray[i].label;
+        labelData[i] = jsonArray[i].label;
         numericData[i] = jsonArray[i].value;
     }
 
@@ -92,7 +95,7 @@ function ticketsProjectsChart(ticketProjectCount) {
         data: {
             labels: labelData,
             datasets: [{
-                backgroundColor: ["#34c7e0", "#ff8da4", "#6524c4", "#ad591c", "#abcdef", "#af42af", "#11925e", "#f6ba6f"],
+                backgroundColor: ["#8e5ea2", "#4dc6db", "#ff8da4", "#3cba9f", "#abcdef", "#11925e", "#f6ba6f"],
                 data: numericData
             }]
         },
@@ -112,6 +115,90 @@ function ticketsProjectsChart(ticketProjectCount) {
 }
 
 
+function ticketsProjectsChart2(ticketProjectCount) {
+    const jsonArray = getChartJsonArray(ticketProjectCount);
+
+    const labelData = [];
+    const numericData = [];
+
+    for (let i = 0; i < jsonArray.length; i++) {
+        labelData[i] = jsonArray[i].label;
+        numericData[i] = jsonArray[i].value;
+    }
+
+    const myChart = new Chart(document.getElementById("ticketsProjectsChart2"), {
+        type: 'bar',
+        data: {
+            labels: labelData,
+            datasets: [{
+                backgroundColor: ['rgba(0,183,255,0.3)',
+                    'rgba(0,255,146,0.3)',
+                    'rgba(255,230,0,0.3)',
+                    'rgba(157,0,255,0.3)'
+                ],
+                borderWidth: 1,
+                borderColor: "#000000",
+                barPercentage: 0.8,
+                data: numericData,
+            }]
+        },
+
+        options: {
+            legend: {
+                display: false
+            },
+            title: {
+                display: true,
+                text: 'Tickets per Project'
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                xAxes: [{
+                    stacked: true
+                }],
+                yAxes: [{
+                    stacked: true
+                }]
+            }
+        }
+    });
+}
+
+function projectUsersChart(projectUsersCount) {
+    const jsonArray = getChartJsonArray(projectUsersCount);
+
+    const labelData = [];
+    const numericData = [];
+
+    for (let i = 0; i < jsonArray.length; i++) {
+        labelData[i] = jsonArray[i].label;
+        numericData[i] = jsonArray[i].value;
+    }
+
+    const myChart = new Chart(document.getElementById("projectUsersChart"), {
+        type: 'doughnut',
+        data: {
+            labels: labelData,
+            datasets: [{
+                backgroundColor: ["#9e71de", "#11925e", "#f6ba6f", "#fc5522", "#11a7f6"],
+                data: numericData
+            }]
+        },
+
+        options: {
+            legend: {
+                display: false
+            },
+            title: {
+                display: true,
+                text: 'Number of users assigned to each project'
+            },
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+}
 
 
 function getChartJsonArray(chartData) {
