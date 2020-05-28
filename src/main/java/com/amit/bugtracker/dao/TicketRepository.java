@@ -13,11 +13,17 @@ import static com.amit.bugtracker.entity.Ticket.*;
 
 public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 
-    @Query(nativeQuery = true, value = "SELECT priority as label, COUNT(*) as value " +
+    List<Ticket> findAllByStatus(TicketStatus status);
+
+    List<Ticket> findAllByProjectAndStatus(Project project, TicketStatus status);
+
+    List<Ticket> findAllByProjectUsersContainingAndStatus(User user, TicketStatus status);
+
+    @Query(nativeQuery = true, value = "SELECT lower(priority) as label, COUNT(*) as value " +
             "FROM ticket " +
             "WHERE ticket.status = 'OPEN'" +
             "GROUP BY priority")
-    List<ChartData> getAllPriorities();
+    List<ChartData> getPrioritiesChartData();
 
     @Query(nativeQuery = true, value = "SELECT name as label, COUNT(*) as value " +
             "FROM ticket " +
@@ -25,12 +31,11 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
             "ON project.id = ticket.project_id " +
             "WHERE ticket.status = 'OPEN'" +
             "GROUP BY project_id")
-    List<ChartData> getAllProjects();
+    List<ChartData> getProjectsChartData();
 
-    List<Ticket> findAllByStatus(TicketStatus status);
-
-    List<Ticket> findAllByProjectAndStatus(Project project, TicketStatus status);
-
-    List<Ticket> findAllByProjectUsersContainingAndStatus(User user, TicketStatus status);
+    @Query(nativeQuery = true, value = "SELECT lower(status) as label, count(*) as value " +
+            "FROM ticket " +
+            "GROUP BY status")
+    List<ChartData> getStatusChartData();
 
 }

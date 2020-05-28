@@ -18,6 +18,4 @@ public interface ProjectService {
 
     void deleteById(Integer id);
 
-    List<ChartData> getUserCount();
-
 }

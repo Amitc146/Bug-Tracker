@@ -18,20 +18,21 @@ public class HomeController {
 
     private final TicketService ticketService;
     private final RoleService roleService;
-    private final ProjectService projectService;
+    private final UserService userService;
 
-    public HomeController(TicketService ticketService, RoleService roleService, ProjectService projectService) {
+    public HomeController(TicketService ticketService, RoleService roleService, UserService userService) {
         this.ticketService = ticketService;
         this.roleService = roleService;
-        this.projectService = projectService;
+        this.userService = userService;
     }
 
     @GetMapping("/")
     public String showHome(Model model) throws JsonProcessingException {
-        List<ChartData> ticketsPriorityData = ticketService.getAllPriorities();
-        List<ChartData> ticketsProjectData = ticketService.getAllProjects();
+        List<ChartData> ticketsPriorityData = ticketService.getPrioritiesChartData();
+        List<ChartData> ticketsProjectData = ticketService.getProjectsChartData();
+        List<ChartData> ticketsStatusData = ticketService.getStatusChartData();
         List<ChartData> userRolesData = roleService.getRolesCount();
-        List<ChartData> projectUsersData = projectService.getUserCount();
+        List<ChartData> userProjectsData = userService.getProjectsCount();
 
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonString;
@@ -42,11 +43,14 @@ public class HomeController {
         jsonString = objectMapper.writeValueAsString(ticketsProjectData);
         model.addAttribute("ticketProjectCount", jsonString);
 
+        jsonString = objectMapper.writeValueAsString(ticketsStatusData);
+        model.addAttribute("ticketStatusCount", jsonString);
+
         jsonString = objectMapper.writeValueAsString(userRolesData);
         model.addAttribute("userRolesCount", jsonString);
 
-        jsonString = objectMapper.writeValueAsString(projectUsersData);
-        model.addAttribute("projectUsersCount", jsonString);
+        jsonString = objectMapper.writeValueAsString(userProjectsData);
+        model.addAttribute("userProjectsCount", jsonString);
 
         return "main/index";
     }

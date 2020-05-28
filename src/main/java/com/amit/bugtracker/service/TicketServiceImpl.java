@@ -102,15 +102,19 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public List<ChartData> getAllPriorities() {
-        return ticketRepository.getAllPriorities();
+    public List<ChartData> getPrioritiesChartData() {
+        return ticketRepository.getPrioritiesChartData();
     }
 
     @Override
-    public List<ChartData> getAllProjects() {
-        return ticketRepository.getAllProjects();
+    public List<ChartData> getProjectsChartData() {
+        return ticketRepository.getProjectsChartData();
     }
 
+    @Override
+    public List<ChartData> getStatusChartData() {
+        return ticketRepository.getStatusChartData();
+    }
 
     private void sortByPriority(List<Ticket> tickets) {
         tickets.sort(Comparator.comparing(Ticket::getPriority).reversed());

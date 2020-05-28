@@ -23,8 +23,9 @@ public interface TicketService {
 
     void deleteById(Integer id);
 
-    List<ChartData> getAllPriorities();
+    List<ChartData> getPrioritiesChartData();
 
-    List<ChartData> getAllProjects();
+    List<ChartData> getProjectsChartData();
 
+    List<ChartData> getStatusChartData();
 }

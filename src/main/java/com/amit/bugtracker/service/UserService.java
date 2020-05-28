@@ -18,4 +18,6 @@ public interface UserService extends UserDetailsService {
 
     List<User> findAll();
 
+    List<ChartData> getProjectsCount();
+
 }

@@ -29,31 +29,14 @@
                         <h4 class="row">Dashboard</h4>
                     </div>
 
-                    <div class="row m-2 p-2 justify-content-center">
-                        <div class="card col-xl-6 shadow m-2 p-0">
-                            <div class="card-header py-3">
+                    <div class="row p-0 py-2 justify-content-center">
+                        <!-- Projects Statistics -->
+                        <div class="card col-xl-10 shadow m-2 p-0">
+                            <div class="card-header">
                                 <h5 class="m-0 font-weight-bold">Projects Statistics</h5>
                             </div>
                             <div class="card-body bg-white">
-                                <div class="row justify-content-center">
-                                    <div class="col-8">
-                                        <canvas id="ticketsProjectsChart2" height="400" width="400"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row m-2 p-2 justify-content-center">
-                        <div class="card col-xl-8 shadow m-2 p-0">
-                            <div class="card-header py-3">
-                                <h5 class="m-0 font-weight-bold">Tickets Statistics</h5>
-                            </div>
-                            <div class="card-body bg-white">
-                                <div class="row justify-content-center">
-                                    <div class="col-5 border-right">
-                                        <canvas id="ticketPriorityChart" height="300" width="300"></canvas>
-                                    </div>
+                                <div class="row justify-content-around">
                                     <div class="col-5">
                                         <canvas id="ticketsProjectsChart" height="300" width="300"></canvas>
                                     </div>
@@ -62,9 +45,27 @@
                         </div>
                     </div>
 
-                    <div class="row m-2 p-2 justify-content-center">
-                        <div class="card col-xl-8 shadow m-2 p-0">
-                            <div class="card-header py-3">
+                    <div class="row p-2 justify-content-center">
+                        <!-- Tickets Statistics -->
+                        <div class="card col-xl-5 shadow m-2 p-0">
+                            <div class="card-header">
+                                <h5 class="m-0 font-weight-bold">Tickets Statistics</h5>
+                            </div>
+                            <div class="card-body bg-white">
+                                <div class="row justify-content-center">
+                                    <div class="col-5 border-right">
+                                        <canvas id="ticketPriorityChart" height="300" width="300"></canvas>
+                                    </div>
+                                    <div class="col-5">
+                                        <canvas id="ticketStatusChart" height="300" width="300"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Users Statistics -->
+                        <div class="card col-xl-5 shadow m-2 p-0">
+                            <div class="card-header">
                                 <h5 class="m-0 font-weight-bold">Users Statistics</h5>
                             </div>
                             <div class="card-body bg-white">
@@ -73,7 +74,7 @@
                                         <canvas id="userRolesChart" height="300" width="300"></canvas>
                                     </div>
                                     <div class="col-5">
-                                        <canvas id="projectUsersChart" height="300" width="300"></canvas>
+                                        <canvas id="userProjectsChart" height="300" width="300"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -101,10 +102,13 @@
     const ticketProjectCount = "[[${ticketProjectCount}]]";
 </script>
 <script>
+    const ticketStatusCount = "[[${ticketStatusCount}]]";
+</script>
+<script>
     const userRolesCount = "[[${userRolesCount}]]";
 </script>
 <script>
-    const projectUsersCount = "[[${projectUsersCount}]]";
+    const userProjectsCount = "[[${userProjectsCount}]]";
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.js"></script>

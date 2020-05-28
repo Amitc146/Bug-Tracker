@@ -52,8 +52,4 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.deleteById(id);
     }
 
-    @Override
-    public List<ChartData> getUserCount() {
-        return projectRepository.getUserCount();
-    }
 }

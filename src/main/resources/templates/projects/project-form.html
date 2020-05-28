@@ -55,7 +55,7 @@
                                     <div class="form-group row justify-content-start">
                                         <label class="col-xl-12 col-form-label form-control-label">Users</label>
                                         <div class="col-xl-5">
-                                            <select multiple class="form-control"
+                                            <select multiple class="form-control" required
                                                     th:field="*{users}">
                                                 <option th:each="tempUser : ${users}"
                                                         th:value="${tempUser.id}"
