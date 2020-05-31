@@ -1,6 +1,6 @@
 package com.amit.bugtracker.dao;
 
-import com.amit.bugtracker.chart.ChartData;
+import com.amit.bugtracker.dto.ChartData;
 import com.amit.bugtracker.entity.Project;
 import com.amit.bugtracker.entity.Ticket;
 import com.amit.bugtracker.entity.User;

@@ -1,4 +1,4 @@
-package com.amit.bugtracker.chart;
+package com.amit.bugtracker.dto;
 
 public interface ChartData {
 

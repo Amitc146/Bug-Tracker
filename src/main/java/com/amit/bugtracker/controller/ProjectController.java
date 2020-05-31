@@ -3,6 +3,8 @@ package com.amit.bugtracker.controller;
 import com.amit.bugtracker.entity.Project;
 import com.amit.bugtracker.entity.Ticket;
 import com.amit.bugtracker.entity.User;
+import com.amit.bugtracker.exception.AccessDeniedException;
+import com.amit.bugtracker.exception.DemoUserException;
 import com.amit.bugtracker.service.ProjectService;
 import com.amit.bugtracker.service.TicketService;
 import com.amit.bugtracker.service.UserService;
@@ -50,18 +52,18 @@ public class ProjectController {
         User user = userService.findByUserName(auth.getName());
         Project project = projectService.findById(projectId);
 
-        if (isAllowedToView(user, project)) {
-            List<Ticket> openTickets = ticketService.findAllByProjectAndStatus(project, "open");
-            List<Ticket> closedTickets = ticketService.findAllByProjectAndStatus(project, "closed");
-
-            model.addAttribute("openTickets", openTickets);
-            model.addAttribute("closedTickets", closedTickets);
-            model.addAttribute("project", project);
-
-            return "projects/project-page";
+        if (!isAllowedToView(user, project)) {
+            throw new AccessDeniedException(String.format("User '%s' is not allowed to view project id='%d'", user.getUserName(), project.getId()));
         }
 
-        return "error-pages/access-denied";
+        List<Ticket> openTickets = ticketService.findAllByProjectAndStatus(project, "open");
+        List<Ticket> closedTickets = ticketService.findAllByProjectAndStatus(project, "closed");
+
+        model.addAttribute("openTickets", openTickets);
+        model.addAttribute("closedTickets", closedTickets);
+        model.addAttribute("project", project);
+
+        return "projects/project-page";
     }
 
     @GetMapping("/new")
@@ -82,14 +84,22 @@ public class ProjectController {
     }
 
     @PostMapping("/save")
-    public String saveProject(@ModelAttribute("project") Project project) {
+    public String saveProject(@ModelAttribute("project") Project project, Authentication auth) {
+
+        // Blocking demo users from changing stuff
+        demoUserCheck(userService.findByUserName(auth.getName()));
+
         projectService.save(project);
 
         return "redirect:/projects/" + project.getId();
     }
 
     @GetMapping("/delete")
-    public String deleteProject(@RequestParam("project") int id) {
+    public String deleteProject(@RequestParam("project") int id, Authentication auth) {
+
+        // Blocking demo users from changing stuff
+        demoUserCheck(userService.findByUserName(auth.getName()));
+
         projectService.deleteById(id);
 
         return "redirect:/projects/allProjects";
@@ -98,4 +108,11 @@ public class ProjectController {
     private boolean isAllowedToView(User user, Project project) {
         return (project.getUsers().contains(user) || user.isManager() || user.isAdmin());
     }
+
+    private void demoUserCheck(User user) {
+        if (user.getFirstName().equals("Demo")) {
+            throw new DemoUserException("Access denied - Demo user");
+        }
+    }
+
 }

@@ -131,8 +131,12 @@
             <th:block th:fragment="layoutNavbar">
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-                    <div>Hello, <span sec:authentication="name"></span>
+                    <div>Hello, <span th:text="${currentUser.firstName}"></span>
                     </div>
+
+                    <div class="topbar-divider d-none d-sm-block"></div>
+
+                    <div>Logged in as: <span th:text="${currentUser.roles}"></span></div>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">

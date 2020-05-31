@@ -1,9 +1,11 @@
 package com.amit.bugtracker.controller;
 
 import com.amit.bugtracker.entity.User;
+import com.amit.bugtracker.exception.DemoUserException;
 import com.amit.bugtracker.service.RoleService;
 import com.amit.bugtracker.service.UserService;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -52,7 +54,11 @@ public class UserController {
     }
 
     @GetMapping("/delete")
-    public String deleteUser(@RequestParam("user") Integer id) {
+    public String deleteUser(@RequestParam("user") Integer id, Authentication auth) {
+
+        // Blocking demo users from changing stuff
+        demoUserCheck(userService.findByUserName(auth.getName()));
+
         userService.deleteById(id);
 
         return "redirect:/users";
@@ -60,7 +66,10 @@ public class UserController {
 
     @PostMapping("/save")
     public String saveUser(@Valid @ModelAttribute("user") User user,
-                           BindingResult bindingResult, Model model) {
+                           BindingResult bindingResult, Model model, Authentication auth) {
+
+        // Blocking demo users from changing stuff
+        demoUserCheck(userService.findByUserName(auth.getName()));
 
         // Form validation
         if (bindingResult.hasErrors()) {
@@ -92,4 +101,9 @@ public class UserController {
     }
 
 
+    private void demoUserCheck(User user) {
+        if (user.getFirstName().equals("Demo")) {
+            throw new DemoUserException("Access denied - Demo user");
+        }
+    }
 }

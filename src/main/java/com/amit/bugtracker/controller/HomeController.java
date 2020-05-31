@@ -1,7 +1,6 @@
 package com.amit.bugtracker.controller;
 
-import com.amit.bugtracker.chart.ChartData;
-import com.amit.bugtracker.service.ProjectService;
+import com.amit.bugtracker.dto.ChartData;
 import com.amit.bugtracker.service.RoleService;
 import com.amit.bugtracker.service.TicketService;
 import com.amit.bugtracker.service.UserService;
@@ -60,20 +59,4 @@ public class HomeController {
         return "security/login";
     }
 
-    @GetMapping("/access-denied")
-    public String accessDenied() {
-        return "error-pages/access-denied";
-    }
-
-
 }
-
-
-
-
-
-
-
-
-
-

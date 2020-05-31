@@ -1,10 +1,7 @@
 package com.amit.bugtracker.controller;
 
-import com.amit.bugtracker.entity.User;
 import com.amit.bugtracker.service.UserService;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -20,10 +17,7 @@ public class ProfileController {
     }
 
     @GetMapping
-    public String showProfile(Authentication authentication, Model model) {
-        User user = userService.findByUserName(authentication.getName());
-        model.addAttribute("user", user);
-
+    public String showProfile() {
         return "profile/user-profile";
     }
 

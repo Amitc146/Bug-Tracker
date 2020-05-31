@@ -1,6 +1,6 @@
 package com.amit.bugtracker.service;
 
-import com.amit.bugtracker.chart.ChartData;
+import com.amit.bugtracker.dto.ChartData;
 import com.amit.bugtracker.dao.CommentRepository;
 import com.amit.bugtracker.dao.TicketRepository;
 import com.amit.bugtracker.entity.Project;

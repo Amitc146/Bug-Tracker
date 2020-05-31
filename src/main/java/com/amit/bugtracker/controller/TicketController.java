@@ -1,6 +1,8 @@
 package com.amit.bugtracker.controller;
 
 import com.amit.bugtracker.entity.*;
+import com.amit.bugtracker.exception.AccessDeniedException;
+import com.amit.bugtracker.exception.DemoUserException;
 import com.amit.bugtracker.service.CommentService;
 import com.amit.bugtracker.service.ProjectService;
 import com.amit.bugtracker.service.TicketService;
@@ -60,15 +62,17 @@ public class TicketController {
         User user = userService.findByUserName(auth.getName());
         Ticket ticket = ticketService.findById(ticketId);
 
-        if (isAllowedToView(user, ticket)) {
-            // Adding a comment in case the user will try to add one
-            model.addAttribute("comment", new Comment(ticket, user));
-            model.addAttribute("ticket", ticket);
-
-            return "/tickets/ticket-page";
+        if (!isAllowedToView(user, ticket)) {
+            throw new AccessDeniedException(String.format("User '%s' is not allowed to view ticket id='%d'",
+                    user.getUserName(), ticket.getId()));
         }
 
-        return "error-pages/access-denied";
+        // Adding a comment in case the user will try to add one
+        model.addAttribute("comment", new Comment(ticket, user));
+
+        model.addAttribute("ticket", ticket);
+
+        return "/tickets/ticket-page";
     }
 
 
@@ -86,7 +90,8 @@ public class TicketController {
 
             // Check if the user has permission to add a ticket to this project
             if (!project.getUsers().contains(user) && !user.isManager() && !user.isAdmin()) {
-                return "error-pages/access-denied";
+                throw new AccessDeniedException(String.format("User '%s' is not allowed to add a comment to ticket id='%d'",
+                        user.getUserName(), ticket.getId()));
             }
 
             projects = new ArrayList<>();
@@ -115,20 +120,25 @@ public class TicketController {
         Ticket ticket = ticketService.findById(ticketId);
 
         // Only the submitter, admin or manager are allowed to update the ticket
-        if (isAllowedToEdit(user, ticket)) {
-            List<Project> projects = projectService.findAllByUser(user);
-
-            model.addAttribute("ticket", ticket);
-            model.addAttribute("projects", projects);
-
-            return "tickets/ticket-form";
+        if (!isAllowedToEdit(user, ticket)) {
+            throw new AccessDeniedException(String.format("User '%s' is not allowed to update ticket id=%d",
+                    user.getUserName(), ticket.getId()));
         }
 
-        return "error-pages/access-denied";
+        List<Project> projects = projectService.findAllByUser(user);
+
+        model.addAttribute("ticket", ticket);
+        model.addAttribute("projects", projects);
+
+        return "tickets/ticket-form";
     }
 
     @PostMapping("/save")
-    public String saveTicket(@ModelAttribute("ticket") Ticket ticket) {
+    public String saveTicket(@ModelAttribute("ticket") Ticket ticket, Authentication auth) {
+
+        // Blocking demo users from changing stuff
+        demoUserCheck(userService.findByUserName(auth.getName()));
+
         ticketService.save(ticket);
 
         return "redirect:/tickets/" + ticket.getId();
@@ -137,18 +147,28 @@ public class TicketController {
     @GetMapping("/delete")
     public String deleteTicket(@RequestParam("ticketId") int id, Authentication auth) {
         User user = userService.findByUserName(auth.getName());
+
+        // Blocking demo users from changing stuff
+        demoUserCheck(user);
+
         Ticket ticket = ticketService.findById(id);
 
-        if (isAllowedToEdit(user, ticket)) {
-            ticketService.deleteById(id);
-            return "redirect:/tickets/myTickets";
+        if (!isAllowedToEdit(user, ticket)) {
+            throw new AccessDeniedException(String.format("User %s is not allowed to delete ticket %d",
+                    user.getUserName(), ticket.getId()));
         }
 
-        return "error-pages/access-denied";
+        ticketService.deleteById(id);
+        return "redirect:/tickets/myTickets";
     }
 
     @PostMapping("/{ticketId}/saveComment")
-    public String saveComment(@ModelAttribute("comment") Comment comment, @PathVariable("ticketId") int ticketId) {
+    public String saveComment(@ModelAttribute("comment") Comment comment,
+                              @PathVariable("ticketId") int ticketId, Authentication auth) {
+
+        // Blocking demo users from changing stuff
+        demoUserCheck(userService.findByUserName(auth.getName()));
+
         comment.setCreationDate(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         commentService.save(comment);
 
@@ -158,11 +178,16 @@ public class TicketController {
     @GetMapping("/deleteComment")
     public String deleteComment(@RequestParam("commentId") int commentId, Authentication auth) {
         User user = userService.findByUserName(auth.getName());
+
+        // Blocking demo users from changing stuff
+        demoUserCheck(user);
+
         Comment comment = commentService.findById(commentId);
 
         // Only the commenter, admin or manager are allowed to delete the comment
         if (!user.equals(comment.getUser()) && !user.isAdmin() && !user.isManager()) {
-            return "error-pages/access-denied";
+            throw new AccessDeniedException(String.format("User %s is not allowed to delete comment %d",
+                    user.getUserName(), comment.getId()));
         }
 
         int ticketId = comment.getTicket().getId();
@@ -178,4 +203,11 @@ public class TicketController {
     private boolean isAllowedToEdit(User user, Ticket ticket) {
         return (ticket.getSubmitter().equals(user) || user.isManager() || user.isAdmin());
     }
+
+    private void demoUserCheck(User user) {
+        if (user.getFirstName().equals("Demo")) {
+            throw new DemoUserException("Access denied - Demo user");
+        }
+    }
+
 }

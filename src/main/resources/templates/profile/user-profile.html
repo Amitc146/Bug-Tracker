@@ -37,23 +37,28 @@
                                         <tbody>
                                         <tr>
                                             <th>Username</th>
-                                            <td th:text="${user.userName}"></td>
+                                            <!--/*@thymesVar id="currentUser" type="com.amit.bugtracker.entity.User"*/-->
+                                            <td th:text="${currentUser.userName}"></td>
                                         </tr>
                                         <tr>
                                             <th>Name</th>
-                                            <td th:text="${user.firstName} + ' ' + ${user.lastName}"></td>
+                                            <!--/*@thymesVar id="currentUser" type="com.amit.bugtracker.entity.User"*/-->
+                                            <td th:text="${currentUser.fullName}"></td>
                                         </tr>
                                         <tr>
                                             <th>Email</th>
-                                            <td th:text="${user.email}"></td>
+                                            <!--/*@thymesVar id="currentUser" type="com.amit.bugtracker.entity.User"*/-->
+                                            <td th:text="${currentUser.email}"></td>
                                         </tr>
                                         <tr>
                                             <th>Role</th>
-                                            <td th:each="role : ${user.roles}" th:text="${role}"></td>
+                                            <!--/*@thymesVar id="currentUser" type="com.amit.bugtracker.entity.User"*/-->
+                                            <td th:each="role : ${currentUser.roles}" th:text="${role}"></td>
                                         </tr>
                                         <tr>
                                             <th>Projects</th>
-                                            <td th:text="${user.projects.size()}"></td>
+                                            <!--/*@thymesVar id="currentUser" type="com.amit.bugtracker.entity.User"*/-->
+                                            <td th:text="${currentUser.projects.size()}"></td>
                                         </tr>
                                         </tbody>
                                     </table>

@@ -1,6 +1,6 @@
 package com.amit.bugtracker.dao;
 
-import com.amit.bugtracker.chart.ChartData;
+import com.amit.bugtracker.dto.ChartData;
 import com.amit.bugtracker.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public class UsernameValidator implements ConstraintValidator<ValidUsername, String> {
 
-    private static final String USERNAME_PATTERN = "^[a-z0-9_-]{3,16}$";
+    private static final String USERNAME_PATTERN = "^[a-zA-Z0-9_-]{3,16}$";
 
     @Override
     public boolean isValid(final String username, ConstraintValidatorContext context) {

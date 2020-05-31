@@ -1,5 +1,5 @@
 /*
-package com.amit.bugtracker.logging;
+package com.amit.bugtracker.aspect;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -18,10 +18,10 @@ public class ApplicationLoggerAspect {
     }
 
     @Pointcut("forControllerPackage()")
-    public void forAppFlow() {
+    public void loggingAspect() {
     }
 
-    @Before("forAppFlow()")
+    @Before("loggingAspect()")
     public void before(JoinPoint joinPoint) {
         String method = joinPoint.getSignature().toShortString();
         logger.debug("\n");
@@ -32,7 +32,7 @@ public class ApplicationLoggerAspect {
         }
     }
 
-    @AfterReturning(pointcut = "forAppFlow()", returning = "result")
+    @AfterReturning(pointcut = "loggingAspect()", returning = "result")
     public void afterReturning(JoinPoint joinPoint, Object result) {
         String method = joinPoint.getSignature().toShortString();
         logger.debug("\n");
