@@ -244,6 +244,23 @@
     color: #858796
 }
 
+.topbar button {
+    outline: none;
+}
+
+.topbar-user-button {
+    color: #484e65;
+    text-decoration: none;
+    background: none;
+    border: none;
+    font-size: 2rem;
+}
+
+.topbar-user-button:hover {
+    color: #3cb17a;
+    text-decoration: none;
+}
+
 #wrapper {
     display: flex
 }

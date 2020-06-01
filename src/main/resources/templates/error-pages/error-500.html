@@ -1,41 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 
 <head>
 
-    <th:block th:replace="layouts :: layoutHeader"></th:block>
-
-    <title th:replace="layouts :: layoutTitle"></title>
+    <title>500</title>
 
 </head>
 
 <body>
 
-<div id="wrapper">
-    <th:block th:replace="layouts :: layoutSidebar"></th:block>
+<h1>Gateway error: Error code 500</h1>
 
-    <div id="content-wrapper" class="d-flex flex-column">
-        <div id="content">
-            <th:block th:replace="layouts :: layoutNavbar"></th:block>
+<a href="/">Back to Home Page</a>
 
-            <!-- Page Content -->
-            <div class="container-fluid">
-                <h3>Oops</h3>
-                <p>
-
-                <h5>Gateway error: Error code 500</h5>
-
-                <a th:href="@{/}">Back to Home Page</a>
-            </div>
-            <!-- End of Page Content -->
-
-        </div>
-        <th:block th:replace="layouts :: layoutFooter"></th:block>
-    </div>
-
-</div>
-
-<th:block th:replace="layouts :: layoutScripts"></th:block>
 </body>
 
 </html>

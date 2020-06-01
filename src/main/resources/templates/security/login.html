@@ -37,12 +37,54 @@
                             Sign in
                         </button>
                     </form>
+
+                    <!-- Demo Login -->
+                    <div class="row justify-content-center mt-5">
+                        <a href="#" id="demoLoginLink">Sign in as a Demo User</a>
+                    </div>
+
+                    <!-- Demo Admin -->
+                    <div class="row justify-content-center mt-5 p-2" id="demoLogin" hidden="hidden">
+                        <div class="col-3 text-center demo-admin">
+                            <form class="form-signin" method="post" th:action="@{/authenticateUser}">
+                                <input type="hidden" name="username" value="DemoAdmin"/>
+                                <input type="hidden" name="password" value="demoadmin"/>
+                                <button type="submit"><i class="fas fa-user-tie"></i>
+                                    <div class="row justify-content-center">Admin</div>
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Demo Manager -->
+                        <div class="col-3 text-center demo-manager">
+                            <form class="form-signin" method="post" th:action="@{/authenticateUser}">
+                                <input type="hidden" name="username" value="DemoManager"/>
+                                <input type="hidden" name="password" value="demomanager"/>
+                                <button type="submit"><i class="fas fa-user-tie"></i>
+                                    <div class="row justify-content-center">Manager</div>
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Demo Employee -->
+                        <div class="col-3 text-center demo-employee">
+                            <form class="form-signin" method="post" th:action="@{/authenticateUser}">
+                                <input type="hidden" name="username" value="DemoEmployee"/>
+                                <input type="hidden" name="password" value="demoemployee"/>
+                                <button type="submit"><i class="fas fa-user-tie"></i>
+                                    <div class="row justify-content-center">Employee</div>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+<script th:src="@{/js/login.js}"></script>
 <th:block th:replace="layouts :: layoutScripts"></th:block>
 </body>
 

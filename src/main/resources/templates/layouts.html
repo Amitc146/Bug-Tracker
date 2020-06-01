@@ -73,14 +73,6 @@
                 </a>
             </li>
 
-            <!-- User Profile -->
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/profile}">
-                    <i class="fas fa-user-circle"></i>
-                    <span>User Profile</span>
-                </a>
-            </li>
-
             <!-- Users -->
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/users}">
@@ -131,58 +123,77 @@
             <th:block th:fragment="layoutNavbar">
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-                    <div>Hello, <span th:text="${currentUser.firstName}"></span>
+                    <div>Hello,
+                        <!--/*@thymesVar id="currentUser" type="com.amit.bugtracker.entity.User"*/-->
+                        <span th:text="${currentUser.firstName}"></span>
                     </div>
 
                     <div class="topbar-divider d-none d-sm-block"></div>
 
+                    <!--/*@thymesVar id="currentUser" type="com.amit.bugtracker.entity.User"*/-->
                     <div>Logged in as: <span th:text="${currentUser.roles}"></span></div>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                        <!-- Topbar divider -->
-                        <div class="topbar-divider d-none d-sm-block"></div>
-
                         <li class="nav-item">
-                            <button type="button" class="btn btn-danger" data-toggle="modal"
-                                    data-target="#logoutModal">Logout
-                            </button>
-                            <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
-                                 aria-labelledby="logoutModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="logoutModalLabel">Logout</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            Are you sure you want to logout?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary px-4" data-dismiss="modal">
-                                                Cancel
-                                            </button>
-                                            <form th:action="@{/logout}" method="POST">
-                                                <input type="submit" class="btn btn-primary px-4" value="Yes"
-                                                       th:action="@{/logout}" method="POST">
-                                            </form>
-                                        </div>
-                                    </div>
+                            <div class="dropdown">
+                                <button type="button" class="topbar-user-button"
+                                        id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                    <i class="fas fa-user-circle"></i>
+                                </button>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" th:href="@{/profile}">
+                                        User Profile
+                                    </a>
+
+                                    <div class="dropdown-divider"></div>
+
+                                    <button class="dropdown-item btn-white" data-toggle="modal"
+                                            data-target="#logoutModal">Logout
+                                    </button>
                                 </div>
                             </div>
                         </li>
                     </ul>
-
                 </nav>
+
+                <!-- Logout confirmation -->
+                <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+                     aria-labelledby="logoutModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="logoutModalLabel">Logout</h5>
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to logout?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary px-4"
+                                        data-dismiss="modal">
+                                    Cancel
+                                </button>
+                                <form th:action="@{/logout}" method="POST">
+                                    <input type="submit" class="btn btn-primary px-4" value="Yes"
+                                           th:action="@{/logout}" method="POST">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </th:block>
             <!-- End of Topbar -->
 
         </div>
         <!-- End of Main Content -->
-
 
         <!-- Footer -->
         <th:block th:fragment="layoutFooter">
