@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
-      lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
 
@@ -11,6 +10,8 @@
 </head>
 
 <body>
+
+<!--/*@thymesVar id="currentUser" type="com.amit.bugtracker.entity.User"*/-->
 
 <div id="wrapper">
     <th:block th:replace="layouts :: layoutSidebar"></th:block>
@@ -30,8 +31,8 @@
                     </div>
 
                     <!-- Manage Section -->
-                    <div class="row m-2 pb-2 justify-content-end"
-                         sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')">
+                    <div th:if="${currentUser.admin || currentUser.manager}"
+                         class="row m-2 pb-2 justify-content-end">
                         <a class="btn btn-outline-info mx-1"
                            th:href="@{/projects/{id}/update(id=${project.id})}">Edit Project</a>
                         <a class="btn btn-outline-danger mx-1"

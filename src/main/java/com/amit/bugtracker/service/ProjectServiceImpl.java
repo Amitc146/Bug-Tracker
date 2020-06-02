@@ -51,4 +51,12 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.deleteById(id);
     }
 
+    @Override
+    public List<Project> findAllByName(String name) {
+        if (name == null || name.isEmpty() || name.trim().isEmpty()) {
+            return null;
+        }
+
+        return projectRepository.findAllByNameIsContaining(name);
+    }
 }

@@ -120,4 +120,13 @@ public class TicketServiceImpl implements TicketService {
         tickets.sort(Comparator.comparing(Ticket::getPriority).reversed());
     }
 
+    @Override
+    public List<Ticket> findAllByName(String name) {
+        if (name == null || name.isEmpty() || name.trim().isEmpty()) {
+            return null;
+        }
+
+        return ticketRepository.findAllByTitleIsContaining(name);
+    }
+
 }

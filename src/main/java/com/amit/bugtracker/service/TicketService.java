@@ -28,4 +28,7 @@ public interface TicketService {
     List<ChartData> getProjectsChartData();
 
     List<ChartData> getStatusChartData();
+
+    List<Ticket> findAllByName(String name);
+
 }

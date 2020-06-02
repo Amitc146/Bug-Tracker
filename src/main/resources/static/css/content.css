@@ -35,26 +35,3 @@ textarea {
 .closed-ticket {
     opacity: .6;
 }
-
-.delete-button {
-    color: #ff0048;
-    padding: 0.3rem 0.4rem;
-}
-
-.delete-button:hover {
-    color: #ffffff;
-    background-color: #ff0048;
-    text-decoration: none;
-}
-
-.edit-button {
-    color: #0777ff;
-    padding: 0.3rem 0.4rem;
-}
-
-.edit-button:hover {
-    color: #ffffff;
-    background-color: #0777ff;
-    text-decoration: none;
-}
-

@@ -38,4 +38,6 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
             "GROUP BY status")
     List<ChartData> getStatusChartData();
 
+    List<Ticket> findAllByTitleIsContaining(String name);
+
 }

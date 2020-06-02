@@ -1,6 +1,7 @@
 package com.amit.bugtracker.controller;
 
 import com.amit.bugtracker.dto.ChartData;
+import com.amit.bugtracker.service.ProjectService;
 import com.amit.bugtracker.service.RoleService;
 import com.amit.bugtracker.service.TicketService;
 import com.amit.bugtracker.service.UserService;
@@ -15,11 +16,13 @@ import java.util.List;
 @Controller
 public class HomeController {
 
+    private final ProjectService projectService;
     private final TicketService ticketService;
-    private final RoleService roleService;
     private final UserService userService;
+    private final RoleService roleService;
 
-    public HomeController(TicketService ticketService, RoleService roleService, UserService userService) {
+    public HomeController(ProjectService projectService, TicketService ticketService, RoleService roleService, UserService userService) {
+        this.projectService = projectService;
         this.ticketService = ticketService;
         this.roleService = roleService;
         this.userService = userService;
@@ -57,6 +60,15 @@ public class HomeController {
     @GetMapping("/login")
     public String showMyLoginPage() {
         return "security/login";
+    }
+
+    @GetMapping("/search")
+    public String searchProject(String searchText, Model model) {
+        model.addAttribute("projects", projectService.findAllByName(searchText));
+        model.addAttribute("tickets", ticketService.findAllByName(searchText));
+        model.addAttribute("users", userService.findAllByName(searchText));
+
+        return "main/search";
     }
 
 }

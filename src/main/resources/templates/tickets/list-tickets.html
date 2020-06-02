@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
-      lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
 
@@ -11,6 +10,8 @@
 </head>
 
 <body>
+
+<!--/*@thymesVar id="currentUser" type="com.amit.bugtracker.entity.User"*/-->
 
 <div id="wrapper">
     <th:block th:replace="layouts :: layoutSidebar"></th:block>
@@ -61,7 +62,7 @@
                                         <th>Status</th>
                                         <th>Created</th>
                                         <th></th>
-                                        <th sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')"></th>
+                                        <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -73,13 +74,17 @@
                                         <td th:text="${ticket.status.displayValue}" class="ticket-status"></td>
                                         <td th:text="${ticket.creationDate}"></td>
                                         <td><a th:href="@{/tickets/{id}(id=${ticket.id})}">More Details</a></td>
-                                        <td sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')">
-                                            <a th:href="@{/tickets/{id}/update(id=${ticket.id})}"
-                                               class="edit-button">
+                                        <td>
+                                            <a th:if="${ticket.submitter == currentUser || currentUser.admin || currentUser.manager}"
+                                               th:href="@{/tickets/{id}/update(id=${ticket.id})}"
+                                               class="btn btn-sm btn-outline-primary"
+                                               data-toggle="tooltip" data-placement="top" title="Edit Ticket">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <a th:href="@{/tickets/delete(ticketId=${ticket.id})}"
-                                               class="delete-button"
+                                            <a th:if="${ticket.submitter == currentUser || currentUser.admin || currentUser.manager}"
+                                               th:href="@{/tickets/delete(ticketId=${ticket.id})}"
+                                               class="btn btn-sm btn-outline-danger"
+                                               data-toggle="tooltip" data-placement="top" title="Delete Ticket"
                                                onclick="if (!(confirm('Are you sure you want to delete this ticket?'))) return false">
                                                 <i class="fas fa-trash"></i>
                                             </a>
@@ -99,7 +104,7 @@
                                         <th>Status</th>
                                         <th>Created</th>
                                         <th></th>
-                                        <th sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')"></th>
+                                        <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -111,13 +116,15 @@
                                         <td th:text="${ticket.status.displayValue}" class="ticket-status"></td>
                                         <td th:text="${ticket.creationDate}"></td>
                                         <td><a th:href="@{/tickets/{id}(id=${ticket.id})}">More Details</a></td>
-                                        <td sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')">
+                                        <td th:if="${ticket.submitter == currentUser || currentUser.admin || currentUser.manager}">
                                             <a th:href="@{/tickets/{id}/update(id=${ticket.id})}"
-                                               class="edit-button">
+                                               class="btn btn-sm btn-outline-primary"
+                                               data-toggle="tooltip" data-placement="top" title="Edit Ticket">
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                             <a th:href="@{/tickets/delete(ticketId=${ticket.id})}"
-                                               class="delete-button"
+                                               class="btn btn-sm btn-outline-danger"
+                                               data-toggle="tooltip" data-placement="top" title="Delete Ticket"
                                                onclick="if (!(confirm('Are you sure you want to delete this ticket?'))) return false">
                                                 <i class="fas fa-trash"></i>
                                             </a>
@@ -140,10 +147,10 @@
 
 </div>
 
-
 <th:block th:replace="layouts :: layoutScripts"></th:block>
 <script th:src="@{/js/list-tickets.js}"></script>
 <script th:src="@{/js/tickets-style.js}"></script>
+<script th:src="@{/js/lists.js}"></script>
 </body>
 
 </html>

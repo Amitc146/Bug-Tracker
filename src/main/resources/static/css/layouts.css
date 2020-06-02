@@ -261,6 +261,18 @@
     text-decoration: none;
 }
 
+.topbar-search-button {
+    color: #00FF99;
+    background-color: #414545;
+    border-color: #717171;
+}
+
+.topbar-search-button:hover {
+    color: #414545;
+    background-color: #00e788;
+    border-color: #717171;
+}
+
 #wrapper {
     display: flex
 }

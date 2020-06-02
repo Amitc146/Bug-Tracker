@@ -86,5 +86,14 @@ public class UserServiceImpl implements UserService {
         return userRepository.getProjectsCount();
     }
 
+    @Override
+    public List<User> findAllByName(String name) {
+        if (name == null || name.isEmpty() || name.trim().isEmpty()) {
+            return null;
+        }
+
+        return userRepository.findAllByUserNameIsContaining(name);
+    }
+
 }
 

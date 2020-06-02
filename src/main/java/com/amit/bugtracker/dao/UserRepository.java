@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-
 public interface UserRepository extends JpaRepository<User, Integer> {
 
     User findByUserName(String userName);
@@ -17,5 +16,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "INNER JOIN users_projects ON user_id = u.id " +
             "GROUP BY user_id")
     List<ChartData> getProjectsCount();
+
+    List<User> findAllByUserNameIsContaining(String name);
 
 }

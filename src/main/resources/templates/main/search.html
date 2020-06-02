@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+
+    <th:block th:replace="layouts :: layoutHeader"></th:block>
+
+    <title th:replace="layouts :: layoutTitle"></title>
+
+</head>
+
+<body>
+
+<div id="wrapper">
+    <th:block th:replace="layouts :: layoutSidebar"></th:block>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <th:block th:replace="layouts :: layoutNavbar"></th:block>
+
+
+            <!-- Page Content -->
+            <div class="container-fluid">
+
+                <div class="custom-card-container">
+
+                    <!-- Header -->
+                    <div class="card-container-header">
+                        <h4 class="row">Search Results</h4>
+                    </div>
+
+
+                    <!-- Projects -->
+                    <div class="row justify-content-center align-items-start py-2 m-0">
+                        <div class="card col-xl-11 shadow m-2 p-0">
+
+                            <div class="card-header py-3">
+                                <h5 class="m-0 font-weight-bold">Projects</h5>
+                            </div>
+
+                            <div class="card-body">
+                                <table class="table table-borderless table-hover" id="projects">
+                                    <thead>
+                                    <tr class="border-bottom border-dark">
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th class="text-center">Open Tickets</th>
+                                        <th class="text-center">Users</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="border-top"
+                                        th:each="project : ${projects}">
+                                        <td th:text="${project.name}"></td>
+                                        <td th:text="${project.description}"></td>
+                                        <td th:text="${project.openTickets.size()}" class="text-center"></td>
+                                        <td th:text="${project.users.size()}" class="text-center"></td>
+                                        <td><a th:href="@{/projects/{id}(id=${project.id})}">More Details</a></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tickets -->
+                    <div class="row justify-content-center align-items-start py-2 m-0">
+                        <div class="card col-xl-11 shadow m-2 p-0">
+
+                            <div class="card-header py-3">
+                                <h5 class="m-0 font-weight-bold">Tickets</h5>
+                            </div>
+
+                            <div class="card-body">
+                                <table class="table table-borderless table-hover" id="openTickets">
+                                    <thead>
+                                    <tr class="border-bottom border-dark">
+                                        <th>Title</th>
+                                        <th>Project</th>
+                                        <th>Submitter</th>
+                                        <th>Priority</th>
+                                        <th>Status</th>
+                                        <th>Created</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="border-top tickets-list" th:each="ticket : ${tickets}">
+                                        <td th:text="${ticket.title}"></td>
+                                        <td th:text="${ticket.project.name}"></td>
+                                        <td th:text="${ticket.submitter.fullName}"></td>
+                                        <td th:text="${ticket.priority.displayValue}" class="ticket-priority"></td>
+                                        <td th:text="${ticket.status.displayValue}" class="ticket-status"></td>
+                                        <td th:text="${ticket.creationDate}"></td>
+                                        <td><a th:href="@{/tickets/{id}(id=${ticket.id})}">More Details</a></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Users -->
+                    <div class="row justify-content-center align-items-start py-2 m-0">
+                        <div class="card col-xl-11 shadow m-2 p-0">
+
+                            <div class="card-header py-3">
+                                <h5 class="m-0 font-weight-bold">Users</h5>
+                            </div>
+
+                            <div class="card-body">
+                                <table class="table table-borderless table-hover">
+                                    <thead>
+                                    <tr class="border-bottom border-dark">
+                                        <th>Username</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th class="text-center">Projects</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="border-top"
+                                        th:each="user : ${users}">
+                                        <td th:text="${user.userName}"></td>
+                                        <td th:text="${user.firstName}"></td>
+                                        <td th:text="${user.lastName}"></td>
+                                        <td th:text="${user.email}"></td>
+                                        <td th:each="role : ${user.roles}" th:text="${role}"></td>
+                                        <td th:text="${user.projects.size()}" class="text-center"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- End of Page Content -->
+
+
+        </div>
+        <th:block th:replace="layouts :: layoutFooter"></th:block>
+    </div>
+
+</div>
+
+<th:block th:replace="layouts :: layoutScripts"></th:block>
+
+</body>
+
+</html>
