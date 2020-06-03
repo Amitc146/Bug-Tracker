@@ -31,7 +31,7 @@
 
 
                     <!-- Projects -->
-                    <div class="row justify-content-center align-items-start py-2 m-0">
+                    <div class="row justify-content-center align-items-start py-2 m-0" hidden="hidden" id="projects">
                         <div class="card col-xl-11 shadow m-2 p-0">
 
                             <div class="card-header py-3">
@@ -39,7 +39,7 @@
                             </div>
 
                             <div class="card-body">
-                                <table class="table table-borderless table-hover" id="projects">
+                                <table class="table table-borderless table-hover">
                                     <thead>
                                     <tr class="border-bottom border-dark">
                                         <th>Name</th>
@@ -50,7 +50,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr class="border-top"
+                                    <tr class="border-top projects-list"
                                         th:each="project : ${projects}">
                                         <td th:text="${project.name}"></td>
                                         <td th:text="${project.description}"></td>
@@ -65,7 +65,7 @@
                     </div>
 
                     <!-- Tickets -->
-                    <div class="row justify-content-center align-items-start py-2 m-0">
+                    <div class="row justify-content-center align-items-start py-2 m-0" hidden="hidden" id="tickets">
                         <div class="card col-xl-11 shadow m-2 p-0">
 
                             <div class="card-header py-3">
@@ -73,7 +73,7 @@
                             </div>
 
                             <div class="card-body">
-                                <table class="table table-borderless table-hover" id="openTickets">
+                                <table class="table table-borderless table-hover">
                                     <thead>
                                     <tr class="border-bottom border-dark">
                                         <th>Title</th>
@@ -101,42 +101,6 @@
                         </div>
                     </div>
 
-                    <!-- Users -->
-                    <div class="row justify-content-center align-items-start py-2 m-0">
-                        <div class="card col-xl-11 shadow m-2 p-0">
-
-                            <div class="card-header py-3">
-                                <h5 class="m-0 font-weight-bold">Users</h5>
-                            </div>
-
-                            <div class="card-body">
-                                <table class="table table-borderless table-hover">
-                                    <thead>
-                                    <tr class="border-bottom border-dark">
-                                        <th>Username</th>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Email</th>
-                                        <th>Role</th>
-                                        <th class="text-center">Projects</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr class="border-top"
-                                        th:each="user : ${users}">
-                                        <td th:text="${user.userName}"></td>
-                                        <td th:text="${user.firstName}"></td>
-                                        <td th:text="${user.lastName}"></td>
-                                        <td th:text="${user.email}"></td>
-                                        <td th:each="role : ${user.roles}" th:text="${role}"></td>
-                                        <td th:text="${user.projects.size()}" class="text-center"></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
 
             </div>
@@ -150,6 +114,7 @@
 </div>
 
 <th:block th:replace="layouts :: layoutScripts"></th:block>
+<script th:src="@{/js/search.js}"></script>
 
 </body>
 

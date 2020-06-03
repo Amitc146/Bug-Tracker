@@ -47,11 +47,6 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void deleteById(Integer id) {
-        projectRepository.deleteById(id);
-    }
-
-    @Override
     public List<Project> findAllByName(String name) {
         if (name == null || name.isEmpty() || name.trim().isEmpty()) {
             return null;
@@ -59,4 +54,10 @@ public class ProjectServiceImpl implements ProjectService {
 
         return projectRepository.findAllByNameIsContaining(name);
     }
+
+    @Override
+    public void deleteById(Integer id) {
+        projectRepository.deleteById(id);
+    }
+
 }

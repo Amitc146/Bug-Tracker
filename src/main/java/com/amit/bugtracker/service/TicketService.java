@@ -19,6 +19,8 @@ public interface TicketService {
 
     List<Ticket> findAllByUserAndStatus(User user, String status);
 
+    List<Ticket> findAllByName(String text);
+
     void save(Ticket ticket);
 
     void deleteById(Integer id);
@@ -28,7 +30,5 @@ public interface TicketService {
     List<ChartData> getProjectsChartData();
 
     List<ChartData> getStatusChartData();
-
-    List<Ticket> findAllByName(String name);
 
 }

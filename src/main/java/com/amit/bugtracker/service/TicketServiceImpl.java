@@ -92,6 +92,18 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    public List<Ticket> findAllByName(String text) {
+        if (text == null || text.isEmpty() || text.trim().isEmpty()) {
+            return null;
+        }
+
+        List<Ticket> tickets = ticketRepository.findAllByTitleIsContaining(text);
+        sortByPriority(tickets);
+
+        return tickets;
+    }
+
+    @Override
     public void save(Ticket ticket) {
         ticketRepository.save(ticket);
     }
@@ -118,15 +130,6 @@ public class TicketServiceImpl implements TicketService {
 
     private void sortByPriority(List<Ticket> tickets) {
         tickets.sort(Comparator.comparing(Ticket::getPriority).reversed());
-    }
-
-    @Override
-    public List<Ticket> findAllByName(String name) {
-        if (name == null || name.isEmpty() || name.trim().isEmpty()) {
-            return null;
-        }
-
-        return ticketRepository.findAllByTitleIsContaining(name);
     }
 
 }

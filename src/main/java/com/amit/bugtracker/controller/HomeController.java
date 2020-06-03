@@ -66,7 +66,6 @@ public class HomeController {
     public String searchProject(String searchText, Model model) {
         model.addAttribute("projects", projectService.findAllByName(searchText));
         model.addAttribute("tickets", ticketService.findAllByName(searchText));
-        model.addAttribute("users", userService.findAllByName(searchText));
 
         return "main/search";
     }

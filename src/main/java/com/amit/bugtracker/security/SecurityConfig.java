@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/projects/allProjects", "/projects/*/update", "/projects/new",
                         "/projects/save", "/projects/delete").hasAnyRole("MANAGER", "ADMIN")
                 .antMatchers("/tickets/allTickets").hasAnyRole("MANAGER", "ADMIN")
-                .antMatchers("/", "/projects", "/projects/*", "/tickets", "/tickets/*", "/profile", "/users").authenticated()
+                .antMatchers("/", "/projects", "/projects/*", "/tickets", "/tickets/*", "/profile", "/users", "/search/**").authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")

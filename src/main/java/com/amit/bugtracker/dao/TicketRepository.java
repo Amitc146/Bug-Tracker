@@ -19,6 +19,8 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 
     List<Ticket> findAllByProjectUsersContainingAndStatus(User user, TicketStatus status);
 
+    List<Ticket> findAllByTitleIsContaining(String text);
+
     @Query(nativeQuery = true, value = "SELECT lower(priority) as label, COUNT(*) as value " +
             "FROM ticket " +
             "WHERE ticket.status = 'OPEN'" +
@@ -37,7 +39,5 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
             "FROM ticket " +
             "GROUP BY status")
     List<ChartData> getStatusChartData();
-
-    List<Ticket> findAllByTitleIsContaining(String name);
 
 }

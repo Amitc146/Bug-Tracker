@@ -11,6 +11,8 @@
 
 <body>
 
+<!--/*@thymesVar id="currentUser" type="com.amit.bugtracker.entity.User"*/-->
+
 <div id="wrapper">
     <th:block th:replace="layouts :: layoutSidebar"></th:block>
 
@@ -40,27 +42,22 @@
                                         <tbody>
                                         <tr>
                                             <th>Username</th>
-                                            <!--/*@thymesVar id="currentUser" type="com.amit.bugtracker.entity.User"*/-->
                                             <td th:text="${currentUser.userName}"></td>
                                         </tr>
                                         <tr>
                                             <th>Name</th>
-                                            <!--/*@thymesVar id="currentUser" type="com.amit.bugtracker.entity.User"*/-->
                                             <td th:text="${currentUser.fullName}"></td>
                                         </tr>
                                         <tr>
                                             <th>Email</th>
-                                            <!--/*@thymesVar id="currentUser" type="com.amit.bugtracker.entity.User"*/-->
                                             <td th:text="${currentUser.email}"></td>
                                         </tr>
                                         <tr>
                                             <th>Role</th>
-                                            <!--/*@thymesVar id="currentUser" type="com.amit.bugtracker.entity.User"*/-->
                                             <td th:each="role : ${currentUser.roles}" th:text="${role}"></td>
                                         </tr>
                                         <tr>
                                             <th>Projects</th>
-                                            <!--/*@thymesVar id="currentUser" type="com.amit.bugtracker.entity.User"*/-->
                                             <td th:text="${currentUser.projects.size()}"></td>
                                         </tr>
                                         </tbody>

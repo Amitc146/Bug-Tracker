@@ -249,7 +249,7 @@
 }
 
 .topbar-user-button {
-    color: #484e65;
+    color: #414545;
     text-decoration: none;
     background: none;
     border: none;
@@ -257,7 +257,7 @@
 }
 
 .topbar-user-button:hover {
-    color: #3cb17a;
+    color: #009bff;
     text-decoration: none;
 }
 

@@ -17,6 +17,4 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "GROUP BY user_id")
     List<ChartData> getProjectsCount();
 
-    List<User> findAllByUserNameIsContaining(String name);
-
 }
