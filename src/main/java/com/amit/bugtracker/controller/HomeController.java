@@ -1,12 +1,14 @@
 package com.amit.bugtracker.controller;
 
 import com.amit.bugtracker.dto.ChartData;
+import com.amit.bugtracker.entity.User;
 import com.amit.bugtracker.service.ProjectService;
 import com.amit.bugtracker.service.RoleService;
 import com.amit.bugtracker.service.TicketService;
 import com.amit.bugtracker.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -63,9 +65,11 @@ public class HomeController {
     }
 
     @GetMapping("/search")
-    public String searchProject(String searchText, Model model) {
-        model.addAttribute("projects", projectService.findAllByName(searchText));
-        model.addAttribute("tickets", ticketService.findAllByName(searchText));
+    public String searchProject(Authentication auth, Model model, String searchText) {
+        User user = userService.findByUserName(auth.getName());
+
+        model.addAttribute("projects", projectService.findAllByUserAndName(user, searchText));
+        model.addAttribute("tickets", ticketService.findAllByUserAndName(user, searchText));
 
         return "main/search";
     }

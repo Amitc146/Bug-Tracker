@@ -12,4 +12,6 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 
     List<Project> findAllByNameIsContaining(String name);
 
+    List<Project> findAllByUsersContainsAndNameIsContaining(User user, String name);
+
 }

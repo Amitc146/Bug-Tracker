@@ -19,7 +19,7 @@ public interface TicketService {
 
     List<Ticket> findAllByUserAndStatus(User user, String status);
 
-    List<Ticket> findAllByName(String text);
+    List<Ticket> findAllByUserAndName(User user, String name);
 
     void save(Ticket ticket);
 

@@ -21,6 +21,8 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 
     List<Ticket> findAllByTitleIsContaining(String text);
 
+    List<Ticket> findAllByProjectUsersContainingAndTitleIsContaining(User user, String text);
+
     @Query(nativeQuery = true, value = "SELECT lower(priority) as label, COUNT(*) as value " +
             "FROM ticket " +
             "WHERE ticket.status = 'OPEN'" +

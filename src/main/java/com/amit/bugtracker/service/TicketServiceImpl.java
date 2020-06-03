@@ -92,12 +92,18 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public List<Ticket> findAllByName(String text) {
-        if (text == null || text.isEmpty() || text.trim().isEmpty()) {
+    public List<Ticket> findAllByUserAndName(User user, String name) {
+        if (name == null || name.isEmpty() || name.trim().isEmpty()) {
             return null;
         }
 
-        List<Ticket> tickets = ticketRepository.findAllByTitleIsContaining(text);
+        List<Ticket> tickets;
+
+        if (user.isAdmin() || user.isManager()) {
+            tickets = ticketRepository.findAllByTitleIsContaining(name);
+        } else {
+            tickets = ticketRepository.findAllByProjectUsersContainingAndTitleIsContaining(user, name);
+        }
         sortByPriority(tickets);
 
         return tickets;

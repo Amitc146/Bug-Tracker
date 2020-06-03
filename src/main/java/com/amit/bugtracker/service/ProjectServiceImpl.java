@@ -42,17 +42,22 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void save(Project project) {
-        projectRepository.save(project);
-    }
-
-    @Override
-    public List<Project> findAllByName(String name) {
+    public List<Project> findAllByUserAndName(User user, String name) {
         if (name == null || name.isEmpty() || name.trim().isEmpty()) {
             return null;
         }
 
-        return projectRepository.findAllByNameIsContaining(name);
+        if (user.isAdmin() || user.isManager()) {
+            return projectRepository.findAllByNameIsContaining(name);
+        }
+
+        return projectRepository.findAllByUsersContainsAndNameIsContaining(user, name);
+    }
+
+
+    @Override
+    public void save(Project project) {
+        projectRepository.save(project);
     }
 
     @Override
