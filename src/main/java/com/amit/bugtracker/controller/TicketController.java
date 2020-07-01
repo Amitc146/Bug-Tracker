@@ -72,7 +72,7 @@ public class TicketController {
 
         model.addAttribute("ticket", ticket);
 
-        return "/tickets/ticket-page";
+        return "tickets/ticket-page";
     }
 
 

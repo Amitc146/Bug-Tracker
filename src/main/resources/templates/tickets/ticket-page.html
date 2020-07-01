@@ -11,6 +11,8 @@
 
 <body>
 
+<!--/*@thymesVar id="currentUser" type="com.amit.bugtracker.entity.User"*/-->
+
 <div id="wrapper">
     <th:block th:replace="layouts :: layoutSidebar"></th:block>
 
@@ -28,9 +30,10 @@
                         <h4 class="row">Ticket Information</h4>
                     </div>
 
-                    <!--/*@thymesVar id="currentUser" type="com.amit.bugtracker.entity.User"*/-->
+                    <!-- Manage Section -->
                     <div class="row m-2 pb-2 justify-content-end"
-                         th:if="${ticket.submitter == currentUser || currentUser.admin || currentUser.manager}">
+                         th:if="${ticket.submitter.userName == currentUser.userName ||
+                         currentUser.admin || currentUser.manager}">
                         <a class="btn btn-outline-info mx-1"
                            th:href="@{/tickets/{id}/update(id=${ticket.id})}">Edit Ticket</a>
                         <a class="btn btn-outline-danger mx-1"
@@ -113,7 +116,6 @@
                                             <td style="width: 68%" th:text="${comment.text}"></td>
                                             <td style="width: 10%" th:text="${comment.creationDate}"></td>
                                             <td style="width: 2%;">
-                                                <!--/*@thymesVar id="currentUser" type="com.amit.bugtracker.entity.User"*/-->
                                                 <a th:if="${comment.user == currentUser || currentUser.admin || currentUser.manager}"
                                                    th:href="@{/tickets/deleteComment(commentId=${comment.id})}"
                                                    class="delete-button"
