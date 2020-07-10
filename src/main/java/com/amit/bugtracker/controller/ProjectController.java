@@ -32,7 +32,7 @@ public class ProjectController {
     @GetMapping("/myProjects")
     public String listUserProjects(Authentication auth, Model model) {
         User user = userService.findByUserName(auth.getName());
-        List<Project> userProjects = projectService.findAllByUser(user);
+        List<Project> userProjects = user.getProjects();
 
         model.addAttribute("projects", userProjects);
 

@@ -17,8 +17,6 @@
     <div id="content-wrapper" class="d-flex flex-column">
         <div id="content">
             <th:block th:replace="layouts :: layoutNavbar"></th:block>
-
-
             <!-- Page Content -->
             <div class="container-fluid">
 
@@ -84,32 +82,19 @@
                 </div>
             </div>
         </div>
-
     </div>
     <!-- End of Page Content -->
-
-
 </div>
 <th:block th:replace="layouts :: layoutFooter"></th:block>
 </div>
 
 </div>
 
-<script>
-    const ticketPriorityCount = "[[${ticketPriorityCount}]]";
-</script>
-<script>
-    const ticketProjectCount = "[[${ticketProjectCount}]]";
-</script>
-<script>
-    const ticketStatusCount = "[[${ticketStatusCount}]]";
-</script>
-<script>
-    const userRolesCount = "[[${userRolesCount}]]";
-</script>
-<script>
-    const userProjectsCount = "[[${userProjectsCount}]]";
-</script>
+<script>const ticketPriorityCount = "[[${ticketPriorityCount}]]";</script>
+<script>const ticketProjectCount = "[[${ticketProjectCount}]]";</script>
+<script>const ticketStatusCount = "[[${ticketStatusCount}]]";</script>
+<script>const userRolesCount = "[[${userRolesCount}]]";</script>
+<script>const userProjectsCount = "[[${userProjectsCount}]]";</script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.js"></script>
 <script type="text/javascript" th:src="@{/js/charts.js}"></script>

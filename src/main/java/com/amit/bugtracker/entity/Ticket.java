@@ -44,6 +44,13 @@ public class Ticket {
     public Ticket() {
     }
 
+    public Ticket(User submitter, TicketStatus status, TicketPriority priority, String creationDate) {
+        this.submitter = submitter;
+        this.status = status;
+        this.priority = priority;
+        this.creationDate = creationDate;
+    }
+
     public Integer getId() {
         return id;
     }

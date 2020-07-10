@@ -15,6 +15,7 @@ public class GlobalControllerAdvice {
         this.userService = userService;
     }
 
+    // Adding the current user to the model for all the pages
     @ModelAttribute("currentUser")
     public User getCurrentUser(Authentication auth) {
         if (auth != null) {

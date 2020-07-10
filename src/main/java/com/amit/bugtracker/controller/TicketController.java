@@ -69,7 +69,6 @@ public class TicketController {
 
         // Adding a comment in case the user will try to add one
         model.addAttribute("comment", new Comment(ticket, user));
-
         model.addAttribute("ticket", ticket);
 
         return "tickets/ticket-page";
@@ -81,7 +80,6 @@ public class TicketController {
                                   Authentication auth, Model model) {
 
         User user = userService.findByUserName(auth.getName());
-        Ticket ticket = new Ticket();
         List<Project> projects;
 
         // If project selected
@@ -90,8 +88,8 @@ public class TicketController {
 
             // Check if the user has permission to add a ticket to this project
             if (!project.getUsers().contains(user) && !user.isManager() && !user.isAdmin()) {
-                throw new AccessDeniedException(String.format("User '%s' is not allowed to add a comment to ticket id='%d'",
-                        user.getUserName(), ticket.getId()));
+                throw new AccessDeniedException(String.format("User '%s' is not allowed to add a ticket to project id='%d'",
+                        user.getUserName(), projectId));
             }
 
             projects = new ArrayList<>();
@@ -100,13 +98,13 @@ public class TicketController {
 
         // If no project selected
         else {
-            projects = projectService.findAllByUser(user);
+            projects = getProjectsAllowedByUser(user);
         }
 
-        ticket.setSubmitter(user);
-        ticket.setStatus(Ticket.TicketStatus.OPEN);
-        ticket.setPriority(Ticket.TicketPriority.LOW);
-        ticket.setCreationDate(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        Ticket ticket = new Ticket(user,
+                Ticket.TicketStatus.OPEN,
+                Ticket.TicketPriority.LOW,
+                getCurrentTime());
 
         model.addAttribute("ticket", ticket);
         model.addAttribute("projects", projects);
@@ -125,7 +123,7 @@ public class TicketController {
                     user.getUserName(), ticket.getId()));
         }
 
-        List<Project> projects = projectService.findAllByUser(user);
+        List<Project> projects = getProjectsAllowedByUser(user);
 
         model.addAttribute("ticket", ticket);
         model.addAttribute("projects", projects);
@@ -169,7 +167,7 @@ public class TicketController {
         // Blocking demo users from changing stuff
         demoUserCheck(userService.findByUserName(auth.getName()));
 
-        comment.setCreationDate(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        comment.setCreationDate(getCurrentTime());
         commentService.save(comment);
 
         return "redirect:/tickets/" + ticketId;
@@ -210,4 +208,14 @@ public class TicketController {
         }
     }
 
+    private List<Project> getProjectsAllowedByUser(User user) {
+        if (user.isAdmin() || user.isManager())
+            return projectService.findAll();
+
+        return projectService.findAllByUser(user);
+    }
+
+    private String getCurrentTime() {
+        return LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
 }

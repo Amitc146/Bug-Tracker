@@ -1,7 +1,6 @@
 package com.amit.bugtracker.service;
 
 import com.amit.bugtracker.dto.ChartData;
-import com.amit.bugtracker.dao.CommentRepository;
 import com.amit.bugtracker.dao.TicketRepository;
 import com.amit.bugtracker.entity.Project;
 import com.amit.bugtracker.entity.Ticket;
@@ -17,11 +16,9 @@ import java.util.Optional;
 public class TicketServiceImpl implements TicketService {
 
     private final TicketRepository ticketRepository;
-    private final CommentRepository commentRepository;
 
-    public TicketServiceImpl(TicketRepository ticketRepository, CommentRepository commentRepository) {
+    public TicketServiceImpl(TicketRepository ticketRepository) {
         this.ticketRepository = ticketRepository;
-        this.commentRepository = commentRepository;
     }
 
     @Override

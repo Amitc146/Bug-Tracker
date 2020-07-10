@@ -25,7 +25,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             throws IOException {
 
         String userName = authentication.getName();
-
         User user = userService.findByUserName(userName);
 
         // Place user in the session

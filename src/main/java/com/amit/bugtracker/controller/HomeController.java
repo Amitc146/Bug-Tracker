@@ -1,6 +1,5 @@
 package com.amit.bugtracker.controller;
 
-import com.amit.bugtracker.dto.ChartData;
 import com.amit.bugtracker.entity.User;
 import com.amit.bugtracker.service.ProjectService;
 import com.amit.bugtracker.service.RoleService;
@@ -12,8 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.List;
 
 @Controller
 public class HomeController {
@@ -32,36 +29,30 @@ public class HomeController {
 
     @GetMapping("/")
     public String showHome(Model model) throws JsonProcessingException {
-        List<ChartData> ticketsPriorityData = ticketService.getPrioritiesChartData();
-        List<ChartData> ticketsProjectData = ticketService.getProjectsChartData();
-        List<ChartData> ticketsStatusData = ticketService.getStatusChartData();
-        List<ChartData> userRolesData = roleService.getRolesCount();
-        List<ChartData> userProjectsData = userService.getProjectsCount();
-
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonString;
 
-        jsonString = objectMapper.writeValueAsString(ticketsPriorityData);
+        jsonString = objectMapper.writeValueAsString(ticketService.getPrioritiesChartData());
         model.addAttribute("ticketPriorityCount", jsonString);
 
-        jsonString = objectMapper.writeValueAsString(ticketsProjectData);
+        jsonString = objectMapper.writeValueAsString(ticketService.getProjectsChartData());
         model.addAttribute("ticketProjectCount", jsonString);
 
-        jsonString = objectMapper.writeValueAsString(ticketsStatusData);
+        jsonString = objectMapper.writeValueAsString(ticketService.getStatusChartData());
         model.addAttribute("ticketStatusCount", jsonString);
 
-        jsonString = objectMapper.writeValueAsString(userRolesData);
+        jsonString = objectMapper.writeValueAsString(roleService.getRolesCount());
         model.addAttribute("userRolesCount", jsonString);
 
-        jsonString = objectMapper.writeValueAsString(userProjectsData);
+        jsonString = objectMapper.writeValueAsString(userService.getProjectsCount());
         model.addAttribute("userProjectsCount", jsonString);
 
-        return "main/index";
+        return "index";
     }
 
     @GetMapping("/login")
     public String showMyLoginPage() {
-        return "security/login";
+        return "login";
     }
 
     @GetMapping("/search")
@@ -71,7 +62,7 @@ public class HomeController {
         model.addAttribute("projects", projectService.findAllByUserAndName(user, searchText));
         model.addAttribute("tickets", ticketService.findAllByUserAndName(user, searchText));
 
-        return "main/search";
+        return "search";
     }
 
 }
