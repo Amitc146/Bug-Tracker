@@ -11,6 +11,8 @@ public interface ProjectService {
 
     List<Project> findAllByUser(User user);
 
+    List<Project> findAllByName(String name);
+
     List<Project> findAllByUserAndName(User user, String name);
 
     Project findById(Integer id);

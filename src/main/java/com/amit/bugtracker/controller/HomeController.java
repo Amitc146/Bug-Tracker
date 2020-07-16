@@ -51,16 +51,31 @@ public class HomeController {
     }
 
     @GetMapping("/login")
-    public String showMyLoginPage() {
+    public String showLoginPage() {
         return "login";
     }
 
     @GetMapping("/search")
     public String searchProject(Authentication auth, Model model, String searchText) {
+
+        // For empty string return null
+        if (searchText.trim().isEmpty()) {
+            return null;
+        }
+
         User user = userService.findByUserName(auth.getName());
 
-        model.addAttribute("projects", projectService.findAllByUserAndName(user, searchText));
-        model.addAttribute("tickets", ticketService.findAllByUserAndName(user, searchText));
+        if (user.isManager() || user.isAdmin()) {
+            // If the user is 'Admin' or 'Manager', add any ticket or project found
+            model.addAttribute("projects", projectService.findAllByName(searchText));
+            model.addAttribute("tickets", ticketService.findAllByName(searchText));
+        } else {
+            // If the user is 'Employee', add only projects and tickets he's assigned to
+            model.addAttribute("projects", projectService.findAllByUserAndName(user, searchText));
+            model.addAttribute("tickets", ticketService.findAllByUserAndName(user, searchText));
+        }
+
+        model.addAttribute("users", userService.findByName(searchText));
 
         return "search";
     }

@@ -13,6 +13,8 @@ public interface TicketService {
 
     Ticket findById(Integer id);
 
+    List<Ticket> findAllByName(String name);
+
     List<Ticket> findAllByStatus(String status);
 
     List<Ticket> findAllByProjectAndStatus(Project project, String status);

@@ -13,9 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -48,12 +46,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Set<User> findByName(String name) {
+        Set<User> users = new HashSet<>();
+        String[] names = name.split("\\s+");
+
+        for (String tempString : names) {
+            users.addAll(userRepository.findAllByFirstNameIsContaining(tempString));
+            users.addAll(userRepository.findAllByLastNameIsContaining(tempString));
+            users.addAll(userRepository.findAllByUserNameIsContaining(tempString));
+        }
+
+        return users;
+    }
+
+    @Override
     public void save(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRepository.save(user);
     }
-
 
     @Override
     @Transactional
@@ -69,7 +80,6 @@ public class UserServiceImpl implements UserService {
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
-
 
     @Override
     public List<User> findAll() {

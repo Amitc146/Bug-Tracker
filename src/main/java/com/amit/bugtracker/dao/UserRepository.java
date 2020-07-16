@@ -11,6 +11,12 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     User findByUserName(String userName);
 
+    List<User> findAllByFirstNameIsContaining(String name);
+
+    List<User> findAllByLastNameIsContaining(String name);
+
+    List<User> findAllByUserNameIsContaining(String name);
+
     @Query(nativeQuery = true, value = "SELECT concat(u.first_name, ' ', u.last_name) AS label, count(*) AS value " +
             "FROM user u " +
             "INNER JOIN users_projects ON user_id = u.id " +

@@ -41,6 +41,14 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    public List<Ticket> findAllByName(String name) {
+        List<Ticket> list = ticketRepository.findAllByTitleIsContaining(name);
+        sortByPriority(list);
+
+        return list;
+    }
+
+    @Override
     public List<Ticket> findAllByProjectAndStatus(Project project, String status) {
         List<Ticket> tickets;
 
@@ -94,13 +102,7 @@ public class TicketServiceImpl implements TicketService {
             return null;
         }
 
-        List<Ticket> tickets;
-
-        if (user.isAdmin() || user.isManager()) {
-            tickets = ticketRepository.findAllByTitleIsContaining(name);
-        } else {
-            tickets = ticketRepository.findAllByProjectUsersContainingAndTitleIsContaining(user, name);
-        }
+        List<Ticket> tickets = ticketRepository.findAllByProjectUsersContainingAndTitleIsContaining(user, name);
         sortByPriority(tickets);
 
         return tickets;
