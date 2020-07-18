@@ -12,6 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Controller
 public class HomeController {
 
@@ -20,6 +23,7 @@ public class HomeController {
     private final UserService userService;
     private final RoleService roleService;
 
+
     public HomeController(ProjectService projectService, TicketService ticketService, RoleService roleService, UserService userService) {
         this.projectService = projectService;
         this.ticketService = ticketService;
@@ -27,57 +31,82 @@ public class HomeController {
         this.userService = userService;
     }
 
-    @GetMapping("/")
-    public String showHome(Model model) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String jsonString;
-
-        jsonString = objectMapper.writeValueAsString(ticketService.getPrioritiesChartData());
-        model.addAttribute("ticketPriorityCount", jsonString);
-
-        jsonString = objectMapper.writeValueAsString(ticketService.getProjectsChartData());
-        model.addAttribute("ticketProjectCount", jsonString);
-
-        jsonString = objectMapper.writeValueAsString(ticketService.getStatusChartData());
-        model.addAttribute("ticketStatusCount", jsonString);
-
-        jsonString = objectMapper.writeValueAsString(roleService.getRolesCount());
-        model.addAttribute("userRolesCount", jsonString);
-
-        jsonString = objectMapper.writeValueAsString(userService.getProjectsCount());
-        model.addAttribute("userProjectsCount", jsonString);
-
-        return "index";
-    }
 
     @GetMapping("/login")
     public String showLoginPage() {
         return "login";
     }
 
-    @GetMapping("/search")
-    public String searchProject(Authentication auth, Model model, String searchText) {
 
-        // For empty string return null
-        if (searchText.trim().isEmpty()) {
-            return null;
+    @GetMapping("/")
+    public String showHome(Model model) {
+        try {
+            createCharts(model);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+        return "index";
+    }
+
+
+    private void createCharts(Model model) throws JsonProcessingException {
+        for (Map.Entry<String, String> chart : getChartsData().entrySet())
+            model.addAttribute(chart.getKey(), chart.getValue());
+    }
+
+
+    private HashMap<String, String> getChartsData() throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        HashMap<String, String> chartsData = new HashMap<>();
+
+        chartsData.put("ticketPriorityCount", objectMapper.writeValueAsString(ticketService.getPrioritiesChartData()));
+        chartsData.put("ticketProjectCount", objectMapper.writeValueAsString(ticketService.getProjectsChartData()));
+        chartsData.put("ticketStatusCount", objectMapper.writeValueAsString(ticketService.getStatusChartData()));
+        chartsData.put("userRolesCount", objectMapper.writeValueAsString(roleService.getRolesCount()));
+        chartsData.put("userProjectsCount", objectMapper.writeValueAsString(userService.getProjectsCount()));
+
+        return chartsData;
+    }
+
+
+    @GetMapping("/search")
+    public String search(Authentication auth, Model model, String searchText) {
+        if (isEmptySearchText(searchText))
+            return null;
 
         User user = userService.findByUserName(auth.getName());
-
-        if (user.isManager() || user.isAdmin()) {
-            // If the user is 'Admin' or 'Manager', add any ticket or project found
-            model.addAttribute("projects", projectService.findAllByName(searchText));
-            model.addAttribute("tickets", ticketService.findAllByName(searchText));
-        } else {
-            // If the user is 'Employee', add only projects and tickets he's assigned to
-            model.addAttribute("projects", projectService.findAllByUserAndName(user, searchText));
-            model.addAttribute("tickets", ticketService.findAllByUserAndName(user, searchText));
-        }
-
-        model.addAttribute("users", userService.findByName(searchText));
+        createSearchResults(model, user, searchText);
 
         return "search";
     }
+
+
+    private void createSearchResults(Model model, User user, String searchText) {
+        if (user.isManager() || user.isAdmin())
+            getSearchResultsForAdminAndManager(model, searchText);
+        else
+            getSearchResultsForEmployee(model, user, searchText);
+
+        model.addAttribute("users", userService.findByName(searchText));
+    }
+
+
+    private void getSearchResultsForAdminAndManager(Model model, String searchText) {
+        model.addAttribute("projects", projectService.findAllByName(searchText));
+        model.addAttribute("tickets", ticketService.findAllByName(searchText));
+    }
+
+
+    private void getSearchResultsForEmployee(Model model, User user, String searchText) {
+        model.addAttribute("projects", projectService.findAllByUserAndName(user, searchText));
+        model.addAttribute("tickets", ticketService.findAllByUserAndName(user, searchText));
+    }
+
+
+    private boolean isEmptySearchText(String searchText) {
+        return searchText.trim().isEmpty();
+    }
+
 
 }

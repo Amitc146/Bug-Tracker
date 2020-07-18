@@ -9,6 +9,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface ValidUsername {
+
     String message() default "Invalid username - Must contain 3 to 16 letters/numbers.";
 
     Class<?>[] groups() default {};

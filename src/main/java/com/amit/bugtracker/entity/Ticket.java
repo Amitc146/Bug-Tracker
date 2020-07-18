@@ -51,6 +51,10 @@ public class Ticket {
         this.creationDate = creationDate;
     }
 
+    public static Ticket createEmptyTicket(User user, String time) {
+        return new Ticket(user, TicketStatus.OPEN, TicketPriority.LOW, time);
+    }
+
     public Integer getId() {
         return id;
     }

@@ -87,6 +87,10 @@ public class Project {
         this.users = users;
     }
 
+    public boolean containsUser(User user) {
+        return users.contains(user);
+    }
+
     @Override
     public String toString() {
         return "Project{" +

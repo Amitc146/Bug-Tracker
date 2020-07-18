@@ -1,7 +1,7 @@
 package com.amit.bugtracker.controller;
 
+import com.amit.bugtracker.demo.DemoUserService;
 import com.amit.bugtracker.entity.User;
-import com.amit.bugtracker.exception.DemoUserException;
 import com.amit.bugtracker.service.RoleService;
 import com.amit.bugtracker.service.UserService;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -22,10 +22,12 @@ public class UserController {
     private final UserService userService;
     private final RoleService roleService;
 
+
     public UserController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
     }
+
 
     @GetMapping
     public String listUsers(Model model) {
@@ -35,63 +37,80 @@ public class UserController {
         return "users/list-users";
     }
 
+
     @GetMapping("/new")
     public String createNewUser(Model model) {
-        model.addAttribute("user", new User());
-        model.addAttribute("roles", roleService.findAll());
+        createUserForm(model, new User());
 
         return "users/user-form";
     }
+
 
     @GetMapping("/{userId}/update")
     public String updateUser(@PathVariable("userId") Integer id, Model model) {
         User user = userService.findById(id);
-
-        model.addAttribute("user", user);
-        model.addAttribute("roles", roleService.findAll());
+        createUserForm(model, user);
 
         return "users/user-form";
     }
 
+
     @GetMapping("/delete")
     public String deleteUser(@RequestParam("user") Integer id, Authentication auth) {
-
-        // Blocking demo users from changing stuff
-        demoUserCheck(userService.findByUserName(auth.getName()));
-
+        DemoUserService.demoCheck(userService.findByUserName(auth.getName()));
         userService.deleteById(id);
 
         return "redirect:/users";
     }
 
+
     @PostMapping("/save")
     public String saveUser(@Valid @ModelAttribute("user") User user,
                            BindingResult bindingResult, Model model, Authentication auth) {
+        DemoUserService.demoCheck(userService.findByUserName(auth.getName()));
 
-        // Blocking demo users from changing stuff
-        demoUserCheck(userService.findByUserName(auth.getName()));
+        if (isInvalidUserForm(bindingResult))
+            return invalidUserForm(model);
 
-        // Form validation
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("roles", roleService.findAll());
-
-            return "users/user-form";
-        }
-
-        // Check the database if user already exists
-        User existing = userService.findByUserName(user.getUserName());
-        if (existing != null && !existing.getId().equals(user.getId())) {
-            model.addAttribute("user", new User());
-            model.addAttribute("roles", roleService.findAll());
-            model.addAttribute("registrationError", "User name already exists.");
-
-            return "users/user-form";
-        }
+        if (isUserAlreadyExists(user))
+            return userAlreadyExists(model);
 
         userService.save(user);
 
         return "redirect:/users";
     }
+
+
+    private boolean isInvalidUserForm(BindingResult bindingResult) {
+        return bindingResult.hasErrors();
+    }
+
+    private String invalidUserForm(Model model) {
+        model.addAttribute("roles", roleService.findAll());
+        return "users/user-form";
+    }
+
+
+    private boolean isUserAlreadyExists(User user) {
+        User existingUser = userService.findByUserName(user.getUserName());
+
+        return (existingUser != null && !existingUser.getId().equals(user.getId()));
+    }
+
+
+    private String userAlreadyExists(Model model) {
+        createUserForm(model, new User());
+        model.addAttribute("registrationError", "User name already exists.");
+
+        return "users/user-form";
+    }
+
+
+    private void createUserForm(Model model, User user) {
+        model.addAttribute("user", user);
+        model.addAttribute("roles", roleService.findAll());
+    }
+
 
     @InitBinder
     public void initBinder(WebDataBinder dataBinder) {
@@ -101,9 +120,4 @@ public class UserController {
     }
 
 
-    private void demoUserCheck(User user) {
-        if (user.getFirstName().equals("Demo")) {
-            throw new DemoUserException("Access denied - Demo user");
-        }
-    }
 }

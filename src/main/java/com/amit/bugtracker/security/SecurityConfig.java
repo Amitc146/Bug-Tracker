@@ -17,6 +17,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserService userService;
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
+
     public SecurityConfig(UserService userService, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
         this.userService = userService;
         this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
@@ -28,9 +29,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(authenticationProvider());
     }
 
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
         http.authorizeRequests()
                 .antMatchers("/users/new", "/users/delete", "/users/*/update").hasRole("ADMIN")
                 .antMatchers("/projects/allProjects", "/projects/*/update", "/projects/new",
@@ -47,16 +48,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().permitAll()
                 .and()
                 .exceptionHandling().accessDeniedPage("/access-denied");
-
     }
 
-    // Bcrypt bean definition
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // AuthenticationProvider bean definition
+
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
