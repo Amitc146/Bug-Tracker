@@ -23,10 +23,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth)
             throws IOException {
 
-        User user = userService.findByUserName(authentication.getName());
+        User user = userService.findByUserName(auth.getName());
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
 

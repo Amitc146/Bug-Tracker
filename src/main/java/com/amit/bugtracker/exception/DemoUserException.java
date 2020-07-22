@@ -3,10 +3,7 @@ package com.amit.bugtracker.exception;
 public class DemoUserException extends RuntimeException {
 
     public DemoUserException() {
-        super();
+        super("Demo users are not allowed to modify data.");
     }
 
-    public DemoUserException(String message) {
-        super(message);
-    }
 }

@@ -1,11 +1,9 @@
 package com.amit.bugtracker.controller;
 
-import com.amit.bugtracker.demo.DemoUserService;
 import com.amit.bugtracker.entity.User;
 import com.amit.bugtracker.service.RoleService;
 import com.amit.bugtracker.service.UserService;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -47,8 +45,8 @@ public class UserController {
 
 
     @GetMapping("/{userId}/update")
-    public String updateUser(@PathVariable("userId") Integer id, Model model) {
-        User user = userService.findById(id);
+    public String updateUser(Model model, @PathVariable Integer userId) {
+        User user = userService.findById(userId);
         createUserForm(model, user);
 
         return "users/user-form";
@@ -56,8 +54,7 @@ public class UserController {
 
 
     @GetMapping("/delete")
-    public String deleteUser(@RequestParam("user") Integer id, Authentication auth) {
-        DemoUserService.demoCheck(userService.findByUserName(auth.getName()));
+    public String deleteUser(@RequestParam("user") Integer id) {
         userService.deleteById(id);
 
         return "redirect:/users";
@@ -65,10 +62,7 @@ public class UserController {
 
 
     @PostMapping("/save")
-    public String saveUser(@Valid @ModelAttribute("user") User user,
-                           BindingResult bindingResult, Model model, Authentication auth) {
-        DemoUserService.demoCheck(userService.findByUserName(auth.getName()));
-
+    public String saveUser(Model model, @Valid @ModelAttribute("user") User user, BindingResult bindingResult) {
         if (isInvalidUserForm(bindingResult))
             return invalidUserForm(model);
 
@@ -84,6 +78,7 @@ public class UserController {
     private boolean isInvalidUserForm(BindingResult bindingResult) {
         return bindingResult.hasErrors();
     }
+
 
     private String invalidUserForm(Model model) {
         model.addAttribute("roles", roleService.findAll());

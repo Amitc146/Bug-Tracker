@@ -18,11 +18,6 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<Project> findAll() {
-        return projectRepository.findAll();
-    }
-
-    @Override
     public Project findById(Integer id) {
         Optional<Project> result = projectRepository.findById(id);
 
@@ -37,10 +32,23 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public List<Project> findAll() {
+        return projectRepository.findAll();
+    }
+
+
+    @Override
     public List<Project> findAllByUser(User user) {
         return projectRepository.findAllByUsersContains(user);
     }
 
+    @Override
+    public List<Project> findAllAllowedByUser(User user) {
+        if (user.isAdmin() || user.isManager())
+            return findAll();
+
+        return findAllByUser(user);
+    }
 
     @Override
     public List<Project> findAllByName(String name) {
@@ -55,6 +63,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         return projectRepository.findAllByUsersContainsAndNameIsContaining(user, name);
     }
+
 
     @Override
     public void save(Project project) {

@@ -9,11 +9,11 @@ import java.util.List;
 
 public interface RoleRepository extends JpaRepository<Role, Integer> {
 
+    Role findRoleByName(String roleName);
+
     @Query(nativeQuery = true, value = "SELECT role_id as label, COUNT(*) as value " +
             "FROM users_roles " +
             "GROUP BY role_id")
     List<ChartData> getRolesCount();
-
-    Role findRoleByName(String roleName);
 
 }

@@ -15,11 +15,11 @@ public class Comment {
     @Column(name = "creation_date")
     private String creationDate;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "ticket_id")
     private Ticket ticket;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -84,8 +84,6 @@ public class Comment {
                 "id=" + id +
                 ", text='" + text + '\'' +
                 ", creationDate='" + creationDate + '\'' +
-                ", ticket=" + ticket +
-                ", user=" + user +
                 '}';
     }
 }

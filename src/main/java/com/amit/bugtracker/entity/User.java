@@ -43,6 +43,12 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "project_id"))
     private List<Project> projects;
 
+    @OneToMany(mappedBy = "submitter", cascade = CascadeType.ALL)
+    private List<Ticket> tickets;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Comment> comments;
+
     @NotNull(message = "Role is required")
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
@@ -136,6 +142,22 @@ public class User {
         this.projects = projects;
     }
 
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
     public String getFullName() {
         return this.firstName + " " + this.lastName;
     }
@@ -167,10 +189,30 @@ public class User {
         return this.id.equals(user.getId());
     }
 
+    public boolean isAllowedToView(Project project) {
+        return project.getUsers().contains(this) || isManager() || isAdmin();
+    }
+
+    public boolean isAllowedToEditAndDelete(Ticket ticket) {
+        return ticket.getSubmitter().equals(this) || isManager() || isAdmin();
+    }
+
+    public boolean isAllowedToDeleteComment(Comment comment) {
+        return comment.getUser().equals(this) || isManager() || isAdmin();
+    }
+
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", userName='" + userName + '\'' + ", password='" + "*********" + '\''
-                + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", email='" + email + '\''
-                + ", roles=" + roles + '}';
+        return "User{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", password='*********'" +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", roles=" + roles +
+                '}';
     }
+
+
 }

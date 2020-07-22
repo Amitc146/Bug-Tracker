@@ -22,11 +22,6 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public List<Ticket> findAll() {
-        return ticketRepository.findAll();
-    }
-
-    @Override
     public Ticket findById(Integer id) {
         Optional<Ticket> result = ticketRepository.findById(id);
 
@@ -41,71 +36,71 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public List<Ticket> findAllByName(String name) {
-        List<Ticket> list = ticketRepository.findAllByTitleIsContaining(name);
-        sortByPriority(list);
-
-        return list;
+    public List<Ticket> findAll() {
+        return ticketRepository.findAll();
     }
 
     @Override
-    public List<Ticket> findAllByProjectAndStatus(Project project, String status) {
-        List<Ticket> tickets;
-
-        if (status.toLowerCase().equals("open")) {
-            tickets = ticketRepository.findAllByProjectAndStatus(project, TicketStatus.OPEN);
-        } else if (status.toLowerCase().equals("closed")) {
-            tickets = ticketRepository.findAllByProjectAndStatus(project, TicketStatus.CLOSED);
-        } else {
-            return null;
-        }
-
-        sortByPriority(tickets);
-        return tickets;
+    public List<Ticket> findAllByTitle(String title) {
+        List<Ticket> tickets = ticketRepository.findAllByTitleIsContaining(title);
+        return sortByPriority(tickets);
     }
 
     @Override
-    public List<Ticket> findAllByStatus(String status) {
-        List<Ticket> tickets;
-
-        if (status.toLowerCase().equals("open")) {
-            tickets = ticketRepository.findAllByStatus(TicketStatus.OPEN);
-        } else if (status.toLowerCase().equals("closed")) {
-            tickets = ticketRepository.findAllByStatus(TicketStatus.CLOSED);
-        } else {
-            return null;
-        }
-
-        sortByPriority(tickets);
-        return tickets;
+    public List<Ticket> findAllOpen() {
+        List<Ticket> tickets = ticketRepository.findAllByStatus(TicketStatus.OPEN);
+        return sortByPriority(tickets);
     }
 
     @Override
-    public List<Ticket> findAllByUserAndStatus(User user, String status) {
-        List<Ticket> tickets;
-
-        if (status.toLowerCase().equals("open")) {
-            tickets = ticketRepository.findAllByProjectUsersContainingAndStatus(user, TicketStatus.OPEN);
-        } else if (status.toLowerCase().equals("closed")) {
-            tickets = ticketRepository.findAllByProjectUsersContainingAndStatus(user, TicketStatus.CLOSED);
-        } else {
-            return null;
-        }
-
-        sortByPriority(tickets);
-        return tickets;
+    public List<Ticket> findAllClosed() {
+        List<Ticket> tickets = ticketRepository.findAllByStatus(TicketStatus.CLOSED);
+        return sortByPriority(tickets);
     }
 
     @Override
-    public List<Ticket> findAllByUserAndName(User user, String name) {
-        if (name == null || name.isEmpty() || name.trim().isEmpty()) {
+    public List<Ticket> findAllByProject(Project project) {
+        List<Ticket> tickets = ticketRepository.findAllByProject(project);
+        return sortByPriority(tickets);
+    }
+
+    @Override
+    public List<Ticket> findAllOpenByProject(Project project) {
+        List<Ticket> tickets = ticketRepository.findAllByProjectAndStatus(project, TicketStatus.OPEN);
+        return sortByPriority(tickets);
+    }
+
+    @Override
+    public List<Ticket> findAllClosedByProject(Project project) {
+        List<Ticket> tickets = ticketRepository.findAllByProjectAndStatus(project, TicketStatus.CLOSED);
+        return sortByPriority(tickets);
+    }
+
+    @Override
+    public List<Ticket> findAllByUser(User user) {
+        List<Ticket> tickets = ticketRepository.findAllByProjectUsersContaining(user);
+        return sortByPriority(tickets);
+    }
+
+    @Override
+    public List<Ticket> findAllOpenByUser(User user) {
+        List<Ticket> tickets = ticketRepository.findAllByProjectUsersContainingAndStatus(user, TicketStatus.OPEN);
+        return sortByPriority(tickets);
+    }
+
+    @Override
+    public List<Ticket> findAllClosedByUser(User user) {
+        List<Ticket> tickets = ticketRepository.findAllByProjectUsersContainingAndStatus(user, TicketStatus.CLOSED);
+        return sortByPriority(tickets);
+    }
+
+    @Override
+    public List<Ticket> findAllByUserAndTitle(User user, String title) {
+        if (title == null || title.isEmpty() || title.trim().isEmpty())
             return null;
-        }
 
-        List<Ticket> tickets = ticketRepository.findAllByProjectUsersContainingAndTitleIsContaining(user, name);
-        sortByPriority(tickets);
-
-        return tickets;
+        List<Ticket> tickets = ticketRepository.findAllByProjectUsersContainingAndTitleIsContaining(user, title);
+        return sortByPriority(tickets);
     }
 
     @Override
@@ -133,8 +128,9 @@ public class TicketServiceImpl implements TicketService {
         return ticketRepository.getStatusChartData();
     }
 
-    private void sortByPriority(List<Ticket> tickets) {
+    private List<Ticket> sortByPriority(List<Ticket> tickets) {
         tickets.sort(Comparator.comparing(Ticket::getPriority).reversed());
+        return tickets;
     }
 
 }

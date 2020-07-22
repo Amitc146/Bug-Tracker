@@ -9,19 +9,29 @@ import java.util.List;
 
 public interface TicketService {
 
-    List<Ticket> findAll();
-
     Ticket findById(Integer id);
 
-    List<Ticket> findAllByName(String name);
+    List<Ticket> findAll();
 
-    List<Ticket> findAllByStatus(String status);
+    List<Ticket> findAllByTitle(String title);
 
-    List<Ticket> findAllByProjectAndStatus(Project project, String status);
+    List<Ticket> findAllOpen();
 
-    List<Ticket> findAllByUserAndStatus(User user, String status);
+    List<Ticket> findAllClosed();
 
-    List<Ticket> findAllByUserAndName(User user, String name);
+    List<Ticket> findAllByProject(Project project);
+
+    List<Ticket> findAllOpenByProject(Project project);
+
+    List<Ticket> findAllClosedByProject(Project project);
+
+    List<Ticket> findAllByUser(User user);
+
+    List<Ticket> findAllOpenByUser(User user);
+
+    List<Ticket> findAllClosedByUser(User user);
+
+    List<Ticket> findAllByUserAndTitle(User user, String title);
 
     void save(Ticket ticket);
 

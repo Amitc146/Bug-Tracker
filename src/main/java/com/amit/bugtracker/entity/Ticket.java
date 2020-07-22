@@ -153,8 +153,6 @@ public class Ticket {
                 ", creationDate='" + creationDate + '\'' +
                 ", priority=" + priority +
                 ", status=" + status +
-                ", submitter=" + submitter +
-                ", project=" + project +
                 '}';
     }
 

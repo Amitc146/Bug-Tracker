@@ -15,12 +15,12 @@ public class GlobalControllerAdvice {
         this.userService = userService;
     }
 
-    // Adding the current user to the model for all the pages
+    // Adding the current user to the model for every controller
     @ModelAttribute("currentUser")
     public User getCurrentUser(Authentication auth) {
-        if (auth != null) {
+        if (auth != null)
             return userService.findByUserName(auth.getName());
-        }
+
         return null;
     }
 
