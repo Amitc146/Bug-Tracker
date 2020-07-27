@@ -81,19 +81,23 @@ public class ProjectController {
 
 
     @PostMapping("/save")
-    public String saveProject(@ModelAttribute("project") Project project) {
+    public String saveProject(@ModelAttribute Project project) {
         projectService.save(project);
 
         return "redirect:/projects/" + project.getId();
     }
 
 
-    @GetMapping("/delete")
-    public String deleteProject(@RequestParam("project") int id) {
+    @GetMapping("/{id}/delete")
+    public String deleteProject(@PathVariable int id, @RequestParam String page) {
         projectService.deleteById(id);
 
-        return "redirect:/projects/allProjects";
+        return "redirect:" + getNextPagePath(page);
     }
 
+
+    private String getNextPagePath(String prevPage) {
+        return "/projects/" + (prevPage.equals("allProjects") ? prevPage : "myProjects");
+    }
 
 }

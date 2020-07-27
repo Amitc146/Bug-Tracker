@@ -81,7 +81,8 @@
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                             <a th:if="${ticket.submitter == currentUser || currentUser.admin || currentUser.manager}"
-                                               th:href="@{/tickets/delete(ticket=${ticket.id})}"
+                                               th:with="currentPage=(${#request.getRequestURI() == '/tickets/myTickets'} ? 'myTickets' : 'allTickets')"
+                                               th:href="@{/tickets/{id}/delete(id=${ticket.id}, page=${currentPage})}"
                                                class="btn btn-sm btn-outline-danger"
                                                data-toggle="tooltip" data-placement="top" title="Delete Ticket"
                                                onclick="if (!(confirm('Are you sure you want to delete this ticket?'))) return false">

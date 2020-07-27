@@ -113,23 +113,34 @@ public class TicketController {
 
 
     @PostMapping("/save")
-    public String saveTicket(@ModelAttribute("ticket") Ticket ticket) {
+    public String saveTicket(@ModelAttribute Ticket ticket) {
         ticketService.save(ticket);
 
         return "redirect:/tickets/" + ticket.getId();
     }
 
 
-    @GetMapping("/delete")
-    public String deleteTicket(@RequestParam("ticket") int id) {
+    @GetMapping("/{id}/delete")
+    public String deleteTicket(@PathVariable int id, @RequestParam String page) {
+        String nextPage = getNextPagePath(page, id);
         ticketService.deleteById(id);
 
-        return "redirect:/tickets/myTickets";
+        return "redirect:" + nextPage;
+    }
+
+
+    private String getNextPagePath(String prevPage, int ticketId) {
+        if (prevPage.equals("ticketPage")) {
+            Project project = ticketService.findById(ticketId).getProject();
+            return "/projects/" + project.getId();
+        }
+
+        return "/tickets/" + prevPage;
     }
 
 
     @PostMapping("/saveComment")
-    public String saveComment(@ModelAttribute("comment") Comment comment) {
+    public String saveComment(@ModelAttribute Comment comment) {
         comment.setCreationDate(getCurrentTime());
         commentService.save(comment);
 
@@ -138,8 +149,8 @@ public class TicketController {
 
 
     @GetMapping("/deleteComment")
-    public String deleteComment(@RequestParam("commentId") int commentId) {
-        Comment comment = commentService.findById(commentId);
+    public String deleteComment(@RequestParam int id) {
+        Comment comment = commentService.findById(id);
         commentService.delete(comment);
 
         return "redirect:/tickets/" + comment.getTicket().getId();

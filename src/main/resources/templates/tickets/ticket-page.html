@@ -36,7 +36,7 @@
                         <a class="btn btn-outline-info mx-1"
                            th:href="@{/tickets/{id}/update(id=${ticket.id})}">Edit Ticket</a>
                         <a class="btn btn-outline-danger mx-1"
-                           th:href="@{/tickets/delete(ticket=${ticket.id})}"
+                           th:href="@{/tickets/{id}/delete(id=${ticket.id}, page='ticketPage')}"
                            onclick="if (!(confirm('Are you sure you want to delete this ticket?'))) return false">
                             Delete Ticket</a>
                     </div>
@@ -116,7 +116,7 @@
                                             <td style="width: 10%" th:text="${comment.creationDate}"></td>
                                             <td style="width: 2%;">
                                                 <a th:if="${comment.user == currentUser || currentUser.admin || currentUser.manager}"
-                                                   th:href="@{/tickets/deleteComment(commentId=${comment.id})}"
+                                                   th:href="@{/tickets/deleteComment(id=${comment.id})}"
                                                    class="delete-button"
                                                    onclick="if (!(confirm('Delete this comment?'))) return false">
                                                     <i class="fas fa-times"></i>

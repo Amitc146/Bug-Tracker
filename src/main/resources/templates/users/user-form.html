@@ -52,6 +52,7 @@
                                 <div class="form-group row">
                                     <div class="col-xl-12">
                                         <input class="form-control" type="password" placeholder="Password" required
+                                               maxlength="40"
                                                th:field="*{password}" th:errorclass="fieldError"/>
                                     </div>
                                     <div th:if="${#fields.hasErrors('password')}" class="mb-2 text-danger">
@@ -66,6 +67,7 @@
                                 <div class="form-group row">
                                     <div class="col-xl-12">
                                         <input class="form-control" type="text" placeholder="First name" required
+                                               maxlength="50"
                                                th:field="*{firstName}">
                                     </div>
                                     <div th:if="${#fields.hasErrors('firstName')}" class="mb-2 text-danger">
@@ -80,6 +82,7 @@
                                 <div class="form-group row">
                                     <div class="col-xl-12">
                                         <input class="form-control" type="text" placeholder="Last name" required
+                                               maxlength="50"
                                                th:field="*{lastName}">
                                     </div>
                                     <div th:if="${#fields.hasErrors('lastName')}" class="mb-2 text-danger">
@@ -94,6 +97,7 @@
                                 <div class="form-group row">
                                     <div class="col-xl-12">
                                         <input class="form-control" type="email" placeholder="Email" required
+                                               maxlength="50"
                                                th:field="*{email}">
                                     </div>
                                     <div th:if="${#fields.hasErrors('email')}" class="mb-2 text-danger">

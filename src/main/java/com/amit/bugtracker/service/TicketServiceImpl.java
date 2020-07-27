@@ -59,12 +59,6 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public List<Ticket> findAllByProject(Project project) {
-        List<Ticket> tickets = ticketRepository.findAllByProject(project);
-        return sortByPriority(tickets);
-    }
-
-    @Override
     public List<Ticket> findAllOpenByProject(Project project) {
         List<Ticket> tickets = ticketRepository.findAllByProjectAndStatus(project, TicketStatus.OPEN);
         return sortByPriority(tickets);
@@ -73,12 +67,6 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public List<Ticket> findAllClosedByProject(Project project) {
         List<Ticket> tickets = ticketRepository.findAllByProjectAndStatus(project, TicketStatus.CLOSED);
-        return sortByPriority(tickets);
-    }
-
-    @Override
-    public List<Ticket> findAllByUser(User user) {
-        List<Ticket> tickets = ticketRepository.findAllByProjectUsersContaining(user);
         return sortByPriority(tickets);
     }
 

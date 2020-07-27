@@ -38,6 +38,7 @@
                                     <div class="form-group row justify-content-center">
                                         <div class="col-xl-12">
                                             <input class="form-control" type="text" placeholder="Name" required
+                                                   max="45"
                                                    th:field="*{name}">
                                         </div>
                                     </div>
@@ -46,6 +47,7 @@
                                     <div class="form-group row justify-content-center">
                                         <div class="col-xl-12">
                                         <textarea rows="6" class="form-control" placeholder="Description" required
+                                                  maxlength="255"
                                                   th:field="*{description}"></textarea>
                                         </div>
                                     </div>

@@ -10,7 +10,7 @@ public class ProfileController {
 
     @GetMapping
     public String showProfile() {
-        return "profile/user-profile";
+        return "user-profile";
     }
 
 }

@@ -19,13 +19,9 @@ public interface TicketService {
 
     List<Ticket> findAllClosed();
 
-    List<Ticket> findAllByProject(Project project);
-
     List<Ticket> findAllOpenByProject(Project project);
 
     List<Ticket> findAllClosedByProject(Project project);
-
-    List<Ticket> findAllByUser(User user);
 
     List<Ticket> findAllOpenByUser(User user);
 

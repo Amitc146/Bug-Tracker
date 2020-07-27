@@ -45,7 +45,7 @@ public class UserController {
 
 
     @GetMapping("/{userId}/update")
-    public String updateUser(Model model, @PathVariable Integer userId) {
+    public String updateUser(Model model, @PathVariable int userId) {
         User user = userService.findById(userId);
         createUserForm(model, user);
 
@@ -53,8 +53,8 @@ public class UserController {
     }
 
 
-    @GetMapping("/delete")
-    public String deleteUser(@RequestParam("user") Integer id) {
+    @GetMapping("/{id}/delete")
+    public String deleteUser(@PathVariable int id) {
         userService.deleteById(id);
 
         return "redirect:/users";
@@ -62,7 +62,7 @@ public class UserController {
 
 
     @PostMapping("/save")
-    public String saveUser(Model model, @Valid @ModelAttribute("user") User user, BindingResult bindingResult) {
+    public String saveUser(Model model, @Valid @ModelAttribute User user, BindingResult bindingResult) {
         if (isInvalidUserForm(bindingResult))
             return invalidUserForm(model);
 

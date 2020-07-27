@@ -1,6 +1,7 @@
 package com.amit.bugtracker.entity;
 
 import com.amit.bugtracker.validation.ValidEmail;
+import com.amit.bugtracker.validation.ValidName;
 import com.amit.bugtracker.validation.ValidUsername;
 
 import javax.persistence.*;
@@ -24,11 +25,11 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @NotNull(message = "First name is required")
+    @ValidName
     @Column(name = "first_name")
     private String firstName;
 
-    @NotNull(message = "Last name is required")
+    @ValidName
     @Column(name = "last_name")
     private String lastName;
 
