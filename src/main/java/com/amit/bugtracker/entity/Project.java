@@ -27,6 +27,9 @@ public class Project {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> users;
 
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    private List<ProjectLog> logs;
+
     public Project() {
     }
 
@@ -85,6 +88,14 @@ public class Project {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    public List<ProjectLog> getLogs() {
+        return logs;
+    }
+
+    public void setLogs(List<ProjectLog> logs) {
+        this.logs = logs;
     }
 
     @Override

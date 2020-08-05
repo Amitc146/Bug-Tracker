@@ -1,9 +1,8 @@
 package com.amit.bugtracker.aspect;
 
-import com.amit.bugtracker.entity.Ticket;
-import com.amit.bugtracker.entity.TicketLog;
-import com.amit.bugtracker.entity.User;
+import com.amit.bugtracker.entity.*;
 import com.amit.bugtracker.service.LogService;
+import com.amit.bugtracker.service.ProjectService;
 import com.amit.bugtracker.service.TicketService;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -26,10 +25,12 @@ public class ModificationLoggingAspect {
     private User currentUser;
     private final LogService logService;
     private final TicketService ticketService;
+    private final ProjectService projectService;
 
-    public ModificationLoggingAspect(LogService logService, TicketService ticketService) {
+    public ModificationLoggingAspect(LogService logService, TicketService ticketService, ProjectService projectService) {
         this.logService = logService;
         this.ticketService = ticketService;
+        this.projectService = projectService;
     }
 
     @AfterReturning(pointcut = "execution(* com.amit.bugtracker.controller.GlobalControllerAdvice.getCurrentUser(..))",
@@ -40,6 +41,10 @@ public class ModificationLoggingAspect {
 
     @Pointcut("execution(* com.amit.bugtracker.controller.TicketController.saveTicket(..))")
     public void forSaveTicket() {
+    }
+
+    @Pointcut("execution(* com.amit.bugtracker.controller.ProjectController.saveProject(..))")
+    public void forSaveProject() {
     }
 
     @Before("forSaveTicket()")
@@ -53,9 +58,17 @@ public class ModificationLoggingAspect {
         for (Map.Entry<String, Boolean> entry : modifications.entrySet()) {
             if (entry.getValue()) {
                 TicketLog log = new TicketLog(entry.getKey(), getCurrentDate(), ticket, currentUser);
-                logService.save(log);
+                logService.saveTicketLog(log);
             }
         }
+    }
+
+    private Ticket getTicket(JoinPoint joinPoint) {
+        for (Object o : joinPoint.getArgs()) {
+            if (o instanceof Ticket)
+                return (Ticket) o;
+        }
+        return null;
     }
 
     private HashMap<String, Boolean> getTicketModifications(Ticket ticket) {
@@ -74,13 +87,40 @@ public class ModificationLoggingAspect {
         return modifications;
     }
 
-    private Ticket getTicket(JoinPoint joinPoint) {
+    @Before("forSaveProject()")
+    public void logProjectModifications(JoinPoint joinPoint) {
+        Project project = getProject(joinPoint);
+        assert project != null;
+        if (project.getId() == null)
+            return;
+
+        HashMap<String, Boolean> modifications = getProjectModifications(project);
+        for (Map.Entry<String, Boolean> entry : modifications.entrySet()) {
+            if (entry.getValue()) {
+                ProjectLog log = new ProjectLog(entry.getKey(), getCurrentDate(), project, currentUser);
+                logService.saveProjectLog(log);
+            }
+        }
+    }
+
+    private HashMap<String, Boolean> getProjectModifications(Project project) {
+        Project oldProject = projectService.findById(project.getId());
+        HashMap<String, Boolean> modifications = new HashMap<>();
+        modifications.put("Name changed to " + project.getName(),
+                !oldProject.getName().equals(project.getName()));
+        modifications.put("Description changed",
+                !oldProject.getDescription().equals(project.getDescription()));
+        return modifications;
+    }
+
+    private Project getProject(JoinPoint joinPoint) {
         for (Object o : joinPoint.getArgs()) {
-            if (o instanceof Ticket)
-                return (Ticket) o;
+            if (o instanceof Project)
+                return (Project) o;
         }
         return null;
     }
+
 
     private String getCurrentDate() {
         return LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));

@@ -1,11 +1,16 @@
 package com.amit.bugtracker.service;
 
+import com.amit.bugtracker.entity.ProjectLog;
 import com.amit.bugtracker.entity.TicketLog;
 
 public interface LogService {
 
-    void save(TicketLog ticketLog);
+    void saveTicketLog(TicketLog ticketLog);
 
-    void delete(TicketLog ticketLog);
+    void deleteTicketLog(TicketLog ticketLog);
+
+    void saveProjectLog(ProjectLog projectLog);
+
+    void deleteProjectLog(ProjectLog projectLog);
 
 }

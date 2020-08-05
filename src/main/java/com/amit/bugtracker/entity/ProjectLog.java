@@ -3,38 +3,33 @@ package com.amit.bugtracker.entity;
 import javax.persistence.*;
 
 @Entity
-public class Comment {
+public class ProjectLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "text")
-    private String text;
+    @Column(name = "operation")
+    private String operation;
 
     @Column(name = "creation_date")
     private String creationDate;
 
     @ManyToOne
-    @JoinColumn(name = "ticket_id")
-    private Ticket ticket;
+    @JoinColumn(name = "project_id")
+    private Project project;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Comment() {
+    public ProjectLog() {
     }
 
-    public Comment(String text, String creationDate, Ticket ticket, User user) {
-        this.text = text;
+    public ProjectLog(String operation, String creationDate, Project project, User user) {
+        this.operation = operation;
         this.creationDate = creationDate;
-        this.ticket = ticket;
-        this.user = user;
-    }
-
-    public Comment(Ticket ticket, User user) {
-        this.ticket = ticket;
+        this.project = project;
         this.user = user;
     }
 
@@ -46,28 +41,20 @@ public class Comment {
         this.id = id;
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
+    public String getOperation() {
+        return operation;
     }
 
     public String getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(String creationDate) {
-        this.creationDate = creationDate;
+    public Project getProject() {
+        return project;
     }
 
-    public Ticket getTicket() {
-        return ticket;
-    }
-
-    public void setTicket(Ticket ticket) {
-        this.ticket = ticket;
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     public User getUser() {
@@ -80,11 +67,12 @@ public class Comment {
 
     @Override
     public String toString() {
-        return "Comment{" +
+        return "ProjectLog{" +
                 "id=" + id +
-                ", text='" + text + '\'' +
+                ", operation='" + operation + '\'' +
                 ", creationDate='" + creationDate + '\'' +
+                ", project=" + project.getName() +
+                ", user=" + user.getUserName() +
                 '}';
     }
-
 }

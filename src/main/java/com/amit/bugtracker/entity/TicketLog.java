@@ -15,11 +15,11 @@ public class TicketLog {
     @Column(name = "creation_date")
     private String creationDate;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "ticket_id")
     private Ticket ticket;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -45,16 +45,8 @@ public class TicketLog {
         return operation;
     }
 
-    public void setOperation(String operation) {
-        this.operation = operation;
-    }
-
     public String getCreationDate() {
         return creationDate;
-    }
-
-    public void setCreationDate(String creationDate) {
-        this.creationDate = creationDate;
     }
 
     public Ticket getTicket() {
@@ -79,6 +71,8 @@ public class TicketLog {
                 "id=" + id +
                 ", operation='" + operation + '\'' +
                 ", creationDate='" + creationDate + '\'' +
+                ", ticket=" + ticket.getTitle() +
+                ", user=" + user.getUserName() +
                 '}';
     }
 }

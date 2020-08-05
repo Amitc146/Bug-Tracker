@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress ALL -->
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
@@ -54,8 +55,7 @@
                     </div>
 
                     <!-- Second row -->
-                    <div class="row justify-content-center align-items-start py-2 m-0">
-
+                    <div class="row justify-content-around px-2 pb-4 m-4 border-bottom">
                         <!-- Users list -->
                         <div class="card col-xl-4 shadow m-2 p-0">
                             <div class="card-header py-3">
@@ -149,6 +149,38 @@
                                     </tr>
                                     </tbody>
                                 </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Third row -->
+                    <div class="row justify-content-start px-4 pb-3 m-4">
+                        <!-- Project History -->
+                        <div class="card col-11 col-xl-7 m-1 ml-3 p-0 shadow">
+                            <div class="card-header py-3">
+                                <h5 class="m-0 font-weight-bold">Project History</h5>
+                            </div>
+                            <div class="card-body bg-white">
+                                <div class="row m-2 pb-2">
+                                    <table class="table table-hover table-borderless">
+                                        <thead>
+                                        <tr class="border-bottom border-dark">
+                                            <th>User</th>
+                                            <th>Operation</th>
+                                            <th>Date</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr class="border-top" th:each="log : ${project.logs}">
+                                            <td style="width: 20%"
+                                                th:text="${log.user.fullName}"></td>
+                                            <td style="width: 70%" th:text="${log.operation}"></td>
+                                            <td style="width: 10%" th:text="${log.creationDate}"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
