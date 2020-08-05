@@ -18,13 +18,11 @@ public class HomeController {
     private final UserService userService;
     private final RoleService roleService;
 
-
     public HomeController(TicketService ticketService, UserService userService, RoleService roleService) {
         this.ticketService = ticketService;
         this.userService = userService;
         this.roleService = roleService;
     }
-
 
     @GetMapping("/")
     public String showHome(Model model) {
@@ -32,30 +30,24 @@ public class HomeController {
         return "index";
     }
 
-
     private HashMap<String, String> getCharts() {
         try {
             return getChartsData();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         throw new RuntimeException();
     }
-
 
     private HashMap<String, String> getChartsData() throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         HashMap<String, String> chartsData = new HashMap<>();
-
         chartsData.put("ticketPriorityCount", objectMapper.writeValueAsString(ticketService.getPrioritiesChartData()));
         chartsData.put("ticketProjectCount", objectMapper.writeValueAsString(ticketService.getProjectsChartData()));
         chartsData.put("ticketStatusCount", objectMapper.writeValueAsString(ticketService.getStatusChartData()));
         chartsData.put("userRolesCount", objectMapper.writeValueAsString(roleService.getRolesCount()));
         chartsData.put("userProjectsCount", objectMapper.writeValueAsString(userService.getProjectsCount()));
-
         return chartsData;
     }
-
 
 }

@@ -16,22 +16,17 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
     private final UserService userService;
 
-
     public CustomAuthenticationSuccessHandler(UserService userService) {
         this.userService = userService;
     }
 
-
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth)
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,Authentication auth)
             throws IOException {
-
         User user = userService.findByUserName(auth.getName());
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
-
         response.sendRedirect(request.getContextPath() + "/");
     }
-
 
 }

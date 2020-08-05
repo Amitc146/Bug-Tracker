@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <th:block th:replace="layouts :: layoutHeader"></th:block>
+
+    <title th:replace="layouts :: layoutTitle"></title>
+
+</head>
+
+<body>
+
+<div id="wrapper">
+    <th:block th:replace="layouts :: layoutSidebar"></th:block>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <th:block th:replace="layouts :: layoutNavbar"></th:block>
+
+            <!-- Page Content -->
+            <div class="container-fluid">
+                <h3>Unable to add ticket</h3>
+                <p>
+
+                <h5>There are no open projects you are assigned to.</h5>
+
+                <a th:href="@{/}">Back to Home Page</a>
+            </div>
+            <!-- End of Page Content -->
+        </div>
+        <th:block th:replace="layouts :: layoutFooter"></th:block>
+    </div>
+</div>
+
+<th:block th:replace="layouts :: layoutScripts"></th:block>
+</body>
+
+</html>

@@ -26,20 +26,17 @@ public class PermissionCheckAspect {
     private final TicketService ticketService;
     private final CommentService commentService;
 
-
     public PermissionCheckAspect(ProjectService projectService, TicketService ticketService, CommentService commentService) {
         this.projectService = projectService;
         this.ticketService = ticketService;
         this.commentService = commentService;
     }
 
-
     @AfterReturning(pointcut = "execution(* com.amit.bugtracker.controller.GlobalControllerAdvice.getCurrentUser(..))",
             returning = "user")
     public void setCurrentUser(User user) {
         this.currentUser = user;
     }
-
 
     @Pointcut("execution(* com.amit.bugtracker.controller.ProjectController.showProject(..))")
     public void forShowProject() {
@@ -65,14 +62,12 @@ public class PermissionCheckAspect {
     public void forDeleteComment() {
     }
 
-
     @Before("forShowProject() || forAddTicket()")
     public void checkAccessToProject(JoinPoint joinPoint) {
         Integer projectId = getId(joinPoint);
         Project project = projectService.findById(projectId);
         checkAccessToProject(project);
     }
-
 
     @Before("forShowTicket()")
     public void checkIfAllowedToViewTicket(JoinPoint joinPoint) {
@@ -81,12 +76,10 @@ public class PermissionCheckAspect {
         checkAccessToProject(ticket.getProject());
     }
 
-
     private void checkAccessToProject(Project project) {
         if (!currentUser.isAllowedToView(project))
             throw new AccessDeniedException("User is not assigned to to project.");
     }
-
 
     @Before("forUpdateTicket() || forDeleteTicket()")
     public void checkAccessToTicketModification(JoinPoint joinPoint) {
@@ -97,7 +90,6 @@ public class PermissionCheckAspect {
             throw new AccessDeniedException("User is not allowed to modify ticket.");
     }
 
-
     @Before("forDeleteComment()")
     public void checkIfAllowedToDeleteComment(JoinPoint joinPoint) {
         Integer id = getId(joinPoint);
@@ -107,15 +99,12 @@ public class PermissionCheckAspect {
             throw new AccessDeniedException("User is now allowed to delete comment.");
     }
 
-
     private Integer getId(JoinPoint joinPoint) {
         for (Object o : joinPoint.getArgs()) {
             if (o instanceof Integer)
                 return (Integer) o;
         }
-
         return null;
     }
-
 
 }

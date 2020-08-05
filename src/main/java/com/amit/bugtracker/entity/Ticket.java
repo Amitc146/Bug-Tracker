@@ -1,7 +1,6 @@
 package com.amit.bugtracker.entity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -125,19 +124,6 @@ public class Ticket {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
-    }
-
-    public void addComment(Comment comment) {
-        if (comments == null) {
-            comments = new ArrayList<>();
-        }
-        comments.add(comment);
-    }
-
-    public void removeComment(Comment comment) {
-        if (comments != null) {
-            comments.remove(comment);
-        }
     }
 
     public boolean isOpen() {

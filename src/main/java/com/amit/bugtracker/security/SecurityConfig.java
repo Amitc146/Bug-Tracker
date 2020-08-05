@@ -23,12 +23,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
     }
 
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authenticationProvider());
     }
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -51,12 +49,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().accessDeniedPage("/access-denied");
     }
 
-
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {

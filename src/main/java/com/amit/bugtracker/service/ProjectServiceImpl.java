@@ -20,13 +20,11 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project findById(Integer id) {
         Optional<Project> result = projectRepository.findById(id);
-
         Project project;
-        if (result.isPresent()) {
+        if (result.isPresent())
             project = result.get();
-        } else {
+        else
             throw new RuntimeException("Did not find project id - " + id);
-        }
 
         return project;
     }
@@ -35,7 +33,6 @@ public class ProjectServiceImpl implements ProjectService {
     public List<Project> findAll() {
         return projectRepository.findAll();
     }
-
 
     @Override
     public List<Project> findAllByUser(User user) {
@@ -57,13 +54,11 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<Project> findAllByUserAndName(User user, String name) {
-        if (name == null || name.isEmpty() || name.trim().isEmpty()) {
+        if (name == null || name.isEmpty() || name.trim().isEmpty())
             return null;
-        }
 
         return projectRepository.findAllByUsersContainsAndNameIsContaining(user, name);
     }
-
 
     @Override
     public void save(Project project) {

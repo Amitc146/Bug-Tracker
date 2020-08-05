@@ -25,38 +25,32 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
 
     @Override
     public User findByUserName(String userName) {
         return userRepository.findByUserName(userName);
     }
 
-
     @Override
     public User findById(Integer id) {
         Optional<User> result = userRepository.findById(id);
-
         User user;
-        if (result.isPresent()) {
+        if (result.isPresent())
             user = result.get();
-        } else {
+        else
             throw new RuntimeException("Did not find user id - " + id);
-        }
+
 
         return user;
     }
-
 
     @Override
     public Set<User> findByName(String name) {
         Set<User> users = new HashSet<>();
         String[] names = name.split("\\s+");
-
         for (String tempString : names) {
             users.addAll(userRepository.findAllByFirstNameIsContaining(tempString));
             users.addAll(userRepository.findAllByLastNameIsContaining(tempString));
@@ -66,19 +60,16 @@ public class UserServiceImpl implements UserService {
         return users;
     }
 
-
     @Override
     public void save(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
-
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         User user = userRepository.findByUserName(userName);
-
         if (user == null)
             throw new UsernameNotFoundException("Invalid username or password.");
 
@@ -86,29 +77,24 @@ public class UserServiceImpl implements UserService {
                 mapRolesToAuthorities(user.getRoles()));
     }
 
-
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
-
 
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
-
     @Override
     public void deleteById(Integer id) {
         userRepository.deleteById(id);
     }
 
-
     @Override
     public List<ChartData> getProjectsCount() {
         return userRepository.getProjectsCount();
     }
-
 
 }
 

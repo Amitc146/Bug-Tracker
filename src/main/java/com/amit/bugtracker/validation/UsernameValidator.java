@@ -16,7 +16,6 @@ public class UsernameValidator implements ConstraintValidator<ValidUsername, Str
 
         Pattern pattern = Pattern.compile(USERNAME_PATTERN);
         Matcher matcher = pattern.matcher(username);
-
         return matcher.matches();
     }
 

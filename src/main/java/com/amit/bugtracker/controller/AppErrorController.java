@@ -27,21 +27,24 @@ public class AppErrorController implements ErrorController {
         return "error-pages/error-500";
     }
 
-
     @GetMapping("/access-denied")
     public String accessDenied() {
         return "error-pages/access-denied";
     }
 
+    @GetMapping("/no-projects-error")
+    public String noProjectsError() {
+        return "error-pages/no-projects-error";
+    }
 
     @GetMapping("/demo-access-denied")
     public String demoUserAccessDenied() {
         return "error-pages/demo-user-error";
     }
 
-
     @Override
     public String getErrorPath() {
         return "/error";
     }
+
 }

@@ -37,8 +37,6 @@ public class Role {
 
     @Override
     public String toString() {
-        // Returning the role name without the prefix
-
         return this.name.charAt(5) + this.name.substring(6).toLowerCase();
     }
 }

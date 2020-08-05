@@ -54,7 +54,6 @@ public class DemoUserCheckAspect {
     public void forSaveUser() {
     }
 
-
     @Before("forSaveProject() || forDeleteProject() || forSaveTicket() || " +
             "forDeleteTicket() || forSaveComment() || forDeleteComment() || " +
             "forSaveUser() || forDeleteUser()")
@@ -63,10 +62,8 @@ public class DemoUserCheckAspect {
             throw new DemoUserException();
     }
 
-
     private boolean isDemoUser(User user) {
         return user.getUserName().startsWith("Demo");
     }
-
 
 }

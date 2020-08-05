@@ -30,4 +30,5 @@ public class RoleServiceImpl implements RoleService {
     public List<ChartData> getRolesCount() {
         return roleRepository.getRolesCount();
     }
+
 }
