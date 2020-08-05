@@ -15,11 +15,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 
     List<Ticket> findAllByStatus(TicketStatus status);
 
-    List<Ticket> findAllByProject(Project project);
-
     List<Ticket> findAllByProjectAndStatus(Project project, TicketStatus status);
-
-    List<Ticket> findAllByProjectUsersContaining(User user);
 
     List<Ticket> findAllByProjectUsersContainingAndStatus(User user, TicketStatus status);
 
@@ -27,21 +23,23 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 
     List<Ticket> findAllByProjectUsersContainingAndTitleIsContaining(User user, String text);
 
-    @Query(nativeQuery = true, value = "SELECT lower(priority) as label, COUNT(*) as value " +
-            "FROM ticket " +
-            "WHERE ticket.status = 'OPEN'" +
+    @Query(nativeQuery = true, value =
+            "SELECT lower(priority) AS label, COUNT(*) AS value " +
+            "FROM ticket t " +
+            "WHERE t.status = 'OPEN'" +
             "GROUP BY priority")
     List<ChartData> getPrioritiesChartData();
 
-    @Query(nativeQuery = true, value = "SELECT name as label, COUNT(*) as value " +
-            "FROM ticket " +
-            "INNER JOIN project " +
-            "ON project.id = ticket.project_id " +
-            "WHERE ticket.status = 'OPEN'" +
+    @Query(nativeQuery = true, value =
+            "SELECT name AS label, COUNT(*) AS value " +
+            "FROM ticket t " +
+            "INNER JOIN project ON project.id = t.project_id " +
+            "WHERE t.status = 'OPEN'" +
             "GROUP BY project_id")
     List<ChartData> getProjectsChartData();
 
-    @Query(nativeQuery = true, value = "SELECT lower(status) as label, count(*) as value " +
+    @Query(nativeQuery = true, value =
+            "SELECT LOWER(status) AS label, COUNT(*) AS value " +
             "FROM ticket " +
             "GROUP BY status")
     List<ChartData> getStatusChartData();

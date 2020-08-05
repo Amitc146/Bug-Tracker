@@ -40,6 +40,9 @@ public class Ticket {
     @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
+    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
+    private List<TicketLog> logs;
+
     public Ticket() {
     }
 
@@ -124,6 +127,14 @@ public class Ticket {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public List<TicketLog> getLogs() {
+        return logs;
+    }
+
+    public void setLogs(List<TicketLog> logs) {
+        this.logs = logs;
     }
 
     public boolean isOpen() {

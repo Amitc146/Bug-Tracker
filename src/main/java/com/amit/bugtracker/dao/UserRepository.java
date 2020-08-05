@@ -17,7 +17,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     List<User> findAllByUserNameIsContaining(String name);
 
-    @Query(nativeQuery = true, value = "SELECT concat(u.first_name, ' ', u.last_name) AS label, count(*) AS value " +
+    @Query(nativeQuery = true, value =
+            "SELECT CONCAT(u.first_name, ' ', u.last_name) AS label, count(*) AS value " +
             "FROM user u " +
             "INNER JOIN users_projects ON user_id = u.id " +
             "GROUP BY user_id")

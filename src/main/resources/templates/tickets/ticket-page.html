@@ -41,7 +41,7 @@
                             Delete Ticket</a>
                     </div>
 
-                    <div class="row justify-content-around px-2 pb-5 m-4">
+                    <div class="row justify-content-around px-2 pb-4 m-4 border-bottom">
                         <!-- Ticket Details -->
                         <div class="card col-7 col-lg-5 shadow m-2 p-0">
                             <div class="card-header py-3">
@@ -141,6 +141,37 @@
                                            th:field="${comment.text}">
                                     <button type="submit" class="btn btn-primary col-lg-2">Submit</button>
                                 </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ticket History -->
+                    <div class="row justify-content-start px-4 pb-3 m-4">
+                        <div class="card col-11 col-xl-7 m-1 ml-3 p-0 shadow">
+                            <div class="card-header py-3">
+                                <h5 class="m-0 font-weight-bold">Ticket History</h5>
+                            </div>
+                            <div class="card-body bg-white">
+                                <div class="row border-bottom m-2 pb-2">
+                                    <table class="table table-hover table-borderless">
+                                        <thead>
+                                        <tr class="border-bottom border-dark">
+                                            <th>User</th>
+                                            <th>Operation</th>
+                                            <th>Date</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr class="border-top" th:each="log : ${ticket.logs}">
+                                            <td style="width: 20%"
+                                                th:text="${log.user.fullName}"></td>
+                                            <td style="width: 70%" th:text="${log.operation}"></td>
+                                            <td style="width: 10%" th:text="${log.creationDate}"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -64,7 +64,7 @@ public class TicketController {
         if (isProjectSelected(projectId))
             return createNewTicketWithProjectSelected(model, user, projectId);
 
-        Ticket ticket = Ticket.createEmptyTicket(user, getCurrentTime());
+        Ticket ticket = Ticket.createEmptyTicket(user, getCurrentDate());
         List<Project> projects = projectService.findAllAllowedByUser(user);
         if (projects == null || projects.isEmpty())
             throw new NoProjectsException();
@@ -80,7 +80,7 @@ public class TicketController {
 
     public String createNewTicketWithProjectSelected(Model model, User user, int projectId) {
         Project project = projectService.findById(projectId);
-        Ticket ticket = Ticket.createEmptyTicket(user, getCurrentTime());
+        Ticket ticket = Ticket.createEmptyTicket(user, getCurrentDate());
         model.addAttribute("projects", Collections.singletonList(project));
         model.addAttribute("ticket", ticket);
         return "tickets/ticket-form";
@@ -118,7 +118,7 @@ public class TicketController {
 
     @PostMapping("/saveComment")
     public String saveComment(@ModelAttribute Comment comment) {
-        comment.setCreationDate(getCurrentTime());
+        comment.setCreationDate(getCurrentDate());
         commentService.save(comment);
         return "redirect:/tickets/" + comment.getTicket().getId();
     }
@@ -130,7 +130,7 @@ public class TicketController {
         return "redirect:/tickets/" + comment.getTicket().getId();
     }
 
-    private String getCurrentTime() {
+    private String getCurrentDate() {
         return LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 

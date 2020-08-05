@@ -88,6 +88,15 @@ public class Project {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    public boolean equals(Project project) {
+        return this.id.equals(project.getId());
+    }
+
+    @Override
     public String toString() {
         return "Project{" +
                 "id=" + id +

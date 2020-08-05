@@ -11,7 +11,8 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
 
     Role findRoleByName(String roleName);
 
-    @Query(nativeQuery = true, value = "SELECT role_id as label, COUNT(*) as value " +
+    @Query(nativeQuery = true, value =
+            "SELECT role_id AS label, COUNT(*) AS value " +
             "FROM users_roles " +
             "GROUP BY role_id")
     List<ChartData> getRolesCount();
