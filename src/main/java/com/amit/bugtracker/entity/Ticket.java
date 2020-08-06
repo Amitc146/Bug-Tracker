@@ -1,9 +1,15 @@
 package com.amit.bugtracker.entity;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Data
+@NoArgsConstructor
 public class Ticket {
 
     @Id
@@ -27,24 +33,26 @@ public class Ticket {
     @Column(name = "status")
     private TicketStatus status;
 
+    @ToString.Exclude
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "user_id")
     private User submitter;
 
+    @ToString.Exclude
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "project_id")
     private Project project;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
     private List<TicketLog> logs;
 
-    public Ticket() {
-    }
 
     public Ticket(User submitter, TicketStatus status, TicketPriority priority, String creationDate) {
         this.submitter = submitter;
@@ -53,104 +61,12 @@ public class Ticket {
         this.creationDate = creationDate;
     }
 
-    public static Ticket createEmptyTicket(User user, String time) {
-        return new Ticket(user, TicketStatus.OPEN, TicketPriority.LOW, time);
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public User getSubmitter() {
-        return submitter;
-    }
-
-    public void setSubmitter(User submitter) {
-        this.submitter = submitter;
-    }
-
-    public TicketPriority getPriority() {
-        return priority;
-    }
-
-    public void setPriority(TicketPriority priority) {
-        this.priority = priority;
-    }
-
-    public TicketStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(TicketStatus status) {
-        this.status = status;
-    }
-
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
-    public String getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(String creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public List<TicketLog> getLogs() {
-        return logs;
-    }
-
-    public void setLogs(List<TicketLog> logs) {
-        this.logs = logs;
+    public static Ticket createEmptyTicket(User user, String date) {
+        return new Ticket(user, TicketStatus.OPEN, TicketPriority.LOW, date);
     }
 
     public boolean isOpen() {
         return this.status == TicketStatus.OPEN;
-    }
-
-    @Override
-    public String toString() {
-        return "Ticket{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", creationDate='" + creationDate + '\'' +
-                ", priority=" + priority +
-                ", status=" + status +
-                '}';
     }
 
     public enum TicketStatus {

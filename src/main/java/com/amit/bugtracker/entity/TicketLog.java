@@ -1,8 +1,15 @@
 package com.amit.bugtracker.entity;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import javax.persistence.*;
 
 @Entity
+@Table(name = "ticket_log")
+@Data
+@NoArgsConstructor
 public class TicketLog {
 
     @Id
@@ -15,16 +22,15 @@ public class TicketLog {
     @Column(name = "creation_date")
     private String creationDate;
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "ticket_id")
     private Ticket ticket;
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
-    public TicketLog() {
-    }
 
     public TicketLog(String operation, String creationDate, Ticket ticket, User user) {
         this.operation = operation;
@@ -33,46 +39,4 @@ public class TicketLog {
         this.user = user;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getOperation() {
-        return operation;
-    }
-
-    public String getCreationDate() {
-        return creationDate;
-    }
-
-    public Ticket getTicket() {
-        return ticket;
-    }
-
-    public void setTicket(Ticket ticket) {
-        this.ticket = ticket;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    @Override
-    public String toString() {
-        return "TicketLog{" +
-                "id=" + id +
-                ", operation='" + operation + '\'' +
-                ", creationDate='" + creationDate + '\'' +
-                ", ticket=" + ticket.getTitle() +
-                ", user=" + user.getUserName() +
-                '}';
-    }
 }

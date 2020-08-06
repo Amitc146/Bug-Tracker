@@ -1,10 +1,14 @@
 package com.amit.bugtracker.entity;
 
+import lombok.Data;
+import lombok.ToString;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Data
 public class Project {
 
     @Id
@@ -17,9 +21,11 @@ public class Project {
     @Column(name = "description")
     private String description;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<Ticket> tickets;
 
+    @ToString.Exclude
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "users_projects",
@@ -27,45 +33,10 @@ public class Project {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> users;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<ProjectLog> logs;
 
-    public Project() {
-    }
-
-    public Project(Integer id, String name, String description) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public List<Ticket> getTickets() {
-        return tickets;
-    }
 
     public List<Ticket> getOpenTickets() {
         List<Ticket> tempTickets = new ArrayList<>();
@@ -76,44 +47,6 @@ public class Project {
             }
         }
         return tempTickets;
-    }
-
-    public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
-    public List<ProjectLog> getLogs() {
-        return logs;
-    }
-
-    public void setLogs(List<ProjectLog> logs) {
-        this.logs = logs;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
-
-    public boolean equals(Project project) {
-        return this.id.equals(project.getId());
-    }
-
-    @Override
-    public String toString() {
-        return "Project{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                '}';
     }
 
 }

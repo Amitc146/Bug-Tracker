@@ -1,8 +1,11 @@
 package com.amit.bugtracker.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 @Entity
+@Data
 public class Role {
 
     @Id
@@ -12,31 +15,9 @@ public class Role {
     @Column(name = "name")
     private String name;
 
-    public Role() {
-    }
-
-    public Role(String name) {
-        this.name = name;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     @Override
     public String toString() {
         return this.name.charAt(5) + this.name.substring(6).toLowerCase();
     }
+
 }

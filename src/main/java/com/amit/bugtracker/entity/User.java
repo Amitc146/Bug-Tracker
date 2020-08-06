@@ -3,6 +3,8 @@ package com.amit.bugtracker.entity;
 import com.amit.bugtracker.validation.ValidEmail;
 import com.amit.bugtracker.validation.ValidName;
 import com.amit.bugtracker.validation.ValidUsername;
+import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -10,7 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Data
 public class User {
 
     @Id
@@ -21,6 +23,7 @@ public class User {
     @Column(name = "username")
     private String userName;
 
+    @ToString.Exclude
     @NotNull(message = "Password is required")
     @Column(name = "password")
     private String password;
@@ -37,6 +40,7 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    @ToString.Exclude
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "users_projects",
@@ -44,9 +48,11 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "project_id"))
     private List<Project> projects;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "submitter", cascade = CascadeType.ALL)
     private List<Ticket> tickets;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
@@ -58,106 +64,6 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
 
-    public User() {
-    }
-
-    public User(String userName, String password, String firstName, String lastName, String email) {
-        this.userName = userName;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-    }
-
-    public User(String userName, String password, String firstName, String lastName, String email,
-                Collection<Role> roles) {
-        this.userName = userName;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.roles = roles;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Collection<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Collection<Role> roles) {
-        this.roles = roles;
-    }
-
-    public List<Project> getProjects() {
-        return projects;
-    }
-
-    public void setProjects(List<Project> projects) {
-        this.projects = projects;
-    }
-
-    public List<Ticket> getTickets() {
-        return tickets;
-    }
-
-    public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
-    }
-
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
 
     public String getFullName() {
         return this.firstName + " " + this.lastName;
@@ -168,7 +74,6 @@ public class User {
             if (r.getName().equals("ROLE_ADMIN"))
                 return true;
         }
-
         return false;
     }
 
@@ -177,17 +82,7 @@ public class User {
             if (r.getName().equals("ROLE_MANAGER"))
                 return true;
         }
-
         return false;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
-
-    public boolean equals(User user) {
-        return this.id.equals(user.getId());
     }
 
     public boolean isAllowedToView(Project project) {
@@ -200,19 +95,6 @@ public class User {
 
     public boolean isAllowedToDeleteComment(Comment comment) {
         return comment.getUser().equals(this) || isManager() || isAdmin();
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", userName='" + userName + '\'' +
-                ", password='*********'" +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", roles=" + roles +
-                '}';
     }
 
 }

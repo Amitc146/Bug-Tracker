@@ -1,8 +1,15 @@
 package com.amit.bugtracker.entity;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import javax.persistence.*;
 
 @Entity
+@Table(name = "project_log")
+@Data
+@NoArgsConstructor
 public class ProjectLog {
 
     @Id
@@ -15,16 +22,15 @@ public class ProjectLog {
     @Column(name = "creation_date")
     private String creationDate;
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
-    public ProjectLog() {
-    }
 
     public ProjectLog(String operation, String creationDate, Project project, User user) {
         this.operation = operation;
@@ -33,46 +39,4 @@ public class ProjectLog {
         this.user = user;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getOperation() {
-        return operation;
-    }
-
-    public String getCreationDate() {
-        return creationDate;
-    }
-
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    @Override
-    public String toString() {
-        return "ProjectLog{" +
-                "id=" + id +
-                ", operation='" + operation + '\'' +
-                ", creationDate='" + creationDate + '\'' +
-                ", project=" + project.getName() +
-                ", user=" + user.getUserName() +
-                '}';
-    }
 }
