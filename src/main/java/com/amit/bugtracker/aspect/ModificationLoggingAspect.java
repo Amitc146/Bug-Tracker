@@ -50,7 +50,6 @@ public class ModificationLoggingAspect {
     @Before("forSaveTicket()")
     public void logTicketModifications(JoinPoint joinPoint) {
         Ticket ticket = getTicket(joinPoint);
-        assert ticket != null;
         if (ticket.getId() == null)
             return;
 
@@ -68,7 +67,7 @@ public class ModificationLoggingAspect {
             if (o instanceof Ticket)
                 return (Ticket) o;
         }
-        return null;
+        throw new RuntimeException("No ticket found");
     }
 
     private HashMap<String, Boolean> getTicketModifications(Ticket ticket) {
@@ -90,7 +89,6 @@ public class ModificationLoggingAspect {
     @Before("forSaveProject()")
     public void logProjectModifications(JoinPoint joinPoint) {
         Project project = getProject(joinPoint);
-        assert project != null;
         if (project.getId() == null)
             return;
 
@@ -118,7 +116,7 @@ public class ModificationLoggingAspect {
             if (o instanceof Project)
                 return (Project) o;
         }
-        return null;
+        throw new RuntimeException("No project found");
     }
 
 

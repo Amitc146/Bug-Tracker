@@ -24,13 +24,9 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Comment findById(Integer id) {
         Optional<Comment> result = commentRepository.findById(id);
-        Comment comment;
-        if (result.isPresent())
-            comment = result.get();
-        else
+        if (!result.isPresent())
             throw new RuntimeException("Did not find comment id - " + id);
-
-        return comment;
+        return result.get();
     }
 
     @Override

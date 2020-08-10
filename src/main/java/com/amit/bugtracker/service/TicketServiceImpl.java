@@ -24,13 +24,9 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public Ticket findById(Integer id) {
         Optional<Ticket> result = ticketRepository.findById(id);
-        Ticket ticket;
-        if (result.isPresent())
-            ticket = result.get();
-        else
-            throw new RuntimeException("Did not find ticket id - " + id);
-
-        return ticket;
+        if (!result.isPresent())
+            throw new RuntimeException("Could not find ticket id - " + id);
+        return result.get();
     }
 
     @Override

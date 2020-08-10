@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -37,16 +36,13 @@ public class Project {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<ProjectLog> logs;
 
-
-    public List<Ticket> getOpenTickets() {
-        List<Ticket> tempTickets = new ArrayList<>();
-        if (tickets != null) {
-            for (Ticket t : tickets) {
-                if (t.isOpen())
-                    tempTickets.add(t);
-            }
+    public int getOpenTicketsCount() {
+        int count = 0;
+        for (Ticket t : tickets) {
+            if (t.isOpen())
+                count++;
         }
-        return tempTickets;
+        return count;
     }
 
 }

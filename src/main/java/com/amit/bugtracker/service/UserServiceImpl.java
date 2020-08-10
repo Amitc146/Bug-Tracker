@@ -37,14 +37,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findById(Integer id) {
         Optional<User> result = userRepository.findById(id);
-        User user;
-        if (result.isPresent())
-            user = result.get();
-        else
-            throw new RuntimeException("Did not find user id - " + id);
-
-
-        return user;
+        if (!result.isPresent())
+            throw new RuntimeException("Could not find user id - " + id);
+        return result.get();
     }
 
     @Override
@@ -56,7 +51,6 @@ public class UserServiceImpl implements UserService {
             users.addAll(userRepository.findAllByLastNameIsContaining(tempString));
             users.addAll(userRepository.findAllByUserNameIsContaining(tempString));
         }
-
         return users;
     }
 

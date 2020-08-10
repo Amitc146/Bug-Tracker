@@ -20,13 +20,9 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project findById(Integer id) {
         Optional<Project> result = projectRepository.findById(id);
-        Project project;
-        if (result.isPresent())
-            project = result.get();
-        else
+        if (!result.isPresent())
             throw new RuntimeException("Did not find project id - " + id);
-
-        return project;
+        return result.get();
     }
 
     @Override
