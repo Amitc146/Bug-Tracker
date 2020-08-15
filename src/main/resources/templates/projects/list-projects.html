@@ -31,10 +31,9 @@
                     <!-- Projects -->
                     <div class="row justify-content-center align-items-start py-2 m-0">
                         <div class="card col shadow m-2 p-0">
-
                             <div class="card-header" th:if="${currentUser.admin || currentUser.manager}">
                                 <div class="row justify-content-end">
-                                    <a class="mr-2 btn btn-outline-dark"
+                                    <a class="col-3 col-lg-2 mr-3 btn btn-outline-dark"
                                        th:href="@{/projects/new}">Create New Project</a>
                                 </div>
                             </div>
