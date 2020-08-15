@@ -4,9 +4,10 @@ textarea {
 
 .custom-card-container {
     padding-bottom: .5rem;
-    margin: .5rem;
+    margin: .2rem;
     border: thin solid #acaeb6;
 }
+
 
 .card-container-header {
     background: #5a6b76;

@@ -6,7 +6,6 @@ userProjectsChart(userProjectsCount);
 
 function ticketPriorityChart(ticketPriorityCount) {
     const jsonArray = getChartJsonArray(ticketPriorityCount);
-
     const labelData = [];
     const numericData = [];
 
@@ -16,7 +15,8 @@ function ticketPriorityChart(ticketPriorityCount) {
         numericData[i] = jsonArray[i].value;
     }
 
-    const myChart = new Chart(document.getElementById("ticketPriorityChart"), {
+    // noinspection JSUnresolvedFunction
+    new Chart(document.getElementById("ticketPriorityChart"), {
         type: 'pie',
         data: {
             labels: labelData,
@@ -44,7 +44,6 @@ function ticketPriorityChart(ticketPriorityCount) {
 
 function userRolesChart(userRolesCount) {
     const jsonArray = getChartJsonArray(userRolesCount);
-
     const labelData = [];
     const numericData = [];
 
@@ -56,7 +55,7 @@ function userRolesChart(userRolesCount) {
         numericData[i] = jsonArray[i].value;
     }
 
-    const myChart = new Chart(document.getElementById("userRolesChart"), {
+    new Chart(document.getElementById("userRolesChart"), {
         type: 'doughnut',
         data: {
             labels: labelData,
@@ -85,7 +84,6 @@ function userRolesChart(userRolesCount) {
 
 function ticketStatusChart(ticketStatusCount) {
     const jsonArray = getChartJsonArray(ticketStatusCount);
-
     const labelData = [];
     const numericData = [];
 
@@ -95,7 +93,7 @@ function ticketStatusChart(ticketStatusCount) {
         numericData[i] = jsonArray[i].value;
     }
 
-    const myChart = new Chart(document.getElementById("ticketStatusChart"), {
+    new Chart(document.getElementById("ticketStatusChart"), {
         type: 'pie',
         data: {
             labels: labelData,
@@ -124,7 +122,6 @@ function ticketStatusChart(ticketStatusCount) {
 
 function ticketsProjectsChart(ticketProjectCount) {
     const jsonArray = getChartJsonArray(ticketProjectCount);
-
     const labelData = [];
     const numericData = [];
 
@@ -133,7 +130,7 @@ function ticketsProjectsChart(ticketProjectCount) {
         numericData[i] = jsonArray[i].value;
     }
 
-    const myChart = new Chart(document.getElementById("ticketsProjectsChart"), {
+    new Chart(document.getElementById("ticketsProjectsChart"), {
         type: 'bar',
         data: {
             labels: labelData,
@@ -143,7 +140,17 @@ function ticketsProjectsChart(ticketProjectCount) {
                     'rgba(255,230,0,0.3)',
                     'rgba(157,0,255,0.3)',
                     'rgba(255,0,0,0.3)',
-                    'rgba(255,0,213,0.3)'
+                    'rgba(255,0,213,0.3)',
+                    'rgb(255,140,0,0.3)',
+                    'rgb(17,0,255,0.3)',
+                    'rgb(0,255,4,0.3)',
+                    'rgb(255,127,202,0.3)',
+                    'rgba(224,171,65,0.3)',
+                    'rgba(214,198,198,0.3)',
+                    'rgba(115,27,27,0.3)',
+                    'rgb(101,71,159,0.3)',
+                    'rgb(105,159,71,0.3)',
+                    'rgb(0,0,0,0.3)'
                 ],
                 borderWidth: 1,
                 borderColor: "#000000",
@@ -181,7 +188,6 @@ function ticketsProjectsChart(ticketProjectCount) {
 
 function userProjectsChart(projectUsersCount) {
     const jsonArray = getChartJsonArray(projectUsersCount);
-
     const labelData = [];
     const numericData = [];
 
@@ -190,16 +196,25 @@ function userProjectsChart(projectUsersCount) {
         numericData[i] = jsonArray[i].value;
     }
 
-    const myChart = new Chart(document.getElementById("userProjectsChart"), {
+    new Chart(document.getElementById("userProjectsChart"), {
         type: 'doughnut',
         data: {
             labels: labelData,
             datasets: [{
-                backgroundColor: ["#11a7f6", "#fc5522", "#9e71de", "#f6ba6f", "#11925e", "#0036ff", "#ff00d5"],
+                backgroundColor: [
+                    "#11a7f6",
+                    "#fc5522",
+                    "#9e71de",
+                    "#f6ba6f",
+                    "#11925e",
+                    "#0036ff",
+                    "#ff00d5",
+                    "#e53a3a",
+                    "#00ff91"
+                ],
                 data: numericData
             }]
         },
-
         options: {
             legend: {
                 display: false

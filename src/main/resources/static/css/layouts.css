@@ -58,14 +58,14 @@
 
 @media (min-width: 768px) {
     .sidebar {
-        width: 14rem
+        width: 13rem
     }
 
     .sidebar .nav-item .nav-link {
         display: block;
         text-align: left;
         padding: 1rem;
-        width: 14rem
+        width: 13rem
     }
 
     .sidebar .nav-item .nav-link i {
@@ -79,11 +79,12 @@
     }
 
     .sidebar .sidebar-brand .sidebar-brand-icon i {
-        font-size: 2rem
+        font-size: 1.9rem
     }
 
     .sidebar .sidebar-brand .sidebar-brand-text {
-        display: inline
+        display: inline;
+        font-size: 1rem
     }
 
     .sidebar .sidebar-heading {
