@@ -44,7 +44,6 @@
                                     <thead>
                                     <tr class="border-bottom border-dark">
                                         <th>Name</th>
-                                        <th>Description</th>
                                         <th class="text-center">Open Tickets</th>
                                         <th class="text-center">Users</th>
                                         <th></th>
@@ -55,7 +54,6 @@
                                     <tr class="border-top"
                                         th:each="project : ${projects}">
                                         <td th:text="${project.name}"></td>
-                                        <td th:text="${project.description}"></td>
                                         <td th:text="${project.openTicketsCount}" class="text-center"></td>
                                         <td th:text="${project.users.size()}" class="text-center"></td>
                                         <td><a th:href="@{/projects/{id}(id=${project.id})}">More Details</a></td>

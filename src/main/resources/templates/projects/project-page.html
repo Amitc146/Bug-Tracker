@@ -107,7 +107,6 @@
                                         <th>Title</th>
                                         <th>Submitter</th>
                                         <th>Priority</th>
-                                        <th>Status</th>
                                         <th>Created</th>
                                         <th></th>
                                     </tr>
@@ -118,7 +117,6 @@
                                         <td th:text="${ticket.title}"></td>
                                         <td th:text="${ticket.submitter.fullName}"></td>
                                         <td th:text="${ticket.priority.displayValue}" class="ticket-priority"></td>
-                                        <td th:text="${ticket.status.displayValue}" class="ticket-status"></td>
                                         <td th:text="${ticket.creationDate}"></td>
                                         <td><a th:href="@{/tickets/{id}(id=${ticket.id})}">More Details</a></td>
                                     </tr>
@@ -132,18 +130,16 @@
                                         <th>Title</th>
                                         <th>Submitter</th>
                                         <th>Priority</th>
-                                        <th>Status</th>
                                         <th>Created</th>
                                         <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr class="border-top tickets-list"
-                                        th:each="ticket : ${closedTickets}">
+                                    <tr class="border-top"
+                                        th:each="ticket : ${closedTickets}" th:class="closed-ticket">
                                         <td th:text="${ticket.title}"></td>
                                         <td th:text="${ticket.submitter.fullName}"></td>
                                         <td th:text="${ticket.priority.displayValue}" class="ticket-priority"></td>
-                                        <td th:text="${ticket.status.displayValue}" class="ticket-status"></td>
                                         <td th:text="${ticket.creationDate}"></td>
                                         <td><a th:href="@{/tickets/{id}(id=${ticket.id})}">More Details</a></td>
                                     </tr>

@@ -39,57 +39,67 @@
 
                                     <!-- Project -->
                                     <div class="form-group row">
-                                        <label class="col-xl-12 col-form-label form-control-label">Project</label>
-                                        <div class="col-xl-12">
-                                            <select class="form-control"
-                                                    th:field="*{project}">
-                                                <option th:each="project : ${projects}"
-                                                        th:value="${project.id}"
-                                                        th:utext="${project.name}"></option>
-                                            </select>
+                                        <div class="col">
+                                            <label class="col col-form-label form-control-label">Project
+                                                <select class="form-control"
+                                                        th:field="*{project}">
+                                                    <option th:each="project : ${projects}"
+                                                            th:value="${project.id}"
+                                                            th:utext="${project.name}"></option>
+                                                </select>
+                                            </label>
                                         </div>
                                     </div>
 
                                     <!-- Title -->
                                     <div class="form-group row justify-content-center">
-                                        <div class="col-xl-12">
-                                            <input class="form-control" type="text" placeholder="Title" required
-                                                   maxlength="30"
-                                                   th:field="*{title}">
+                                        <div class="col">
+                                            <label class="col col-form-label form-control-label">Title
+                                                <input class="form-control" type="text" required
+                                                       maxlength="30"
+                                                       th:field="*{title}">
+                                            </label>
                                         </div>
                                     </div>
 
                                     <!-- Description -->
                                     <div class="form-group row">
-                                        <div class="col-xl-12">
-                                        <textarea rows="6" class="form-control" placeholder="Description" required
-                                                  th:field="*{description}"></textarea>
+                                        <div class="col">
+                                            <label class="col col-form-label form-control-label">Description
+                                                <textarea rows="6" class="form-control"
+                                                          required
+                                                          th:field="*{description}"></textarea>
+                                            </label>
                                         </div>
                                     </div>
 
                                     <!-- Status -->
                                     <div class="form-group row">
-                                        <label class="col-xl-12 col-form-label form-control-label">Status</label>
-                                        <div class="col-xl-12">
-                                            <select class="form-control"
-                                                    th:field="*{status}">
-                                                <option th:each="status : ${ticket.status.values()}"
-                                                        th:value="${status}"
-                                                        th:utext="${status.displayValue}"></option>
-                                            </select>
+                                        <div class="col">
+                                            <label class="col col-form-label form-control-label">Status
+                                                <select class="form-control"
+                                                        th:field="*{status}">
+                                                    <option th:each="status : ${ticket.status.values()}"
+                                                            th:value="${status}"
+                                                            th:utext="${status.displayValue}"></option>
+                                                </select>
+                                            </label>
                                         </div>
                                     </div>
 
                                     <!-- Priority -->
                                     <div class="form-group row">
-                                        <label class="col-xl-12 col-form-label form-control-label">Priority</label>
-                                        <div class="col-xl-12">
-                                            <div class="custom-control custom-radio custom-control-inline"
-                                                 th:each="p : ${ticket.priority.values()}">
-                                                <input type="radio" th:field="*{priority}" th:id="${p}" th:value="${p}"
-                                                       class="custom-control-input" required>
-                                                <label class="custom-control-label" th:for="${p}"
-                                                       th:text="${p.displayValue}"></label>
+                                        <div class="col">
+                                            <label class="col col-form-label form-control-label">Priority</label>
+                                            <div class="col">
+                                                <div class="custom-control custom-radio custom-control-inline"
+                                                     th:each="p : ${ticket.priority.values()}">
+                                                    <input type="radio" th:field="*{priority}" th:id="${p}"
+                                                           th:value="${p}"
+                                                           class="custom-control-input" required>
+                                                    <label class="custom-control-label" th:for="${p}"
+                                                           th:text="${p.displayValue}"></label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -97,7 +107,7 @@
                                     <!-- Buttons -->
                                     <div class="form-group row pt-3">
                                         <label class="col-form-label form-control-label"></label>
-                                        <div class="col-lg-10">
+                                        <div class="col mx-3">
                                             <input type="submit" class="btn btn-primary px-5" value="Save">
                                         </div>
                                     </div>

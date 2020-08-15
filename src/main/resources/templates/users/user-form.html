@@ -36,9 +36,11 @@
 
                                 <!-- Username -->
                                 <div class="form-group row">
-                                    <div class="col-xl-12">
-                                        <input class="form-control" type="text" placeholder="Username" required
-                                               th:field="*{userName}">
+                                    <div class="col">
+                                        <label class="col col-form-label form-control-label">Username
+                                            <input class="form-control" type="text" required
+                                                   th:field="*{userName}">
+                                        </label>
                                     </div>
                                     <div th:if="${#fields.hasErrors('userName')}" class="mb-2 text-danger">
                                         <ul>
@@ -50,10 +52,12 @@
 
                                 <!-- Password -->
                                 <div class="form-group row">
-                                    <div class="col-xl-12">
-                                        <input class="form-control" type="password" placeholder="Password" required
-                                               maxlength="40"
-                                               th:field="*{password}" th:errorclass="fieldError"/>
+                                    <div class="col">
+                                        <label class="col col-form-label form-control-label">Password
+                                            <input class="form-control" type="password" required
+                                                   maxlength="40"
+                                                   th:field="*{password}" th:errorclass="fieldError"/>
+                                        </label>
                                     </div>
                                     <div th:if="${#fields.hasErrors('password')}" class="mb-2 text-danger">
                                         <ul>
@@ -65,10 +69,11 @@
 
                                 <!-- First name -->
                                 <div class="form-group row">
-                                    <div class="col-xl-12">
-                                        <input class="form-control" type="text" placeholder="First name" required
-                                               maxlength="50"
-                                               th:field="*{firstName}">
+                                    <div class="col">
+                                        <label class="col col-form-label form-control-label">First name
+                                            <input class="form-control" type="text" required maxlength="50"
+                                                   th:field="*{firstName}">
+                                        </label>
                                     </div>
                                     <div th:if="${#fields.hasErrors('firstName')}" class="mb-2 text-danger">
                                         <ul>
@@ -80,10 +85,11 @@
 
                                 <!-- Last name -->
                                 <div class="form-group row">
-                                    <div class="col-xl-12">
-                                        <input class="form-control" type="text" placeholder="Last name" required
-                                               maxlength="50"
-                                               th:field="*{lastName}">
+                                    <div class="col">
+                                        <label class="col col-form-label form-control-label">Last name
+                                            <input class="form-control" type="text" required maxlength="50"
+                                                   th:field="*{lastName}">
+                                        </label>
                                     </div>
                                     <div th:if="${#fields.hasErrors('lastName')}" class="mb-2 text-danger">
                                         <ul>
@@ -95,10 +101,11 @@
 
                                 <!-- Email -->
                                 <div class="form-group row">
-                                    <div class="col-xl-12">
-                                        <input class="form-control" type="email" placeholder="Email" required
-                                               maxlength="50"
-                                               th:field="*{email}">
+                                    <div class="col">
+                                        <label class="col col-form-label form-control-label">Email
+                                            <input class="form-control" type="email" required maxlength="50"
+                                                   th:field="*{email}">
+                                        </label>
                                     </div>
                                     <div th:if="${#fields.hasErrors('email')}" class="mb-2 text-danger">
                                         <ul>
@@ -110,29 +117,31 @@
 
                                 <!-- Role -->
                                 <div class="form-group row">
-                                    <label class="col-xl-12 col-form-label form-control-label">Role</label>
-                                    <div class="col-xl-12">
-                                        <div class="custom-control custom-radio" id="roleRadio"
-                                             th:each="role : ${roles}">
-                                            <input type="radio" class="custom-control-input" required
-                                                   th:id="${role}" th:value="${role.id}" th:field="*{roles}"
-                                                   th:errorclass="fieldError"/>
-                                            <label class="custom-control-label" for="roleRadio"
-                                                   th:for="${role}" th:text="${role}"></label>
+                                    <div class="col">
+                                        <label class="col col-form-label form-control-label">Role</label>
+                                        <div class="col">
+                                            <div class="custom-control custom-radio" id="roleRadio"
+                                                 th:each="role : ${roles}">
+                                                <input type="radio" class="custom-control-input" required
+                                                       th:id="${role}" th:value="${role.id}" th:field="*{roles}"
+                                                       th:errorclass="fieldError"/>
+                                                <label class="custom-control-label" for="roleRadio"
+                                                       th:for="${role}" th:text="${role}"></label>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div th:if="${#fields.hasErrors('roles')}" class="mb-2 text-danger">
-                                        <ul>
-                                            <li th:each="err : ${#fields.errors('roles')}"
-                                                th:text="${err}"></li>
-                                        </ul>
+                                        <div th:if="${#fields.hasErrors('roles')}" class="mb-2 text-danger">
+                                            <ul>
+                                                <li th:each="err : ${#fields.errors('roles')}"
+                                                    th:text="${err}"></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <!-- Buttons -->
                                 <div class="form-group row pt-3">
                                     <label class="col-form-label form-control-label"></label>
-                                    <div class="col-lg-10">
+                                    <div class="col mx-3">
                                         <input type="submit" class="btn btn-primary px-5" value="Save">
                                     </div>
                                 </div>

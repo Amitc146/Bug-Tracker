@@ -36,39 +36,44 @@
 
                                     <!-- Project name -->
                                     <div class="form-group row justify-content-center">
-                                        <div class="col-xl-12">
-                                            <input class="form-control" type="text" placeholder="Name" required
-                                                   max="45"
-                                                   th:field="*{name}">
+                                        <div class="col">
+                                            <label class="col col-form-label form-control-label">Name
+                                                <input class="form-control" type="text" required
+                                                       max="45"
+                                                       th:field="*{name}">
+                                            </label>
                                         </div>
                                     </div>
 
                                     <!-- Description -->
                                     <div class="form-group row justify-content-center">
-                                        <div class="col-xl-12">
-                                        <textarea rows="6" class="form-control" placeholder="Description" required
-                                                  maxlength="255"
-                                                  th:field="*{description}"></textarea>
+                                        <div class="col">
+                                            <label class="col col-form-label form-control-label">Description
+                                                <textarea rows="6" class="form-control" required
+                                                          maxlength="255"
+                                                          th:field="*{description}"></textarea>
+                                            </label>
                                         </div>
                                     </div>
 
                                     <!-- Users -->
                                     <div class="form-group row justify-content-start">
-                                        <label class="col-xl-12 col-form-label form-control-label">Users</label>
                                         <div class="col-xl-5">
-                                            <select multiple class="form-control" required
-                                                    th:field="*{users}">
-                                                <option th:each="tempUser : ${users}"
-                                                        th:value="${tempUser.id}"
-                                                        th:utext="${tempUser.userName}"></option>
-                                            </select>
+                                            <label class="col col-form-label form-control-label">Users
+                                                <select multiple class="form-control" required
+                                                        th:field="*{users}">
+                                                    <option th:each="tempUser : ${users}"
+                                                            th:value="${tempUser.id}"
+                                                            th:utext="${tempUser.userName}"></option>
+                                                </select>
+                                            </label>
                                         </div>
                                     </div>
 
                                     <!-- Buttons -->
-                                    <div class="form-group row pt-3 justify-content-center">
+                                    <div class="form-group row pt-3">
                                         <label class="col-form-label form-control-label"></label>
-                                        <div class="col-xl-12">
+                                        <div class="col mx-3">
                                             <input type="submit" class="btn btn-primary px-5" value="Save">
                                         </div>
                                     </div>
